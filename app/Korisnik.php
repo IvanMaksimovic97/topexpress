@@ -11,4 +11,24 @@ class Korisnik extends Model
 
     protected $table = 'korisnik';
     protected $guarded = [];
+
+    public static function login($korisnik)
+    {
+        session()->put('korisnik', $korisnik);
+    }
+
+    public static function isLoggedIn()
+    {
+        return session()->has('korisnik');
+    }
+
+    public static function logout()
+    {
+        session()->forget('korisnik');
+    }
+
+    public static function ulogovanKorisnik()
+    {
+        return session()->get('korisnik');
+    }
 }

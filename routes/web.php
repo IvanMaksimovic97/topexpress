@@ -13,6 +13,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('template.app');
+Route::get('/', 'SiteController@index')->name('index');
+
+Route::group([
+    'middleware' => ['cmsAuth'],
+    'as' => 'cms.',
+    'prefix'=> 'cms'
+], function() {
+    Route::group(['middleware' => ['notLoggedIn']], function () {
+        /// ovde rute ako nije je ulogovan
+        Route::get('/', 'LoginController@loginFront')->name('login-front');
+        Route::post('/', 'LoginController@loginBack')->name('login-back');
+    });
+
+    Route::group(['middleware' => ['isLoggedIn']], function () {
+        /// ovde rute ako je ulogovan
+        Route::get('/logout', 'LoginController@logout')->name('logout');
+        Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+        Route::resources([
+            'posiljka' => 'PosiljkaController'
+        ]);
+    });
 });

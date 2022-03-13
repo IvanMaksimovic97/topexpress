@@ -20,6 +20,8 @@ class CreateKorisnikTable extends Migration
             $table->string('prezime', 100)->default('');
             $table->string('email', 100)->unique()->default('');
             $table->string('password')->default('');
+            $table->boolean('status')->default(1);
+            $table->string('avatar', 100)->default('');
             $table->timestamps();
             $table->softDeletes();
         });

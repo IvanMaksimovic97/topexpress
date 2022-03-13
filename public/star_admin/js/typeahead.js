@@ -33,20 +33,25 @@
     'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
   ];
 
+  var firme = [
+    'Zea Stim R&D d.o.o.',
+    'TOP EXPRESS 2022 d.o.o.',
+  ]
+
   $('#the-basics .typeahead').typeahead({
     hint: true,
     highlight: true,
     minLength: 1
   }, {
-    name: 'states',
-    source: substringMatcher(states)
+    name: 'firme',
+    source: substringMatcher(firme)
   });
   // constructs the suggestion engine
-  var states = new Bloodhound({
+  var firme = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.whitespace,
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     // `states` is an array of state names defined in "The Basics"
-    local: states
+    local: firme
   });
 
   $('#bloodhound .typeahead').typeahead({
@@ -54,7 +59,7 @@
     highlight: true,
     minLength: 1
   }, {
-    name: 'states',
-    source: states
+    name: 'firme',
+    source: firme
   });
 })(jQuery);

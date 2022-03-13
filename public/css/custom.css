@@ -1,0 +1,22 @@
+.select2-selection--single {
+    height: auto!important;
+}
+
+.select2-selection__rendered {
+    line-height: 14px!important;
+}
+
+.tt-menu {
+    background-color: white;
+}
+
+.tt-hint, .tt-input {
+    width: 100%!important;
+}
+
+.twitter-typeahead{
+    width: 100%;
+}
+.tt-dropdown-menu{
+   width: 100%;
+}
