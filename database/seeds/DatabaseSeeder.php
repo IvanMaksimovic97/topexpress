@@ -14,5 +14,6 @@ class DatabaseSeeder extends Seeder
         $this->call(KorisnikSeeder::class);
         $this->call(VrstaUslugeSeeder::class);
         $this->call(NacinPlacanjaSeeder::class);
+        $this->call(CenovnikSeeder::class);
     }
 }

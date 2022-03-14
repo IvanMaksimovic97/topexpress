@@ -16,6 +16,7 @@ class CreatePosiljkaTable extends Migration
         Schema::create('posiljka', function (Blueprint $table) {
             $table->id();
             $table->integer('vrsta_usluge_id')->index()->default(-1);
+            $table->integer('nacin_placanja_id')->index()->default(-1);
             $table->integer('zemlja_id')->index()->default(-1);
             $table->integer('firma_id')->index()->default(-1);
             $table->integer('posiljalac_id')->index()->default(-1);
@@ -25,11 +26,13 @@ class CreatePosiljkaTable extends Migration
             $table->string('vrsta_usluge', 100)->default('');
             $table->string('zemlja', 100)->default('');
             $table->string('ugovor', 100)->default('');
+            $table->string('sadrzina', 100)->default('');
             $table->float('masa_kg', 12, 3)->default(0);
             $table->boolean('ima_vrednost')->default(0);
             $table->decimal('vrednost', 12, 2)->default(0);
             $table->boolean('ima_otkupninu')->default(0);
             $table->decimal('otkupnina', 12, 2)->default(0);
+            $table->string('otkupnina_vrsta', 100)->default('');
             $table->decimal('postarina', 12, 2)->default(0);
             $table->boolean('povratnica')->default(0);
             $table->boolean('licno_preuzimanje')->default(0);

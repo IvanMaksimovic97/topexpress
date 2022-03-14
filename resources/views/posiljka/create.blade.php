@@ -10,7 +10,7 @@
     <div class="row">
         @include('posiljka._form')
         <div class="col-md-4">
-            <button type="submit" class="btn btn-primary mb-2">Unesi</button>
+            <button type="submit" disabled="disabled" class="btn btn-primary mb-2">Unesi</button>
         </div>
     </div>
 </form>
@@ -122,5 +122,64 @@ $(function () {
     //     source: firme
     //   });
 });
+
+$(document).on('change', '#vrsta-usluge', function () {
+    if (this.value == '-1') {
+        $('#masa').attr('disabled', 'disabled');
+    } else {
+        $('#masa').removeAttr('disabled');
+    }
+});
+
+$(document).on('click', '#ima_vrednost', function () {
+    if (this.checked) {
+        $('#vrednost').removeAttr('disabled');
+    } else {
+        $('#vrednost').attr('disabled', 'disabled');
+        $('#vrednost').val('');
+    }
+});
+
+$(document).on('click', '#ima_otkupninu', function () {
+    if (this.checked) {
+        $('#otkupnina').removeAttr('disabled');
+        $('#nalog-za-uplatu').removeAttr('disabled');
+        $('#postanska-uputnica').removeAttr('disabled');
+        $('#postnet-uputnica').removeAttr('disabled');
+    } else {
+        $('#otkupnina').attr('disabled', 'disabled');
+        $('#otkupnina').val('');
+        $('#nalog-za-uplatu').attr('disabled', 'disabled');
+        $('#nalog-za-uplatu').attr('checked', false);
+        $('#postanska-uputnica').attr('disabled', 'disabled');
+        $('#postanska-uputnica').attr('checked', false);
+        $('#postnet-uputnica').attr('disabled', 'disabled');
+        $('#postnet-uputnica').attr('checked', false);
+    }
+});
+
+$(document).on('click', '#postarina-izracunaj', function(e) {
+    
+    let route = '{{ route('cena-postarine', ["#vrsta#", "#masa#"]) }}';
+    let masa = parseFloat($('#masa').val());
+    let id_vrsta = $('#vrsta-usluge').val();
+
+    route = route.replace('#vrsta#', id_vrsta);
+    route = route.replace('#masa#', masa);
+
+    $('#masa').removeClass('is-invalid');
+    
+    $.ajax({
+        url: route,
+        method: 'get',
+        success: function(cena) {
+            $('#postarina').val(parseFloat(cena)+ '.00');
+        },
+        error: function(error) {
+            $('#masa').addClass('is-invalid');
+            $('#postarina').val('Greška!');
+        }
+    })
+})
 </script>
 @endsection

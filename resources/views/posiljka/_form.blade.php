@@ -6,7 +6,7 @@
               <div class="row">
                 <div class="form-group">
                     <label>Vrsta usluge</label>
-                    <select class="js-example-basic-single w-100" id="vrsta-usluge">
+                    <select class="js-example-basic-single w-100" name="vrsta_usluge_id" id="vrsta-usluge">
                         <option value="-1">Izaberi</option>
                         @foreach ($vrste_usluga as $usluga)
                             <option value="{{ $usluga->id }}">{{ $usluga->naziv }}</option>
@@ -17,7 +17,7 @@
               <div class="row">
                 <div class="form-group">
                     <label>Način plaćanja</label>
-                    <select class="js-example-basic-single w-100" id="nacin-placanja">
+                    <select class="js-example-basic-single w-100" name="nacin_placanja_id" id="nacin-placanja">
                         <option value="-1">Izaberi</option>
                         @foreach ($nacini_placanja as $nacin_placanja)
                             <option value="{{ $nacin_placanja->id }}">{{ $nacin_placanja->naziv }}</option>
@@ -43,7 +43,8 @@
                     <div class="form-group w-100">
                         <label>Firma</label>
                         <div id="firma-div" class="w-100">
-                            <input  class="form-control" type="text" placeholder="Unesite naziv firme">
+                            <input type="hidden" name="firma_id">
+                            <input class="form-control" type="text" name="ugovor" placeholder="Unesite naziv firme">
                         </div>
                     </div>
                 </div>
@@ -59,18 +60,21 @@
       <div class="form-group">
         <label>Naziv</label>
         <div class="korisnik-typeahead">
+            <input type="hidden" name="posiljalac_id">
             <input class="form-control" name="po_naziv" type="text">
         </div>
       </div>
       <div class="form-group">
         <label>Naselje</label>
         <div class="naselje-typeahead">
+            <input type="hidden" name="po_naselje_id">
             <input class="form-control" name="po_naselje" type="text">
         </div>
       </div>
       <div class="form-group">
         <label>Ulica</label>
         <div class="ulica-typeahead">
+            <input type="hidden" name="po_ulica_id ">
             <input class="form-control" name="po_ulica" type="text">
         </div>
       </div>
@@ -128,18 +132,21 @@
         <div class="form-group">
           <label>Naziv</label>
           <div class="korisnik-typeahead">
+              <input type="hidden" name="primalac_id">
               <input class="form-control" name="pr_naziv" type="text">
           </div>
         </div>
         <div class="form-group">
           <label>Naselje</label>
           <div class="naselje-typeahead">
+                <input type="hidden" name="pr_naselje_id">
               <input class="form-control" name="pr_naselje" type="text">
           </div>
         </div>
         <div class="form-group">
           <label>Ulica</label>
           <div class="ulica-typeahead">
+                <input type="hidden" name="pr_ulica_id">
               <input class="form-control" name="pr_ulica" type="text">
           </div>
         </div>
@@ -196,11 +203,11 @@
             <h4 class="card-title">Pošiljka</h4>
             <div class="form-group">
               <label>Masa (KG)</label>
-              <input type="text" name="masa" class="form-control" id="masa">
+              <input type="text" disabled="disabled" name="masa_kg" class="form-control" id="masa" maxlength="6" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
             </div>
             <div class="form-group">
               <label>Opis sadržine</label>
-              <input type="text" name="sadrzina" class="form-control" id="sadrzina">
+              <textarea style="width: 100%; border: 1px solid #dee2e6; font-weight: 400; font-size: 0.875rem;border-radius: 4px;" name="sadrzina" id="sadrzina" cols="30" rows="7"></textarea>
             </div>
           </div>
       </div>
@@ -215,15 +222,15 @@
                         <div class="form-group mb-0">
                             <div class="form-check">
                                 <label class="form-check-label">
-                                  <input type="checkbox" class="form-check-input">
-                                  Vrednost (din)
+                                  <input type="checkbox" value="ima_vrednost" name="ima_vrednost" class="form-check-input" id="ima_vrednost">
+                                  Vrednost (DIN)
                                 <i class="input-helper"></i></label>
                             </div>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group mb-0">
-                            <input class="form-control" disabled="disabled" name="vrednost" type="text" placeholder="0.00">
+                            <input class="form-control" disabled="disabled" name="vrednost" type="text" placeholder="0.00" id="vrednost" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                         </div>
                     </div>
                 </div>
@@ -234,15 +241,15 @@
                         <div class="form-group mb-0">
                             <div class="form-check">
                                 <label class="form-check-label">
-                                  <input type="checkbox" class="form-check-input">
-                                  Otkupnina (din)
+                                  <input type="checkbox" value="ima_otkupninu" name="ima_otkupninu" class="form-check-input" id="ima_otkupninu">
+                                  Otkupnina (DIN)
                                 <i class="input-helper"></i></label>
                             </div>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group mb-0">
-                            <input class="form-control" disabled="disabled" name="otkupnina" type="text" placeholder="0.00">
+                            <input class="form-control" disabled="disabled" name="otkupnina" type="text" placeholder="0.00" id="otkupnina" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                         </div>
                     </div>
                 </div>
@@ -250,7 +257,7 @@
             <div class="form-group mb-0 px-4">
                 <div class="form-check">
                     <label class="form-check-label">
-                      <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="">
+                      <input type="radio" class="form-check-input" disabled="disabled" name="otkupnina_vrsta[]" value="Nalog za uplatu" id="nalog-za-uplatu">
                       Nalog za uplatu
                     <i class="input-helper"></i></label>
                 </div>
@@ -258,7 +265,7 @@
             <div class="form-group mb-0 px-4">
                 <div class="form-check">
                     <label class="form-check-label">
-                      <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="">
+                      <input type="radio" class="form-check-input" disabled="disabled" name="otkupnina_vrsta[]" value="Poštanska uputnica" id="postanska-uputnica">
                       Poštanska uputnica
                     <i class="input-helper"></i></label>
                 </div>
@@ -266,7 +273,7 @@
             <div class="form-group px-4">
                 <div class="form-check">
                     <label class="form-check-label">
-                      <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="">
+                      <input type="radio" class="form-check-input" disabled="disabled" name="otkupnina_vrsta[]" value="POSTNET uputnica" id="postnet-uputnica">
                       POSTNET uputnica
                     <i class="input-helper"></i></label>
                 </div>
@@ -274,7 +281,7 @@
             <div class="form-group mb-0">
                 <div class="form-check">
                     <label class="form-check-label">
-                      <input type="checkbox" class="form-check-input">
+                      <input type="checkbox" value="povratnica" name="povratnica" class="form-check-input">
                       Povratnica (UPS)
                     <i class="input-helper"></i></label>
                 </div>
@@ -282,7 +289,7 @@
             <div class="form-group">
                 <div class="form-check">
                     <label class="form-check-label">
-                      <input type="checkbox" class="form-check-input">
+                      <input type="checkbox" value="licno_urucenje" name="licno_urucenje" class="form-check-input">
                       Lično uručenje
                     <i class="input-helper"></i></label>
                 </div>
@@ -296,10 +303,10 @@
             <h4 class="card-title">Poštarina</h4>
             <div class="form-group">
                 <label>Vrednost poštarine (DIN)</label>
-                <input type="text" name="vrednost_postarine" class="form-control" id="vrednost_postarine">
+                <input type="text" disabled="disabled" name="postarina" class="form-control" id="postarina" placeholder="0.00">
             </div>
             <div class="form-group">
-                <button type="button" class="btn btn-sm btn-primary mb-2">Izračunaj</button>
+                <button type="button" id="postarina-izracunaj" class="btn btn-sm btn-primary mb-2">Izračunaj</button>
             </div>
         </div>
     </div>
