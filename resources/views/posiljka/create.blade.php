@@ -1,5 +1,5 @@
 @extends('template.app')
-@section('title', 'Topexpress | Prijem')
+@section('title', 'Top Express | Prijem')
 @section('custom-css')
 <link rel="stylesheet" href="{{ asset('star_admin/vendors/select2/select2.min.css') }}">
 <link rel="stylesheet" href="{{ asset('star_admin/vendors/select2-bootstrap-theme/select2-bootstrap.min.css') }}">
@@ -10,7 +10,7 @@
     <div class="row">
         @include('posiljka._form')
         <div class="col-md-4">
-            <button type="submit" disabled="disabled" class="btn btn-primary mb-2">Unesi</button>
+            <button type="submit" class="btn btn-primary mb-2">Unesi</button>
         </div>
     </div>
 </form>
@@ -43,32 +43,33 @@ var substringMatcher = function(strs) {
         cb(matches);
     };
 };
+
+var firme = JSON.parse('{!! $kompanije !!}');
+var ulice = JSON.parse('{!! $ulice !!}');
+var naselja = JSON.parse('{!! $naselja !!}');
+var primalacPosiljalac = JSON.parse('{!! $primalacPosiljalac !!}');
+
+var firme_typeahead;
+var firma_typeahead;
+
+var po_ulice_typeahead;
+var po_ulica_typeahead;
+
+var pr_ulice_typeahead;
+var pr_ulica_typeahead;
+
+var po_naselja_typeahead;
+var po_naselje_typeahead;
+
+var primaoci;
+var primalac;
+
+var posiljaoci;
+var posiljalac;
+
 $(function () {
     $("#vrsta-usluge").select2();
     $("#nacin-placanja").select2();
-
-    var firme = [
-        'Zea Stim R&D d.o.o.',
-        'TOP EXPRESS 2022 d.o.o.',
-    ];
-
-    var korisnici = [
-        'Simo Šekularac',
-        'Duško Bosnić',
-        'Ivan Maksimović'
-    ];
-
-    var naselja = [
-        'Beograd',
-        'Novi Sad',
-        'Niš'
-    ];
-
-    var ulice = [
-        'Jurija Gagarina',
-        'Bulevar Mihajla Pupina',
-        'Otona Župančića'
-    ];
 
     $('#firma-div .form-control').typeahead({
         hint: true,
@@ -76,7 +77,17 @@ $(function () {
         minLength: 1
     }, {
         name: 'firme',
-        source: substringMatcher(firme)
+        source: function (query, process) {
+            kompanije = [];
+            map = {};
+        
+            $.each(firme, function (i, item) {
+                map[item.naziv] = item;
+                kompanije.push(item.naziv);
+            });
+        
+            process(kompanije);
+        }
     });
 
     $('.korisnik-typeahead .form-control').typeahead({
@@ -106,21 +117,14 @@ $(function () {
         source: substringMatcher(ulice)
     });
 
-    //   var firme = new Bloodhound({
-    //     datumTokenizer: Bloodhound.tokenizers.whitespace,
-    //     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    //     // `states` is an array of state names defined in "The Basics"
-    //     local: firme
-    //   });
+    $('#firma').bind('typeahead:select', function (ev, suggestion) {
+        let item = map[suggestion];
+        $('#firma_id').val(item.id);
+    });
+});
 
-    //   $('#bloodhound .typeahead').typeahead({
-    //     hint: true,
-    //     highlight: true,
-    //     minLength: 1
-    //   }, {
-    //     name: 'firme',
-    //     source: firme
-    //   });
+$(document).on('input', '#firma', function (e) {
+    $('#firma_id').val('');
 });
 
 $(document).on('change', '#vrsta-usluge', function () {

@@ -11,4 +11,14 @@ class PosiljalacPrimalac extends Model
 
     protected $table = 'posiljalac_primalac';
     protected $guarded = [];
+
+    public function ulica()
+    {
+        return $this->hasOne(Ulica::class, 'ulica_id', 'id');
+    }
+
+    public function naselje()
+    {
+        return $this->hasOne(Naselje::class, 'naselje_id', 'id');
+    }
 }

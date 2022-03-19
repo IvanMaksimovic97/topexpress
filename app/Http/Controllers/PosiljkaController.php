@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Kompanija;
 use App\NacinPlacanja;
+use App\Naselje;
+use App\PosiljalacPrimalac;
 use App\Posiljka;
+use App\Ulica;
 use App\VrstaUsluge;
 use Illuminate\Http\Request;
 
@@ -28,7 +32,12 @@ class PosiljkaController extends Controller
     {
         $vrste_usluga = VrstaUsluge::all(['id', 'naziv']);
         $nacini_placanja = NacinPlacanja::all(['id', 'naziv']);
-        return view('posiljka.create', compact('vrste_usluga', 'nacini_placanja'));
+        $kompanije = Kompanija::all(['id', 'naziv', 'naziv_pun']);
+        $primalacPosiljalac = PosiljalacPrimalac::all();
+        $naselja = Naselje::all(['id', 'naziv']);
+        $ulice = Ulica::all(['id', 'naziv']);
+
+        return view('posiljka.create', compact('vrste_usluga', 'nacini_placanja', 'kompanije', 'primalacPosiljalac', 'naselja', 'ulice'));
     }
 
     /**
@@ -39,7 +48,7 @@ class PosiljkaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request->all());
     }
 
     /**

@@ -43,8 +43,8 @@
                     <div class="form-group w-100">
                         <label>Firma</label>
                         <div id="firma-div" class="w-100">
-                            <input type="hidden" name="firma_id">
-                            <input class="form-control" type="text" name="ugovor" placeholder="Unesite naziv firme">
+                            <input type="hidden" name="firma_id" id="firma_id">
+                            <input class="form-control" type="text" name="ugovor" placeholder="Unesite naziv firme" id="firma">
                         </div>
                     </div>
                 </div>
@@ -59,23 +59,23 @@
       <h4 class="card-title">Pošiljalac</h4>
       <div class="form-group">
         <label>Naziv</label>
-        <div class="korisnik-typeahead">
-            <input type="hidden" name="posiljalac_id">
-            <input class="form-control" name="po_naziv" type="text">
+        <div class="korisnik-typeahead" id="posiljalac_div">
+            <input type="hidden" name="posiljalac_id" id="posiljalac_id">
+            <input class="form-control" name="po_naziv" id="po_naziv" type="text">
         </div>
       </div>
       <div class="form-group">
         <label>Naselje</label>
-        <div class="naselje-typeahead">
-            <input type="hidden" name="po_naselje_id">
-            <input class="form-control" name="po_naselje" type="text">
+        <div class="naselje-typeahead" id="po_naselje_div">
+            <input type="hidden" name="po_naselje_id" id="po_naselje_id">
+            <input class="form-control" name="po_naselje" id="po_naselje" type="text">
         </div>
       </div>
       <div class="form-group">
         <label>Ulica</label>
-        <div class="ulica-typeahead">
-            <input type="hidden" name="po_ulica_id ">
-            <input class="form-control" name="po_ulica" type="text">
+        <div class="ulica-typeahead" id="po_ulica_div">
+            <input type="hidden" name="po_ulica_id" id="po_ulica_id">
+            <input class="form-control" name="po_ulica" id="po_ulica" type="text">
         </div>
       </div>
       <div class="form-group">
@@ -83,25 +83,25 @@
                 <div class="col">
                     <div class="form-group mb-0">
                         <label>Broj</label>
-                        <input class="form-control" name="po_broj" type="text">
+                        <input class="form-control" name="po_broj" id="po_broj" type="text">
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group mb-0">
                         <label>Podbroj</label>
-                        <input class="form-control" name="po_podbroj" type="text">
+                        <input class="form-control" name="po_podbroj" id="po_podbroj" type="text">
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group mb-0">
                         <label>Sprat</label>
-                        <input class="form-control" name="po_sprat" type="text">
+                        <input class="form-control" name="po_sprat" id="po_sprat" type="text">
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group mb-0">
                         <label>Stan</label>
-                        <input class="form-control" name="po_stan" type="text">
+                        <input class="form-control" name="po_stan" id="po_stan" type="text">
                     </div>
                 </div>
             </div>
@@ -120,7 +120,7 @@
       </div>
       <div class="form-group">
         <label>Email</label>
-        <input type="email" name="p_email" class="form-control" id="po_email">
+        <input type="email" name="po_email" class="form-control" id="po_email">
       </div>
     </div>
   </div>
@@ -131,23 +131,23 @@
         <h4 class="card-title">Primalac</h4>
         <div class="form-group">
           <label>Naziv</label>
-          <div class="korisnik-typeahead">
-              <input type="hidden" name="primalac_id">
-              <input class="form-control" name="pr_naziv" type="text">
+          <div class="korisnik-typeahead" id="primalac_div">
+              <input type="hidden" name="primalac_id" id="primalac_id">
+              <input class="form-control" name="pr_naziv" id="pr_naziv" type="text">
           </div>
         </div>
         <div class="form-group">
           <label>Naselje</label>
-          <div class="naselje-typeahead">
-                <input type="hidden" name="pr_naselje_id">
-              <input class="form-control" name="pr_naselje" type="text">
+          <div class="naselje-typeahead" id="pr_naselje_div">
+                <input type="hidden" name="pr_naselje_id" id="pr_naselje_id">
+              <input class="form-control" name="pr_naselje" id="pr_naselje" type="text">
           </div>
         </div>
         <div class="form-group">
           <label>Ulica</label>
-          <div class="ulica-typeahead">
-                <input type="hidden" name="pr_ulica_id">
-              <input class="form-control" name="pr_ulica" type="text">
+          <div class="ulica-typeahead" id="pr_ulica_div">
+                <input type="hidden" name="pr_ulica_id" id="pr_ulica_id">
+              <input class="form-control" name="pr_ulica" id="pr_ulica" type="text">
           </div>
         </div>
         <div class="form-group">
@@ -155,25 +155,25 @@
                   <div class="col">
                       <div class="form-group mb-0">
                           <label>Broj</label>
-                          <input class="form-control" name="pr_broj" type="text">
+                          <input class="form-control" name="pr_broj" id="pr_broj" type="text">
                       </div>
                   </div>
                   <div class="col">
                       <div class="form-group mb-0">
                           <label>Podbroj</label>
-                          <input class="form-control" name="pr_podbroj" type="text">
+                          <input class="form-control" name="pr_podbroj" id="pr_podbroj" type="text">
                       </div>
                   </div>
                   <div class="col">
                       <div class="form-group mb-0">
                           <label>Sprat</label>
-                          <input class="form-control" name="pr_sprat" type="text">
+                          <input class="form-control" name="pr_sprat" id="pr_sprat" type="text">
                       </div>
                   </div>
                   <div class="col">
                       <div class="form-group mb-0">
                           <label>Stan</label>
-                          <input class="form-control" name="pr_stan" type="text">
+                          <input class="form-control" name="pr_stan" id="pr_stan" type="text">
                       </div>
                   </div>
               </div>
