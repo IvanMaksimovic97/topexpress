@@ -257,7 +257,7 @@
             <div class="form-group mb-0 px-4">
                 <div class="form-check">
                     <label class="form-check-label">
-                      <input type="radio" class="form-check-input" disabled="disabled" name="otkupnina_vrsta[]" value="Nalog za uplatu" id="nalog-za-uplatu">
+                      <input type="radio" class="form-check-input" disabled="disabled" name="otkupnina_vrsta" value="Nalog za uplatu" id="nalog-za-uplatu">
                       Nalog za uplatu
                     <i class="input-helper"></i></label>
                 </div>
@@ -265,7 +265,7 @@
             <div class="form-group mb-0 px-4">
                 <div class="form-check">
                     <label class="form-check-label">
-                      <input type="radio" class="form-check-input" disabled="disabled" name="otkupnina_vrsta[]" value="Poštanska uputnica" id="postanska-uputnica">
+                      <input type="radio" class="form-check-input" disabled="disabled" name="otkupnina_vrsta" value="Poštanska uputnica" id="postanska-uputnica">
                       Poštanska uputnica
                     <i class="input-helper"></i></label>
                 </div>
@@ -273,7 +273,7 @@
             <div class="form-group px-4">
                 <div class="form-check">
                     <label class="form-check-label">
-                      <input type="radio" class="form-check-input" disabled="disabled" name="otkupnina_vrsta[]" value="POSTNET uputnica" id="postnet-uputnica">
+                      <input type="radio" class="form-check-input" disabled="disabled" name="otkupnina_vrsta" value="POSTNET uputnica" id="postnet-uputnica">
                       POSTNET uputnica
                     <i class="input-helper"></i></label>
                 </div>

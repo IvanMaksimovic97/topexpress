@@ -215,7 +215,7 @@ $(function () {
     $('#po_naziv').bind('typeahead:select', function (ev, suggestion) {
         let item = posiljalac[suggestion];
 
-        $('#po_naziv_id').val(item.id);
+        $('#posiljalac_id').val(item.id);
         $('#po_naselje').val(item.naselje);
         $('#po_naselje_id').val(item.naselje_id);
         $('#po_ulica').val(item.ulica);
@@ -233,7 +233,7 @@ $(function () {
     $('#pr_naziv').bind('typeahead:select', function (ev, suggestion) {
         let item = primalac[suggestion];
         
-        $('#pr_naziv_id').val(item.id);
+        $('#primalac_id').val(item.id);
         $('#pr_naselje').val(item.naselje);
         $('#pr_naselje_id').val(item.naselje_id);
         $('#pr_ulica').val(item.ulica);
@@ -363,7 +363,11 @@ $(document).on('click', '#unesi', function(e) {
         $('#nacin-placanja'),
         $('#broj_posiljke'),
         $('#po_naziv'),
+        $('#po_naselje'),
+        $('#po_ulica'),
         $('#pr_naziv'),
+        $('#pr_naselje'),
+        $('#pr_ulica'),
         $('#masa')
     ];
 
