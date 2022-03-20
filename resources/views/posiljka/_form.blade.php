@@ -30,13 +30,13 @@
                 <div class="row">
                     <div class="form-group">
                         <label>Broj pošiljke</label>
-                        <input type="text" class="form-control" name="broj_posiljke" />
+                        <input type="text" class="form-control" name="broj_posiljke" id="broj_posiljke" />
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group">
                         <label>Broj dolaznice</label>
-                        <input type="text" class="form-control" name="broj_dolaznice" />
+                        <input type="text" class="form-control" name="broj_dolaznice" id="broj_dolaznice"/>
                     </div>
                 </div>
                 <div class="row">
