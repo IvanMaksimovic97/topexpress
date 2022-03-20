@@ -12,6 +12,31 @@ class Posiljka extends Model
     protected $table = 'posiljka';
     protected $guarded = [];
 
+    public function posiljalac()
+    {
+        return $this->hasOne(PosiljalacPrimalac::class, 'id', 'posiljalac_id');
+    }
+
+    public function primalac()
+    {
+        return $this->hasOne(PosiljalacPrimalac::class, 'id', 'primalac_id');
+    }
+
+    public function vrstaUsluge()
+    {
+        return $this->hasOne(VrstaUsluge::class, 'id', 'vrsta_usluge_id');
+    }
+
+    public function nacinPlacanja()
+    {
+        return $this->hasOne(NacinPlacanja::class, 'id', 'nacin_placanja_id');
+    }
+
+    public function firma()
+    {
+        return $this->hasOne(Kompanija::class, 'id', 'firma_id');
+    }
+
     public function setValues($firma_id, $posiljalac_id, $primalac_id, $postarina)
     {
         $this->vrsta_usluge_id = request()->vrsta_usluge_id;

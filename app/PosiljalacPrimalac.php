@@ -14,12 +14,12 @@ class PosiljalacPrimalac extends Model
 
     public function ulica()
     {
-        return $this->hasOne(Ulica::class, 'ulica_id', 'id');
+        return $this->hasOne(Ulica::class, 'id', 'ulica_id');
     }
 
     public function naselje()
     {
-        return $this->hasOne(Naselje::class, 'naselje_id', 'id');
+        return $this->hasOne(Naselje::class, 'id', 'naselje_id');
     }
 
     public function posiljalacSetValues($naselje_id, $ulica_id)

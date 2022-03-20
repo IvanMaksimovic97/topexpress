@@ -21,7 +21,20 @@ class PosiljkaController extends Controller
      */
     public function index()
     {
-        return view('posiljka.index');
+        $posiljke = Posiljka::with([
+            'posiljalac',
+            'posiljalac.ulica',
+            'posiljalac.naselje',
+            'primalac',
+            'primalac.ulica',
+            'primalac.naselje',
+            'vrstaUsluge',
+            'nacinPlacanja',
+            'firma'
+        ])->get();
+        
+        //dd($posiljke);
+        return view('posiljka.index', compact('posiljke'));
     }
 
     /**
@@ -101,7 +114,7 @@ class PosiljkaController extends Controller
         $posiljka->setValues($kompanija->id ?? -1, $posiljalac->id, $primalac->id, $cena ? $cena->cena_sa_pdv : 0);
         $posiljka->save();
 
-        echo 'Uspesan unos!';
+        return redirect()->route('cms.posiljka.index');
     }
 
     /**
