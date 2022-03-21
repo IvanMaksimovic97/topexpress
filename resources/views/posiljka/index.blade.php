@@ -21,6 +21,7 @@
                 <th>Firma</th>
                 <th>Pošiljalac</th>
                 <th>Primalac</th>
+                <th>Adresa</th>
                 <th>Masa</th>
                 <th>Ima vrednost</th>
                 <th>Vrednost</th>
@@ -45,6 +46,7 @@
                         <td>{!! $posiljka->firma ? $posiljka->firma->naziv : '' !!}</td>
                         <td>{!! $posiljka->posiljalac->naziv !!}</td>
                         <td>{!! $posiljka->primalac->naziv !!}</td>
+                        <td>{!! $posiljka->primalac->ulica.' br. '.$posiljka->primalac->broj !!}{!! $posiljka->primalac->stan ? '/'.$posiljka->primalac->stan : '' !!}</td>
                         <td>{!! $posiljka->masa_kg !!} kg</td>
                         <td>{!! $posiljka->ima_vrednost ? 'Da' : 'Ne' !!}</td>
                         <td>{!! $posiljka->vrednost !!}</td>
