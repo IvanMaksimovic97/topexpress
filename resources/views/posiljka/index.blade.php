@@ -37,7 +37,7 @@
             <tbody>
                 @foreach ($posiljke as $posiljka)
                     <tr>
-                        <th><a href="#" class="btn btn-sm btn-primary">Štampaj</a></th>
+                        <th><a href="{{ route('cms.posiljka.show', $posiljka) }}" class="btn btn-sm btn-primary">Štampaj</a></th>
                         <td>{!! $posiljka->id !!}</td>
                         <td>{!! $posiljka->broj_posiljke !!}</td>
                         <td>{!! $posiljka->vrstaUsluge->naziv !!}</td>

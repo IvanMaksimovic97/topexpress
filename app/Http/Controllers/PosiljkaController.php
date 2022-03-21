@@ -125,7 +125,75 @@ class PosiljkaController extends Controller
      */
     public function show(Posiljka $posiljka)
     {
-        //
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection([
+            'pageSizeH' => \PhpOffice\PhpWord\Shared\Converter::inchToTwip(6),
+            'pageSizeW' => \PhpOffice\PhpWord\Shared\Converter::inchToTwip(3),
+            'marginLeft' => 100, 
+            'marginRight' => 100,
+            'marginTop' => 600, 
+            'marginBottom' => 600
+        ]);
+
+        $fontStyle = new \PhpOffice\PhpWord\Style\Font();
+        $fontStyle->setName('Arial');
+        $fontStyle->setSize(11);
+
+        $description = "<w:r>
+        <w:t>".mb_strtoupper($posiljka->posiljalac->naziv, 'UTF-8')."</w:t>
+        <w:br/>
+        <w:t>".mb_strtoupper($posiljka->posiljalac->ulica." ".$posiljka->posiljalac->broj, 'UTF-8')."</w:t>
+        <w:br/>
+        <w:t>".mb_strtoupper($posiljka->posiljalac->naselje, 'UTF-8')."</w:t>
+        <w:br/>
+        <w:t>".mb_strtoupper($posiljka->posiljalac->kontakt_telefon, 'UTF-8')."</w:t>
+        <w:br/>
+        <w:br/>
+        <w:t>".mb_strtoupper($posiljka->primalac->naziv, 'UTF-8')."</w:t>
+        <w:br/>
+        <w:t>".mb_strtoupper($posiljka->primalac->ulica." ".$posiljka->primalac->broj, 'UTF-8')."</w:t>
+        <w:br/>
+        <w:t>".mb_strtoupper($posiljka->primalac->naselje, 'UTF-8')."</w:t>
+        <w:br/>
+        <w:t>".mb_strtoupper($posiljka->primalac->kontakt_telefon, 'UTF-8')."</w:t>
+        <w:br/>
+        <w:br/>
+        <w:t>".mb_strtoupper($posiljka->masa_kg, 'UTF-8')." KG</w:t>
+        <w:br/>
+        <w:t>".mb_strtoupper($posiljka->sadrzina, 'UTF-8')."</w:t>
+        <w:br/>
+        <w:br/>
+        <w:t>".($posiljka->ima_otkupninu ? $posiljka->otkupnina : '')."</w:t>
+        <w:br/>
+        <w:t>".mb_strtoupper($posiljka->postarina, 'UTF-8')."</w:t>
+        <w:br/>
+        <w:br/>
+        <w:t>".mb_strtoupper($posiljka->nacinPlacanja->naziv, 'UTF-8')."</w:t>
+        </w:r>";
+
+        $footer = "<w:r>
+        <w:t>TOPEXPRESS 2020 DOO</w:t>
+        <w:br/>
+        <w:t>WWW.TOPEXPRESS.RS</w:t>
+        <w:br/>
+        <w:t>+381 11 77777 33</w:t>
+        <w:br/>
+        <w:t>+381 66 815 0 900</w:t>
+        </w:r>";
+
+        $section->addText($posiljka->broj_posiljke, null, array('align'=>'center'));
+        $font = $section->addText($description);
+        $section->addText($footer, null, array('align'=>'center'));
+        $font->setFontStyle($fontStyle);
+
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        try {
+            $objWriter->save(storage_path($posiljka->broj_posiljke.'.docx'));
+        } catch (\Exception $e) {
+            dd($e);
+        }
+
+        return response()->download(storage_path($posiljka->broj_posiljke.'.docx'))->deleteFileAfterSend(true);
     }
 
     /**
