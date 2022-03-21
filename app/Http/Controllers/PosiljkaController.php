@@ -33,7 +33,6 @@ class PosiljkaController extends Controller
             'firma'
         ])->get();
         
-        //dd($posiljke);
         return view('posiljka.index', compact('posiljke'));
     }
 
@@ -62,7 +61,6 @@ class PosiljkaController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all());
         $kompanija = $request->firma_id ? Kompanija::find($request->firma_id) : new Kompanija;
         if (!$request->firma_id) {
             if ($request->ugovor) {
@@ -131,8 +129,8 @@ class PosiljkaController extends Controller
             'pageSizeW' => \PhpOffice\PhpWord\Shared\Converter::inchToTwip(3),
             'marginLeft' => 100, 
             'marginRight' => 100,
-            'marginTop' => 600, 
-            'marginBottom' => 600
+            'marginTop' => 500, 
+            'marginBottom' => 500
         ]);
 
         $fontStyle = new \PhpOffice\PhpWord\Style\Font();
@@ -140,6 +138,8 @@ class PosiljkaController extends Controller
         $fontStyle->setSize(11);
 
         $description = "<w:r>
+        <w:t><w:rPr><w:b w:val='true'/></w:rPr>".mb_strtoupper('POŠILJALAC:', 'UTF-8')."<w:rPr><w:b w:val='false'/></w:rPr></w:t>
+        <w:br/>
         <w:t>".mb_strtoupper($posiljka->posiljalac->naziv, 'UTF-8')."</w:t>
         <w:br/>
         <w:t>".mb_strtoupper($posiljka->posiljalac->ulica." ".$posiljka->posiljalac->broj, 'UTF-8')."</w:t>
@@ -148,6 +148,8 @@ class PosiljkaController extends Controller
         <w:br/>
         <w:t>".mb_strtoupper($posiljka->posiljalac->kontakt_telefon, 'UTF-8')."</w:t>
         <w:br/>
+        <w:br/>
+        <w:t><w:rPr><w:b w:val='true'/></w:rPr>".mb_strtoupper('PRIMALAC:', 'UTF-8')."<w:rPr><w:b w:val='false'/></w:rPr></w:t>
         <w:br/>
         <w:t>".mb_strtoupper($posiljka->primalac->naziv, 'UTF-8')."</w:t>
         <w:br/>
@@ -158,21 +160,24 @@ class PosiljkaController extends Controller
         <w:t>".mb_strtoupper($posiljka->primalac->kontakt_telefon, 'UTF-8')."</w:t>
         <w:br/>
         <w:br/>
+        <w:t><w:rPr><w:b w:val='true'/></w:rPr>".mb_strtoupper('MASA: ', 'UTF-8')."<w:rPr><w:b w:val='false'/></w:rPr></w:t>
         <w:t>".mb_strtoupper($posiljka->masa_kg, 'UTF-8')." KG</w:t>
         <w:br/>
         <w:t>".mb_strtoupper($posiljka->sadrzina, 'UTF-8')."</w:t>
         <w:br/>
         <w:br/>
-        <w:t>".($posiljka->ima_otkupninu ? $posiljka->otkupnina : '')."</w:t>
+        <w:t>".($posiljka->ima_otkupninu ? "<w:rPr><w:b w:val='true'/></w:rPr>".mb_strtoupper('OTKUPNINA: ', 'UTF-8')."<w:rPr><w:b w:val='false'/></w:rPr>".$posiljka->otkupnina : '')."</w:t>
         <w:br/>
-        <w:t>".mb_strtoupper($posiljka->postarina, 'UTF-8')."</w:t>
+        <w:t><w:rPr><w:b w:val='true'/></w:rPr>".mb_strtoupper('POŠTARINA: ', 'UTF-8')."<w:rPr><w:b w:val='false'/></w:rPr>".mb_strtoupper($posiljka->postarina, 'UTF-8')."</w:t>
         <w:br/>
+        <w:br/>
+        <w:t><w:rPr><w:b w:val='true'/></w:rPr>".mb_strtoupper('POŠTARINU PLAĆA:', 'UTF-8')."<w:rPr><w:b w:val='false'/></w:rPr></w:t>
         <w:br/>
         <w:t>".mb_strtoupper($posiljka->nacinPlacanja->naziv, 'UTF-8')."</w:t>
         </w:r>";
 
         $footer = "<w:r>
-        <w:t>TOPEXPRESS 2020 DOO</w:t>
+        <w:t>TOPEXPRESS 2022 DOO</w:t>
         <w:br/>
         <w:t>WWW.TOPEXPRESS.RS</w:t>
         <w:br/>
@@ -181,9 +186,9 @@ class PosiljkaController extends Controller
         <w:t>+381 66 815 0 900</w:t>
         </w:r>";
 
-        $section->addText($posiljka->broj_posiljke, null, array('align'=>'center'));
+        $section->addText($posiljka->broj_posiljke, null, array('align' => 'center', 'bold' => true, 'size' => 11));
         $font = $section->addText($description);
-        $section->addText($footer, null, array('align'=>'center'));
+        $section->addText($footer, null, array('align' => 'center', 'size' => 11));
         $font->setFontStyle($fontStyle);
 
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');

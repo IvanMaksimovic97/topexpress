@@ -31,7 +31,8 @@ Route::group([
         Route::get('/logout', 'LoginController@logout')->name('logout');
         Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
         Route::resources([
-            'posiljka' => 'PosiljkaController'
+            'posiljka' => 'PosiljkaController',
+            'dostava' => 'DostavaController'
         ]);
     });
 });

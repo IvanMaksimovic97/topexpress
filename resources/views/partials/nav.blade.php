@@ -21,10 +21,17 @@
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" data-bs-toggle="collapse" href="#dostava-meni" aria-expanded="false" aria-controls="ui-basic">
           <i class="mdi mdi-truck-delivery menu-icon"></i>
           <span class="menu-title">Dostava pošiljaka</span>
+          <i class="menu-arrow"></i> 
         </a>
+        <div class="collapse" id="dostava-meni">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item"> <a class="nav-link" href="{{ route('cms.dostava.index') }}">Lista</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ route('cms.dostava.create') }}">Nova</a></li>
+          </ul>
+        </div>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">
