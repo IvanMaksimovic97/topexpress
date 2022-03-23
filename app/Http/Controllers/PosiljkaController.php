@@ -123,6 +123,9 @@ class PosiljkaController extends Controller
      */
     public function show(Posiljka $posiljka)
     {
+        $barcodeImage = file_get_contents('https://barcode.tec-it.com/barcode.ashx?data='.$posiljka->broj_posiljke);
+        file_put_contents($posiljka->broj_posiljke.'.jpg', $barcodeImage);
+
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection([
             'pageSizeH' => \PhpOffice\PhpWord\Shared\Converter::inchToTwip(6),
@@ -176,17 +179,22 @@ class PosiljkaController extends Controller
         <w:t>".mb_strtoupper($posiljka->nacinPlacanja->naziv, 'UTF-8')."</w:t>
         </w:r>";
 
+        // $footer = "<w:r>
+        // <w:t>TOPEXPRESS 2022 DOO</w:t>
+        // <w:br/>
+        // <w:t>WWW.TOPEXPRESS.RS</w:t>
+        // <w:br/>
+        // <w:t>+381 11 77777 33</w:t>
+        // <w:br/>
+        // <w:t>+381 66 815 0 900</w:t>
+        // </w:r>";
+
         $footer = "<w:r>
-        <w:t>TOPEXPRESS 2022 DOO</w:t>
-        <w:br/>
-        <w:t>WWW.TOPEXPRESS.RS</w:t>
-        <w:br/>
-        <w:t>+381 11 77777 33</w:t>
-        <w:br/>
-        <w:t>+381 66 815 0 900</w:t>
+        <w:t>".date('d.m.Y.')."</w:t>
         </w:r>";
 
-        $section->addText($posiljka->broj_posiljke, null, array('align' => 'center', 'bold' => true, 'size' => 11));
+        $section->addImage($posiljka->broj_posiljke.'.jpg', array('align' => 'center', 'width' => 100));
+        // $section->addText($posiljka->broj_posiljke, null, array('align' => 'center', 'bold' => true, 'size' => 11));
         $font = $section->addText($description);
         $section->addText($footer, null, array('align' => 'center', 'size' => 11));
         $font->setFontStyle($fontStyle);
@@ -197,6 +205,8 @@ class PosiljkaController extends Controller
         } catch (\Exception $e) {
             dd($e);
         }
+
+        unlink($posiljka->broj_posiljke.'.jpg');
 
         return response()->download(storage_path($posiljka->broj_posiljke.'.docx'))->deleteFileAfterSend(true);
     }
