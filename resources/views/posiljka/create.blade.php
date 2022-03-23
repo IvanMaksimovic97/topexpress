@@ -71,8 +71,8 @@ var posiljaoci;
 var posiljalac;
 
 $(function () {
-    $("#vrsta-usluge").select2();
-    $("#nacin-placanja").select2();
+    var vrsta_usluge_select2 = $("#vrsta-usluge").select2();
+    var nacin_placanja_select2 = $("#nacin-placanja").select2();
 
     $('#firma-div .form-control').typeahead({
         hint: true,
@@ -370,6 +370,10 @@ $(document).on('click', '#unesi', function(e) {
         $('#pr_ulica'),
         $('#masa')
     ];
+
+    if ($('#vrsta-usluge').val() == '') {
+        $('#vrsta-usluge').data('select2').$container.addClass('is-invalid');
+    }
 
     for (const element of elements) {
         element.removeClass('is-invalid');

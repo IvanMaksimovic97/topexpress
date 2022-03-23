@@ -4,10 +4,10 @@
           <div class="row">
             <div class="col-md-6">
               <div class="row">
-                <div class="form-group">
+                <div class="form-group" id="vrsta-usluge-div">
                     <label>Vrsta usluge</label>
-                    <select class="js-example-basic-single w-100" name="vrsta_usluge_id" id="vrsta-usluge">
-                        <option value="-1">Izaberi</option>
+                    <select class="js-example-basic-single w-100" name="vrsta_usluge_id" id="vrsta-usluge" required>
+                        <option value="">Izaberi</option>
                         @foreach ($vrste_usluga as $usluga)
                             <option value="{{ $usluga->id }}">{{ $usluga->naziv }}</option>
                         @endforeach
@@ -15,10 +15,10 @@
                   </div>
               </div>
               <div class="row">
-                <div class="form-group">
+                <div class="form-group" id="vrsta-usluge-div">
                     <label>Način plaćanja</label>
-                    <select class="js-example-basic-single w-100" name="nacin_placanja_id" id="nacin-placanja">
-                        <option value="-1">Izaberi</option>
+                    <select class="js-example-basic-single w-100" name="nacin_placanja_id" id="nacin-placanja" required>
+                        <option value="">Izaberi</option>
                         @foreach ($nacini_placanja as $nacin_placanja)
                             <option value="{{ $nacin_placanja->id }}">{{ $nacin_placanja->naziv }}</option>
                         @endforeach
@@ -30,7 +30,7 @@
                 <div class="row">
                     <div class="form-group">
                         <label>Broj pošiljke</label>
-                        <input type="text" class="form-control" name="broj_posiljke" id="broj_posiljke" />
+                        <input type="text" class="form-control" name="broj_posiljke" id="broj_posiljke" required />
                     </div>
                 </div>
                 <div class="row">
@@ -61,21 +61,21 @@
         <label>Naziv</label>
         <div class="korisnik-typeahead" id="posiljalac_div">
             <input type="hidden" name="posiljalac_id" id="posiljalac_id">
-            <input class="form-control" name="po_naziv" id="po_naziv" type="text">
+            <input class="form-control" name="po_naziv" id="po_naziv" type="text" required>
         </div>
       </div>
       <div class="form-group">
         <label>Naselje</label>
         <div class="naselje-typeahead" id="po_naselje_div">
             <input type="hidden" name="po_naselje_id" id="po_naselje_id">
-            <input class="form-control" name="po_naselje" id="po_naselje" type="text">
+            <input class="form-control" name="po_naselje" id="po_naselje" type="text" required>
         </div>
       </div>
       <div class="form-group">
         <label>Ulica</label>
         <div class="ulica-typeahead" id="po_ulica_div">
             <input type="hidden" name="po_ulica_id" id="po_ulica_id">
-            <input class="form-control" name="po_ulica" id="po_ulica" type="text">
+            <input class="form-control" name="po_ulica" id="po_ulica" type="text" required>
         </div>
       </div>
       <div class="form-group">
@@ -116,7 +116,7 @@
       </div>
       <div class="form-group">
         <label>Kontakt telefon</label>
-        <input type="text" name="po_kontakt_telefon" class="form-control" id="po_kontakt_telefon">
+        <input type="text" name="po_kontakt_telefon" class="form-control" id="po_kontakt_telefon" required>
       </div>
       <div class="form-group">
         <label>Email</label>
@@ -133,21 +133,21 @@
           <label>Naziv</label>
           <div class="korisnik-typeahead" id="primalac_div">
               <input type="hidden" name="primalac_id" id="primalac_id">
-              <input class="form-control" name="pr_naziv" id="pr_naziv" type="text">
+              <input class="form-control" name="pr_naziv" id="pr_naziv" type="text" required>
           </div>
         </div>
         <div class="form-group">
           <label>Naselje</label>
           <div class="naselje-typeahead" id="pr_naselje_div">
                 <input type="hidden" name="pr_naselje_id" id="pr_naselje_id">
-              <input class="form-control" name="pr_naselje" id="pr_naselje" type="text">
+              <input class="form-control" name="pr_naselje" id="pr_naselje" type="text" required>
           </div>
         </div>
         <div class="form-group">
           <label>Ulica</label>
           <div class="ulica-typeahead" id="pr_ulica_div">
                 <input type="hidden" name="pr_ulica_id" id="pr_ulica_id">
-              <input class="form-control" name="pr_ulica" id="pr_ulica" type="text">
+              <input class="form-control" name="pr_ulica" id="pr_ulica" type="text" required>
           </div>
         </div>
         <div class="form-group">
@@ -188,7 +188,7 @@
         </div>
         <div class="form-group">
           <label>Kontakt telefon</label>
-          <input type="text" name="pr_kontakt_telefon" class="form-control" id="pr_kontakt_telefon">
+          <input type="text" name="pr_kontakt_telefon" class="form-control" id="pr_kontakt_telefon" required>
         </div>
         <div class="form-group">
           <label>Email</label>
