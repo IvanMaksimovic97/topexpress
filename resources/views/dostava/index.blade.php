@@ -15,6 +15,7 @@
               <tr>
                 <th>Štampaj</th>
                 <th>Pošiljke</th>
+                <th>Izmeni</th>
                 <th>#</th>
                 <th>Broj spsika</th>
                 <th>Vrsta</th>
@@ -25,6 +26,7 @@
                 <th>Zaduženi radnik</th>
                 <th>Status</th>
                 <th>Datum unosa</th>
+                <th>Izmeni</th>
               </tr>
             </thead>
             <tbody>
@@ -37,6 +39,7 @@
                                 Prikaži
                             </button>
                         </td>
+                        <td><a href="{{ route('cms.dostava.edit', $stavka) }}" class="btn btn-sm btn-danger">Izmeni</a></td>
                         <td>{!! $stavka->id !!}</td>
                         <td>{!! $stavka->broj_spiska !!}</td>
                         <td>{!! $stavka->vrsta !!}</td>

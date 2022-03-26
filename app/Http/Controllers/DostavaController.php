@@ -32,8 +32,10 @@ class DostavaController extends Controller
      */
     public function create()
     {
+        $dostava = new Dostava;
+        $posiljkeDostave = [];
         $posiljke = Posiljka::where('spisak_id', -1)->select(['id', 'broj_posiljke'])->get();
-        return view('dostava.create', compact('posiljke'));
+        return view('dostava.create', compact('posiljke', 'posiljkeDostave', 'dostava'));
     }
 
     public function posiljke($ids)
@@ -167,7 +169,23 @@ class DostavaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $dostava = Dostava::with([
+            'stavke',
+            'stavke.posiljalac',
+            'stavke.posiljalac.ulica',
+            'stavke.posiljalac.naselje',
+            'stavke.primalac',
+            'stavke.primalac.ulica',
+            'stavke.primalac.naselje',
+            'stavke.vrstaUsluge',
+            'stavke.nacinPlacanja',
+            'stavke.firma'
+        ])->find($id);
+
+        $posiljkeDostave = $dostava->stavke->pluck('id')->toArray();
+        $posiljke = Posiljka::where('spisak_id', -1)->orWhereIn('id', $posiljkeDostave)->select(['id', 'broj_posiljke'])->get();
+        
+        return view('dostava.edit', compact('dostava', 'posiljke', 'posiljkeDostave'));
     }
 
     /**
@@ -179,7 +197,17 @@ class DostavaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $dostava = Dostava::find($id);
+        $dostava->broj_spiska = $request->broj_spiska;
+        $dostava->radnik = $request->radnik;
+        $dostava->za_datum = $request->datum;
+        $dostava->za_naplatu = Posiljka::whereIn('id', $request->posiljke)->sum(\DB::raw('vrednost + postarina'));
+        $dostava->save();
+
+        Posiljka::where('spisak_id', $id)->update(['spisak_id' => -1]);
+        Posiljka::whereIn('id', $request->posiljke)->update(['spisak_id' => $dostava->id]);
+
+        return redirect()->route('cms.dostava.index');
     }
 
     /**

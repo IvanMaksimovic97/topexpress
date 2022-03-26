@@ -31,7 +31,7 @@
                     <select class="js-example-basic-single w-100" name="posiljke[]" id="posiljke" multiple="multiple" required>
                         <option value="0">Izaberi</option>
                         @foreach ($posiljke as $posiljka)
-                            <option value="{{ $posiljka->id }}">{{ $posiljka->broj_posiljke }}</option>
+                            <option @if(in_array($posiljka->id, $posiljkeDostave)) selected="selected" @endif value="{{ $posiljka->id }}">{{ $posiljka->broj_posiljke }}</option>
                         @endforeach
                     </select>
                   </div>
@@ -41,19 +41,19 @@
                 <div class="row">
                     <div class="form-group">
                         <label>Broj spiska</label>
-                        <input type="text" class="form-control" name="broj_spiska" id="broj_spiska" required/>
+                        <input type="text" class="form-control" value="{{ $dostava->broj_spiska }}" name="broj_spiska" id="broj_spiska" required/>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group">
                         <label>Radnik</label>
-                        <input type="text" class="form-control" name="radnik" id="radnik" required />
+                        <input type="text" class="form-control" value="{{ $dostava->radnik }}" name="radnik" id="radnik" required />
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group">
                         <label>Za datum</label>
-                        <input type="date" class="form-control" name="datum" id="datum" required/>
+                        <input type="date" class="form-control" value="{{ date('Y-m-d', strtotime($dostava->za_datum ?? now())) }}" name="datum" id="datum" required/>
                     </div>
                 </div>
             </div>
