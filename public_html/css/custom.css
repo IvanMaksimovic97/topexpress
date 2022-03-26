@@ -1,9 +1,13 @@
-.select2-selection--single {
+.select2-selection--single, .select2-selection--multiple {
     height: auto!important;
 }
 
 .select2-selection__rendered {
     line-height: 14px!important;
+}
+
+.select2-selection__choice {
+    line-height: 25px!important;
 }
 
 .tt-menu {

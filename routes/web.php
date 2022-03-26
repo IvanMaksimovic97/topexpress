@@ -34,5 +34,8 @@ Route::group([
             'posiljka' => 'PosiljkaController',
             'dostava' => 'DostavaController'
         ]);
+
+        Route::get('/posiljke/{ids?}', 'DostavaController@posiljke')->name('posiljke');
+        Route::get('/posiljke-unete/{id?}', 'DostavaController@posiljkeUnete')->name('posiljke-unete');
     });
 });

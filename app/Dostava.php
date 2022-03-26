@@ -11,4 +11,9 @@ class Dostava extends Model
 
     protected $table = 'dostava';
     protected $guarded = [];
+
+    public function stavke()
+    {
+        return $this->hasMany(Posiljka::class, 'spisak_id', 'id');
+    }
 }
