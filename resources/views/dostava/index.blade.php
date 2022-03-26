@@ -26,7 +26,6 @@
                 <th>Zaduženi radnik</th>
                 <th>Status</th>
                 <th>Datum unosa</th>
-                <th>Izmeni</th>
               </tr>
             </thead>
             <tbody>
