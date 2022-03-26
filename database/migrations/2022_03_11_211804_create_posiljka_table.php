@@ -21,6 +21,7 @@ class CreatePosiljkaTable extends Migration
             $table->integer('firma_id')->index()->default(-1);
             $table->integer('posiljalac_id')->index()->default(-1);
             $table->integer('primalac_id')->index()->default(-1);
+            $table->integer('spisak_id')->index()->default(-1);
             $table->string('broj_posiljke', 100)->default('');
             $table->string('broj_dolaznice', 100)->default('');
             $table->string('vrsta_usluge', 100)->default('');

@@ -8,7 +8,7 @@
 <form action="{{ route('cms.dostava.store') }}" method="POST">
     @csrf
     <div class="row">
-        
+        @include('dostava._form')
         <div class="col-md-4">
             <button type="submit" id="unesi" class="btn btn-primary mb-2">Unesi</button>
         </div>
