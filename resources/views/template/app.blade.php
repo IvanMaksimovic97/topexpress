@@ -75,7 +75,7 @@
       <!-- partial:partials/_sidebar.html -->
       @include('partials.nav')
       <!-- partial -->
-      <div class="main-panel">
+      <div class="main-panel" style="margin-left: 220px">
         <div class="content-wrapper">
           @yield('content')
         </div>

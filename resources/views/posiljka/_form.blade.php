@@ -9,7 +9,7 @@
                     <select class="js-example-basic-single w-100" name="vrsta_usluge_id" id="vrsta-usluge" required>
                         <option value="">Izaberi</option>
                         @foreach ($vrste_usluga as $usluga)
-                            <option value="{{ $usluga->id }}">{{ $usluga->naziv }}</option>
+                            <option @if($usluga->id == '2') selected="selected" @endif value="{{ $usluga->id }}">{{ $usluga->naziv }}</option>
                         @endforeach
                     </select>
                   </div>
@@ -20,7 +20,7 @@
                     <select class="js-example-basic-single w-100" name="nacin_placanja_id" id="nacin-placanja" required>
                         <option value="">Izaberi</option>
                         @foreach ($nacini_placanja as $nacin_placanja)
-                            <option value="{{ $nacin_placanja->id }}">{{ $nacin_placanja->naziv }}</option>
+                            <option @if($nacin_placanja->id == '3') selected="selected" @endif value="{{ $nacin_placanja->id }}">{{ $nacin_placanja->naziv }}</option>
                         @endforeach
                     </select>
                   </div>

@@ -1,4 +1,4 @@
-<nav class="sidebar sidebar-offcanvas" id="sidebar">
+<nav class="sidebar sidebar-offcanvas position-fixed" id="sidebar">
     <ul class="nav">
       <li class="nav-item">
         <a class="nav-link" href="{{ route('cms.dashboard') }}">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Dostava;
+use App\Korisnik;
 use App\Posiljka;
 use App\View\Components\PosiljkaTabela;
 use Illuminate\Http\Request;
@@ -147,9 +148,9 @@ class DostavaController extends Controller
         }
         
         $section->addTextBreak(1);
-        $section->addText(htmlspecialchars('POŠILJKE PREDAO:'));
+        $section->addText(htmlspecialchars('POŠILJKE PREDAO: '.Korisnik::ulogovanKorisnik()->ime.' '.Korisnik::ulogovanKorisnik()->prezime));
         $section->addTextBreak(1);
-        $section->addText(htmlspecialchars('POŠILJKE PRIMIO:'));
+        $section->addText(htmlspecialchars('POŠILJKE PRIMIO: '.$dostava->radnik));
 
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
         try {

@@ -368,6 +368,8 @@ $(document).on('click', '#unesi', function(e) {
         $('#pr_naziv'),
         $('#pr_naselje'),
         $('#pr_ulica'),
+        $('#po_kontakt_telefon'),
+        $('#pr_kontakt_telefon'),
         $('#masa')
     ];
 

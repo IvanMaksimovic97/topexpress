@@ -24,3 +24,9 @@
 .tt-dropdown-menu{
    width: 100%;
 }
+
+@media only screen and (max-width: 992px) {
+    .main-panel {
+        margin-left: 0!important;
+    }
+}
