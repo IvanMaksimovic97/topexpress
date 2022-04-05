@@ -203,7 +203,7 @@
             <h4 class="card-title">Pošiljka</h4>
             <div class="form-group">
               <label>Masa (KG)</label>
-              <input type="text" disabled="disabled" name="masa_kg" class="form-control" id="masa" maxlength="6" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+              <input type="text" name="masa_kg" class="form-control" id="masa" maxlength="6" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
             </div>
             <div class="form-group">
               <label>Opis sadržine</label>
