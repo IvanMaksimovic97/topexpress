@@ -8,6 +8,7 @@ use App\NacinPlacanja;
 use App\Naselje;
 use App\PosiljalacPrimalac;
 use App\Posiljka;
+use App\PosiljkaBroj;
 use App\Ulica;
 use App\VrstaUsluge;
 use Illuminate\Http\Request;
@@ -43,6 +44,7 @@ class PosiljkaController extends Controller
      */
     public function create()
     {
+        $posiljkaBroj = PosiljkaBroj::poslednjiBrojFormat();
         $vrste_usluga = VrstaUsluge::all(['id', 'naziv']);
         $nacini_placanja = NacinPlacanja::all(['id', 'naziv']);
         $kompanije = Kompanija::all(['id', 'naziv', 'naziv_pun']);
@@ -50,7 +52,15 @@ class PosiljkaController extends Controller
         $naselja = Naselje::all(['id', 'naziv']);
         $ulice = Ulica::all(['id', 'naziv']);
 
-        return view('posiljka.create', compact('vrste_usluga', 'nacini_placanja', 'kompanije', 'primalacPosiljalac', 'naselja', 'ulice'));
+        return view('posiljka.create', compact(
+            'vrste_usluga', 
+            'nacini_placanja', 
+            'kompanije', 
+            'primalacPosiljalac', 
+            'naselja', 
+            'ulice',
+            'posiljkaBroj'
+        ));
     }
 
     /**
@@ -111,6 +121,8 @@ class PosiljkaController extends Controller
         $posiljka = new Posiljka;
         $posiljka->setValues($kompanija->id ?? -1, $posiljalac->id, $primalac->id, $cena ? $cena->cena_sa_pdv : 0);
         $posiljka->save();
+
+        PosiljkaBroj::povecajBroj();
 
         return redirect()->route('cms.posiljka.index');
     }
