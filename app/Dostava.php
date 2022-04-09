@@ -14,6 +14,6 @@ class Dostava extends Model
 
     public function stavke()
     {
-        return $this->hasMany(Posiljka::class, 'spisak_id', 'id');
+        return $this->belongsToMany(Posiljka::class, 'dostava_stavka');
     }
 }

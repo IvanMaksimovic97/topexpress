@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Dostava;
+use App\DostavaStavka;
 use App\Korisnik;
 use App\Posiljka;
 use App\View\Components\PosiljkaTabela;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DostavaController extends Controller
 {
@@ -80,8 +82,15 @@ class DostavaController extends Controller
         $dostava->za_naplatu = Posiljka::whereIn('id', $request->posiljke)->sum(\DB::raw('vrednost + postarina'));
         $dostava->save();
 
-        Posiljka::whereIn('id', $request->posiljke)->update(['spisak_id' => $dostava->id]);
-
+        DB::transaction(function () use ($request, $dostava) {
+            foreach ($request->posiljke as $posiljka) {
+                $dostavaStavka = new DostavaStavka;
+                $dostavaStavka->dostava_id = $dostava->id;
+                $dostavaStavka->posiljka_id = $posiljka;
+                $dostavaStavka->save();
+            }
+        });
+        
         return redirect()->route('cms.dostava.index');
     }
 
@@ -217,8 +226,16 @@ class DostavaController extends Controller
         $dostava->za_naplatu = Posiljka::whereIn('id', $request->posiljke)->sum(\DB::raw('vrednost + postarina'));
         $dostava->save();
 
-        Posiljka::where('spisak_id', $id)->update(['spisak_id' => -1]);
-        Posiljka::whereIn('id', $request->posiljke)->update(['spisak_id' => $dostava->id]);
+        DB::transaction(function () use ($request, $dostava) {
+            DostavaStavka::where('dostava_id', $dostava->id)->delete();
+
+            foreach ($request->posiljke as $posiljka) {
+                $dostavaStavka = new DostavaStavka;
+                $dostavaStavka->dostava_id = $dostava->id;
+                $dostavaStavka->posiljka_id = $posiljka;
+                $dostavaStavka->save();
+            }
+        });
 
         return redirect()->route('cms.dostava.index');
     }
