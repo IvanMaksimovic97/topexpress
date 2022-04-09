@@ -35,8 +35,8 @@ var autocompleteInit = function (element_id, hidden_id, data, name_to_show) {
                 if (name.indexOf(request.term.toUpperCase()) != -1) {			
                     return {
                         label: obj[name_to_show], // Label for Display
-                        value: obj.id,
-                        obj: obj // Value
+                        value: obj.id, // Value
+                        obj: obj // Element
                     }
                 } else {
                     return null;
