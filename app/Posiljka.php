@@ -46,6 +46,7 @@ class Posiljka extends Model
         $this->primalac_id = $primalac_id;
         $this->broj_posiljke = PosiljkaBroj::poslednjiBrojFormat(); //request()->broj_posiljke ?? '';
         $this->broj_dolaznice = request()->broj_dolaznice ?? '';
+        $this->broj_racuna = request()->broj_racuna ?? '';
         $this->ugovor = request()->ugovor ?? '';
         $this->sadrzina = request()->sadrzina ?? '';
         $this->masa_kg = floatval(request()->masa_kg);

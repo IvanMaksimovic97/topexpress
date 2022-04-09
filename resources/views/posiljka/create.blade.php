@@ -132,6 +132,21 @@ $(document).on('change', '#vrsta-usluge', function () {
     }
 });
 
+var racunRequired = false;
+
+$(document).on('click', '.radio-uplata', function () {
+    if (this.id == 'nalog-za-uplatu') {
+        $('#broj_racuna').removeClass('d-none');
+        $('#broj_racuna').removeClass('is-invalid');
+        $('#broj_racuna').attr('required', '');
+        racunRequired = true;
+    } else {
+        $('#broj_racuna').addClass('d-none');
+        $('#broj_racuna').removeAttr('required');
+        racunRequired = false;
+    }
+});
+
 $(document).on('click', '#ima_vrednost', function () {
     if (this.checked) {
         $('#vrednost').removeAttr('disabled');
@@ -147,6 +162,7 @@ $(document).on('click', '#ima_otkupninu', function () {
         $('#nalog-za-uplatu').removeAttr('disabled');
         $('#postanska-uputnica').removeAttr('disabled');
         $('#postnet-uputnica').removeAttr('disabled');
+        racunRequired = true;
     } else {
         $('#otkupnina').attr('disabled', 'disabled');
         $('#otkupnina').val('');
@@ -156,6 +172,9 @@ $(document).on('click', '#ima_otkupninu', function () {
         $('#postanska-uputnica').attr('checked', false);
         $('#postnet-uputnica').attr('disabled', 'disabled');
         $('#postnet-uputnica').attr('checked', false);
+        racunRequired = false;
+        $('#broj_racuna').addClass('d-none');
+        $('#broj_racuna').removeAttr('required');
     }
 });
 
@@ -199,6 +218,10 @@ $(document).on('click', '#unesi', function(e) {
         $('#pr_kontakt_telefon'),
         $('#masa')
     ];
+
+    if (racunRequired) {
+        elements.push($('#broj_racuna'));
+    }
 
     if ($('#vrsta-usluge').val() == '') {
         $('#vrsta-usluge').data('select2').$container.addClass('is-invalid');
