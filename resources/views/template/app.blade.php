@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="{{ asset('star_admin/vendors/typicons/typicons.css') }}">
   <link rel="stylesheet" href="{{ asset('star_admin/vendors/simple-line-icons/css/simple-line-icons.css') }}">
   <link rel="stylesheet" href="{{ asset('star_admin/vendors/css/vendor.bundle.base.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/custom.css'.'?v='.time()) }}">
   <!-- endinject -->
   <!-- Plugin css for this page -->
   {{-- <link rel="stylesheet" href="{{ asset('star_admin/vendors/datatables.net-bs4/dataTables.bootstrap4.css') }}"> --}}
