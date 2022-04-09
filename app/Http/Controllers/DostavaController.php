@@ -19,9 +19,13 @@ class DostavaController extends Controller
     {
         $spisak = Dostava::with([
             'stavke'
-        ])->get();
+        ]);
 
-        //dd($spisak);
+        if (request()->search) {
+            $spisak = $spisak->where('broj_spiska', 'like', '%'.request()->search.'%');
+        }
+
+        $spisak = $spisak->get();
 
         return view('dostava.index', compact('spisak'));
     }
