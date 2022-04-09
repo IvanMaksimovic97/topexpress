@@ -32,7 +32,13 @@ class PosiljkaController extends Controller
             'vrstaUsluge',
             'nacinPlacanja',
             'firma'
-        ])->get();
+        ]);
+
+        if (request()->search) {
+            $posiljke = $posiljke->where('broj_posiljke', 'like', '%'.request()->search.'%');
+        }
+
+        $posiljke = $posiljke->get();
         
         return view('posiljka.index', compact('posiljke'));
     }

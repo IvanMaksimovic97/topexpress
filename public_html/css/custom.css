@@ -25,6 +25,11 @@
    width: 100%;
 }
 
+.th-header {
+    position: sticky;
+    top:0;
+}
+
 @media only screen and (max-width: 992px) {
     .main-panel {
         margin-left: 0!important;
