@@ -41,7 +41,7 @@
                 <div class="row">
                     <div class="form-group">
                         <label>Broj spiska</label>
-                        <input type="text" class="form-control" value="{{ $dostava->broj_spiska }}" name="broj_spiska" id="broj_spiska" required/>
+                        <input type="text" class="form-control" value="{{ $dostava->broj_spiska ?? $brojDostave }}" name="broj_spiska" id="broj_spiska" required/>
                     </div>
                 </div>
                 <div class="row">

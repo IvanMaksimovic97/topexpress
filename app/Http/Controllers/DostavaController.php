@@ -37,10 +37,18 @@ class DostavaController extends Controller
      */
     public function create()
     {
+        $brojDostave = Dostava::orderBy('id', 'desc')->first();
+        
+        if ($brojDostave == null) {
+            $brojDostave = 1;
+        } else {
+            $brojDostave = (int) $brojDostave->id + 1;
+        }
+
         $dostava = new Dostava;
         $posiljkeDostave = [];
         $posiljke = Posiljka::where('spisak_id', -1)->select(['id', 'broj_posiljke'])->get();
-        return view('dostava.create', compact('posiljke', 'posiljkeDostave', 'dostava'));
+        return view('dostava.create', compact('posiljke', 'posiljkeDostave', 'dostava', 'brojDostave'));
     }
 
     public function posiljke($ids)
