@@ -3,6 +3,7 @@
 @section('custom-css')
 <link rel="stylesheet" href="{{ asset('star_admin/vendors/select2/select2.min.css') }}">
 <link rel="stylesheet" href="{{ asset('star_admin/vendors/select2-bootstrap-theme/select2-bootstrap.min.css') }}">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet"/>
 @endsection
 @section('content')
 <form action="{{ route('cms.posiljka.store') }}" method="POST">
@@ -19,254 +20,80 @@
 @section('custom-js')
 <script src="{{ asset('star_admin/vendors/select2/select2.min.js') }}"></script>
 <script src="{{ asset('star_admin/vendors/typeahead.js/typeahead.bundle.min.js') }}"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>   
 {{-- <script src="{{ asset('star_admin/js/typeahead.js') }}"></script> --}}
 <script>
-var substringMatcher = function(strs) {
-    return function findMatches(q, cb) {
-        var matches, substringRegex;
+var autocompleteInit = function (element_id, hidden_id, data, name_to_show) {
+    $(element_id).autocomplete({
+        minLength: 1,
+        source: function (request, response) {
+            response($.map(data, function (obj, key) {
+                
+                var name = obj.naziv.toUpperCase();
+                
+                if (name.indexOf(request.term.toUpperCase()) != -1) {			
+                    return {
+                        label: obj[name_to_show], // Label for Display
+                        value: obj.id,
+                        obj: obj // Value
+                    }
+                } else {
+                    return null;
+                }
+            }));			
+        },    
+        focus: function(event, ui) {
+            event.preventDefault();
+        },
+        // Once a value in the drop down list is selected, do the following:
+        select: function(event, ui) {
+            event.preventDefault();
+            
+            $(element_id).val(ui.item.label);
+            $(hidden_id).val(ui.item.value);
 
-        // an array that will be populated with substring matches
-        matches = [];
+            if (element_id == '#po_naziv' || element_id == '#pr_naziv') {
+                let p_type = '';
+                if (element_id == '#po_naziv') {
+                    p_type = 'po';
+                } else {
+                    p_type = 'pr';
+                }
 
-        // regex used to determine if a string contains the substring `q`
-        var substrRegex = new RegExp(q, 'i');
-
-        // iterate through the pool of strings and for any string that
-        // contains the substring `q`, add it to the `matches` array
-        for (var i = 0; i < strs.length; i++) {
-            if (substrRegex.test(strs[i])) {
-            matches.push(strs[i]);
+                $(`#${p_type}_naselje`).val(ui.item.obj.naselje);
+                $(`#${p_type}_naselje_id`).val(ui.item.obj.naselje_id);
+                $(`#${p_type}_ulica`).val(ui.item.obj.ulica);
+                $(`#${p_type}_ulica_id`).val(ui.item.obj.ulica_id);
+                $(`#${p_type}_broj`).val(ui.item.obj.broj);
+                $(`#${p_type}_podbroj`).val(ui.item.obj.podbroj);
+                $(`#${p_type}_sprat`).val(ui.item.obj.sprat);
+                $(`#${p_type}_stan`).val(ui.item.obj.stan);
+                $(`#${p_type}_napomena`).val(ui.item.obj.napomena);
+                $(`#${p_type}_kontakt_osoba`).val(ui.item.obj.kontakt_osoba);
+                $(`#${p_type}_kontakt_telefon`).val(ui.item.obj.kontakt_telefon);
+                $(`#${p_type}_email`).val(ui.item.obj.email);
             }
         }
-
-        cb(matches);
-    };
-};
+    });
+}
 
 var firme = JSON.parse('{!! $kompanije !!}');
 var ulice = JSON.parse('{!! $ulice !!}');
 var naselja = JSON.parse('{!! $naselja !!}');
 var primalacPosiljalac = JSON.parse('{!! $primalacPosiljalac !!}');
 
-var firme_typeahead;
-var firma_typeahead;
-
-var po_ulice_typeahead;
-var po_ulica_typeahead;
-
-var pr_ulice_typeahead;
-var pr_ulica_typeahead;
-
-var po_naselja_typeahead;
-var po_naselje_typeahead;
-
-var pr_naselja_typeahead;
-var pr_naselje_typeahead;
-
-var primaoci;
-var primalac;
-
-var posiljaoci;
-var posiljalac;
-
 $(function () {
     var vrsta_usluge_select2 = $("#vrsta-usluge").select2();
     var nacin_placanja_select2 = $("#nacin-placanja").select2();
 
-    $('#firma-div .form-control').typeahead({
-        hint: true,
-        highlight: true,
-        minLength: 1
-    }, {
-        name: 'firme',
-        source: function (query, process) {
-            firme_typeahead = [];
-            firma_typeahead = {};
-        
-            $.each(firme, function (i, item) {
-                firma_typeahead[item.naziv] = item;
-                firme_typeahead.push(item.naziv);
-            });
-        
-            process(firme_typeahead);
-        }
-    });
-
-    $('#posiljalac_div .form-control').typeahead({
-        hint: true,
-        highlight: true,
-        minLength: 1
-    }, {
-        name: 'posiljaoci',
-        source: function (query, process) {
-            posiljaoci = [];
-            posiljalac = {};
-        
-            $.each(primalacPosiljalac, function (i, item) {
-                posiljalac[item.naziv] = item;
-                posiljaoci.push(item.naziv);
-            });
-        
-            process(posiljaoci);
-        }
-    });
-
-    $('#primalac_div .form-control').typeahead({
-        hint: true,
-        highlight: true,
-        minLength: 1
-    }, {
-        name: 'primaoci',
-        source: function (query, process) {
-            primaoci = [];
-            primalac = {};
-        
-            $.each(primalacPosiljalac, function (i, item) {
-                primalac[item.naziv] = item;
-                primaoci.push(item.naziv);
-            });
-        
-            process(primaoci);
-        }
-    });
-
-    $('#po_naselje_div .form-control').typeahead({
-        hint: true,
-        highlight: true,
-        minLength: 1
-    }, {
-        name: 'po_naselja',
-        source: function (query, process) {
-            po_naselja_typeahead = [];
-            po_naselje_typeahead = {};
-        
-            $.each(naselja, function (i, item) {
-                po_naselje_typeahead[item.naziv] = item;
-                po_naselja_typeahead.push(item.naziv);
-            });
-        
-            process(po_naselja_typeahead);
-        }
-    });
-
-    $('#pr_naselje_div .form-control').typeahead({
-        hint: true,
-        highlight: true,
-        minLength: 1
-    }, {
-        name: 'pr_naselja',
-        source: function (query, process) {
-            pr_naselja_typeahead = [];
-            pr_naselje_typeahead = {};
-        
-            $.each(naselja, function (i, item) {
-                pr_naselje_typeahead[item.naziv] = item;
-                pr_naselja_typeahead.push(item.naziv);
-            });
-        
-            process(pr_naselja_typeahead);
-        }
-    });
-
-    $('#po_ulica_div .form-control').typeahead({
-        hint: true,
-        highlight: true,
-        minLength: 1
-    }, {
-        name: 'po_ulica',
-        source: function (query, process) {
-            po_ulice_typeahead = [];
-            po_ulica_typeahead = {};
-        
-            $.each(ulice, function (i, item) {
-                po_ulica_typeahead[item.naziv] = item;
-                po_ulice_typeahead.push(item.naziv);
-            });
-        
-            process(po_ulice_typeahead);
-        }
-    });
-
-    $('#pr_ulica_div .form-control').typeahead({
-        hint: true,
-        highlight: true,
-        minLength: 1
-    }, {
-        name: 'pr_ulica',
-        source: function (query, process) {
-            pr_ulice_typeahead = [];
-            pr_ulica_typeahead = {};
-        
-            $.each(ulice, function (i, item) {
-                pr_ulica_typeahead[item.naziv] = item;
-                pr_ulice_typeahead.push(item.naziv);
-            });
-        
-            process(pr_ulice_typeahead);
-        }
-    });
-
-    $('#firma').bind('typeahead:select', function (ev, suggestion) {
-        let item = firma_typeahead[suggestion];
-        $('#firma_id').val(item.id);
-    });
-
-    $('#po_naziv').bind('typeahead:select', function (ev, suggestion) {
-        let item = posiljalac[suggestion];
-
-        $('#posiljalac_id').val(item.id);
-        $('#po_naselje').val(item.naselje);
-        $('#po_naselje_id').val(item.naselje_id);
-        $('#po_ulica').val(item.ulica);
-        $('#po_ulica_id').val(item.ulica_id);
-        $('#po_broj').val(item.broj);
-        $('#po_podbroj').val(item.podbroj);
-        $('#po_sprat').val(item.sprat);
-        $('#po_stan').val(item.stan);
-        $('#po_napomena').val(item.napomena);
-        $('#po_kontakt_osoba').val(item.kontakt_osoba);
-        $('#po_kontakt_telefon').val(item.kontakt_telefon);
-        $('#po_email').val(item.email);
-    });
-
-    $('#pr_naziv').bind('typeahead:select', function (ev, suggestion) {
-        let item = primalac[suggestion];
-        
-        $('#primalac_id').val(item.id);
-        $('#pr_naselje').val(item.naselje);
-        $('#pr_naselje_id').val(item.naselje_id);
-        $('#pr_ulica').val(item.ulica);
-        $('#pr_ulica_id').val(item.ulica_id);
-        $('#pr_broj').val(item.broj);
-        $('#pr_podbroj').val(item.podbroj);
-        $('#pr_sprat').val(item.sprat);
-        $('#pr_stan').val(item.stan);
-        $('#pr_napomena').val(item.napomena);
-        $('#pr_kontakt_osoba').val(item.kontakt_osoba);
-        $('#pr_kontakt_telefon').val(item.kontakt_telefon);
-        $('#pr_email').val(item.email);
-    });
-
-    $('#po_naselje').bind('typeahead:select', function (ev, suggestion) {
-        let item = po_naselje_typeahead[suggestion];
-        $('#po_naselje_id').val(item.id);
-    });
-
-    $('#pr_naselje').bind('typeahead:select', function (ev, suggestion) {
-        let item = pr_naselje_typeahead[suggestion];
-        $('#pr_naselje_id').val(item.id);
-    });
-
-    $('#po_ulica').bind('typeahead:select', function (ev, suggestion) {
-        let item = po_ulica_typeahead[suggestion];
-        $('#po_ulica_id').val(item.id);
-    });
-
-    $('#pr_ulica').bind('typeahead:select', function (ev, suggestion) {
-        let item = pr_ulica_typeahead[suggestion];
-        $('#pr_ulica_id').val(item.id);
-    });
+    autocompleteInit('#firma', '#firma_id', firme, 'naziv');
+    autocompleteInit('#po_naziv', '#posiljalac_id', primalacPosiljalac, 'naziv');
+    autocompleteInit('#pr_naziv', '#primalac_id', primalacPosiljalac, 'naziv');
+    autocompleteInit('#po_naselje', '#po_naselje_id', naselja, 'naziv');
+    autocompleteInit('#pr_naselje', '#pr_naselje_id', naselja, 'naziv');
+    autocompleteInit('#po_ulica', '#po_ulica_id', ulice, 'naziv');
+    autocompleteInit('#pr_ulica', '#pr_ulica_id', ulice, 'naziv');
 });
 
 $(document).on('input', '#firma', function (e) {
@@ -274,11 +101,11 @@ $(document).on('input', '#firma', function (e) {
 });
 
 $(document).on('input', '#po_naziv', function (e) {
-    $('#po_naziv_id').val('');
+    $('#posiljalac_id').val('');
 });
 
 $(document).on('input', '#pr_naziv', function (e) {
-    $('#pr_naziv_id').val('');
+    $('#primalac_id').val('');
 });
 
 $(document).on('input', '#po_naselje', function (e) {
