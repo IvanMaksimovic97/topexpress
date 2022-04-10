@@ -62,8 +62,8 @@ class DostavaController extends Controller
 
     public function posiljkeUnete($id_dostava)
     {
-        $posiljke = Posiljka::where('spisak_id', $id_dostava)->get();
-        $posiljkeComponent = new PosiljkaTabela($posiljke);
+        $posiljke = Dostava::with(['stavke'])->where('id', $id_dostava)->first();
+        $posiljkeComponent = new PosiljkaTabela($posiljke->stavke);
         return $posiljkeComponent->render()->render();
     }
 
@@ -79,7 +79,7 @@ class DostavaController extends Controller
         $dostava->broj_spiska = $request->broj_spiska;
         $dostava->radnik = $request->radnik;
         $dostava->za_datum = $request->datum;
-        $dostava->za_naplatu = Posiljka::whereIn('id', $request->posiljke)->sum(\DB::raw('vrednost + postarina'));
+        $dostava->za_naplatu = Posiljka::whereIn('id', $request->posiljke)->sum(DB::raw('vrednost + postarina'));
         $dostava->save();
 
         DB::transaction(function () use ($request, $dostava) {
@@ -155,7 +155,22 @@ class DostavaController extends Controller
             $c3->addText(htmlspecialchars($stavka->primalac->kontakt_telefon));
 
             $c4 = $table->addCell(3000);
-            $c4->addText(htmlspecialchars(($stavka->primalac->ulica.' '.$stavka->primalac->broj).''.($stavka->primalac->stan != '' ? '/'.$stavka->primalac->stan : '')));
+            
+            $adresa = $stavka->primalac->ulica.' '.$stavka->primalac->broj;
+            if ($stavka->primalac->stan != '') {
+                $adresa .= '/'.$stavka->primalac->stan;
+            }
+
+            $c4->addText(htmlspecialchars($adresa));
+
+            if ($stavka->primalac->podbroj) {
+                $c4->addText(htmlspecialchars('Podbroj: '.$stavka->primalac->podbroj));
+            }
+
+            if ($stavka->primalac->sprat) {
+                $c4->addText(htmlspecialchars('Sprat: '.$stavka->primalac->sprat));
+            }
+
             $c4->addText(htmlspecialchars($stavka->primalac->naselje));
 
             $c5 = $table->addCell(1500);
@@ -223,7 +238,7 @@ class DostavaController extends Controller
         $dostava->broj_spiska = $request->broj_spiska;
         $dostava->radnik = $request->radnik;
         $dostava->za_datum = $request->datum;
-        $dostava->za_naplatu = Posiljka::whereIn('id', $request->posiljke)->sum(\DB::raw('vrednost + postarina'));
+        $dostava->za_naplatu = Posiljka::whereIn('id', $request->posiljke)->sum(DB::raw('vrednost + postarina'));
         $dostava->save();
 
         DB::transaction(function () use ($request, $dostava) {

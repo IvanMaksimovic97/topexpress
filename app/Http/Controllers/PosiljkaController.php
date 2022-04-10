@@ -43,6 +43,15 @@ class PosiljkaController extends Controller
         return view('posiljka.index', compact('posiljke'));
     }
 
+    public function updateStatus($id, $status)
+    {
+        $posiljka = Posiljka::findOrFail($id);
+        $posiljka->status = $status;
+        $posiljka->save();
+        
+        return response()->json(['message' => 'Uspešna izmena!']);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

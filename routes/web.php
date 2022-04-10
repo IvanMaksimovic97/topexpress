@@ -39,5 +39,7 @@ Route::group([
         Route::get('/posiljke-unete/{id?}', 'DostavaController@posiljkeUnete')->name('posiljke-unete');
 
         Route::get('/posiljaoci-primaoci/{ime?}', 'PosiljalacPrimalacController@getPosiljaoci')->name('posiljaoci-primaoci');
+
+        Route::get('/posiljka-status/{id?}/{status?}', 'PosiljkaController@updateStatus')->name('posiljka-status');
     });
 });

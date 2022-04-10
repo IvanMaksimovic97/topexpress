@@ -25,7 +25,7 @@
                     <th>Poštarina</th>
                     <th>Povratnica</th>
                     <th>Lično preuzimanje</th>
-                    <th>Status</th>
+                    <th>Status pošiljke</th>
                     <th>Datum prijema</th>
                   </tr>
                 </thead>
@@ -50,7 +50,15 @@
                             <td>{!! $posiljka->postarina !!}</td>
                             <td>{!! $posiljka->povratnica ? 'Da' : 'Ne' !!}</td>
                             <td>{!! $posiljka->licno_preuzimanje ? 'Da' : 'Ne' !!}</td>
-                            <td>{!! $posiljka->status !!}</td>
+                            <td>
+                              <select class="posiljka-status" data-id="{!! $posiljka->id !!}">
+                                <option value="0" @if($posiljka->status == 0) selected @endif>Nije uručena</option>
+                                <option value="1" @if($posiljka->status == 1) selected @endif>Uručena</option>
+                                <option value="2" @if($posiljka->status == 2) selected @endif>Vraćena</option>
+                                <option value="3" @if($posiljka->status == 3) selected @endif>Za sutra</option>
+                                <option value="4" @if($posiljka->status == 4) selected @endif>Za narednu dostavu</option>
+                              </select>
+                            </td>
                             <td>{!! date('d.m.Y. H:i:s', strtotime($posiljka->created_at)) !!}</td>
                         </tr>
                     @endforeach

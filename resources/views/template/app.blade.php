@@ -117,5 +117,22 @@
   <script src="{{ asset('star_admin/js/Chart.roundedBarCharts.js') }}"></script>
   <!-- End custom js for this page-->
   @yield('custom-js')
+
+  <script>
+    $(document).on('change', '.posiljka-status', function() {
+      const id = $(this).data('id');
+      const status = $(this).val();
+      $.ajax({
+        url: '{{ route('cms.posiljka-status') }}' + '/' + id + '/' + status,
+        method: 'get',
+        success: function () {
+          alert('Uspešna izmena statusa.');
+        },
+        error: function (err) {
+          alert('Neuspešna izmena statusa.');
+        }
+      })
+    });
+  </script>
 </body>
 </html>
