@@ -49,7 +49,7 @@ class DostavaController extends Controller
 
         $dostava = new Dostava;
         $posiljkeDostave = [];
-        $posiljke = Posiljka::where('spisak_id', -1)->select(['id', 'broj_posiljke'])->get();
+        $posiljke = Posiljka::where('status', '!=', 1)->select(['id', 'broj_posiljke'])->get();
         return view('dostava.create', compact('posiljke', 'posiljkeDostave', 'dostava', 'brojDostave'));
     }
 
@@ -155,7 +155,7 @@ class DostavaController extends Controller
             $c3->addText(htmlspecialchars($stavka->primalac->kontakt_telefon));
 
             $c4 = $table->addCell(3000);
-            
+
             $adresa = $stavka->primalac->ulica.' '.$stavka->primalac->broj;
             if ($stavka->primalac->stan != '') {
                 $adresa .= '/'.$stavka->primalac->stan;
@@ -220,7 +220,7 @@ class DostavaController extends Controller
         ])->find($id);
 
         $posiljkeDostave = $dostava->stavke->pluck('id')->toArray();
-        $posiljke = Posiljka::where('spisak_id', -1)->orWhereIn('id', $posiljkeDostave)->select(['id', 'broj_posiljke'])->get();
+        $posiljke = Posiljka::where('status', '!=', -1)->orWhereIn('id', $posiljkeDostave)->select(['id', 'broj_posiljke'])->get();
         
         return view('dostava.edit', compact('dostava', 'posiljke', 'posiljkeDostave'));
     }

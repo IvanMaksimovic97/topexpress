@@ -58,6 +58,6 @@ class Posiljka extends Model
         $this->licno_preuzimanje = request()->has('licno_urucenje') ? 1 : 0;
         $this->otkupnina_vrsta = request()->has('otkupnina_vrsta') ? request()->otkupnina_vrsta : '';
         $this->postarina = $postarina;
-        $this->status = 1;
+        //$this->status = 0;
     }
 }
