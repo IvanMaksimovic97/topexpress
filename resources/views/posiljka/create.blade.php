@@ -30,7 +30,7 @@ var autocompleteInit = function (element_id, hidden_id, data, name_to_show) {
         source: function (request, response) {
             response($.map(data, function (obj, key) {
                 
-                var name = obj.naziv.toUpperCase();
+                var name = obj[name_to_show].toUpperCase();
                 
                 if (name.indexOf(request.term.toUpperCase()) != -1) {			
                     return {
@@ -82,6 +82,7 @@ var firme = JSON.parse('{!! $kompanije !!}');
 var ulice = JSON.parse('{!! $ulice !!}');
 var naselja = JSON.parse('{!! $naselja !!}');
 var primalacPosiljalac = JSON.parse('{!! $primalacPosiljalac !!}');
+var racuni = JSON.parse('{!! $racuni !!}');
 
 $(function () {
     var vrsta_usluge_select2 = $("#vrsta-usluge").select2();
@@ -94,6 +95,7 @@ $(function () {
     autocompleteInit('#pr_naselje', '#pr_naselje_id', naselja, 'naziv');
     autocompleteInit('#po_ulica', '#po_ulica_id', ulice, 'naziv');
     autocompleteInit('#pr_ulica', '#pr_ulica_id', ulice, 'naziv');
+    autocompleteInit('#broj_racuna', '#racun_id', racuni, 'broj_racuna');
 });
 
 $(document).on('input', '#firma', function (e) {

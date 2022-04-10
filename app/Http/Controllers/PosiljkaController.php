@@ -9,8 +9,10 @@ use App\Naselje;
 use App\PosiljalacPrimalac;
 use App\Posiljka;
 use App\PosiljkaBroj;
+use App\Racun;
 use App\Ulica;
 use App\VrstaUsluge;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PosiljkaController extends Controller
@@ -48,7 +50,7 @@ class PosiljkaController extends Controller
         $posiljka = Posiljka::findOrFail($id);
         $posiljka->status = $status;
         $posiljka->save();
-        
+
         return response()->json(['message' => 'Uspešna izmena!']);
     }
 
@@ -66,6 +68,7 @@ class PosiljkaController extends Controller
         $primalacPosiljalac = PosiljalacPrimalac::all();
         $naselja = Naselje::all(['id', 'naziv']);
         $ulice = Ulica::all(['id', 'naziv']);
+        $racuni = Racun::all(['id', 'broj_racuna']);
 
         return view('posiljka.create', compact(
             'vrste_usluga', 
@@ -74,7 +77,8 @@ class PosiljkaController extends Controller
             'primalacPosiljalac', 
             'naselja', 
             'ulice',
-            'posiljkaBroj'
+            'posiljkaBroj',
+            'racuni'
         ));
     }
 
@@ -139,6 +143,17 @@ class PosiljkaController extends Controller
 
         PosiljkaBroj::povecajBroj();
 
+        if ($request->broj_racuna != null && $request->broj_racuna != '') {
+            $racunPostoji = Racun::where('broj_racuna', $request->broj_racuna)->first();
+
+            if (!$racunPostoji) {
+                Racun::insert([
+                    'broj_racuna' => $request->broj_racuna,
+                    'created_at' => Carbon::now()
+                ]);
+            }
+        }
+        
         return redirect()->route('cms.posiljka.index');
     }
 

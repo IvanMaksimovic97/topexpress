@@ -262,6 +262,7 @@
                     <i class="input-helper"></i></label>
                 </div>
                 <input class="form-control d-none" name="broj_racuna" type="text" placeholder="Broj računa" id="broj_racuna" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                <input type="hidden" id="racun_id" name="racun_id">
             </div>
             <div class="form-group px-4">
                 <div class="form-check">
