@@ -30,7 +30,7 @@
                 <div class="row">
                     <div class="form-group">
                         <label>Broj pošiljke</label>
-                        <input type="text" class="form-control" name="broj_posiljke" id="broj_posiljke" disabled="disabled" value="{{ $posiljkaBroj }}" required />
+                        <input type="text" class="form-control" name="broj_posiljke" id="broj_posiljke" value="{{ $posiljkaBroj }}" required />
                     </div>
                 </div>
                 <div class="row">

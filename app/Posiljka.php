@@ -44,7 +44,7 @@ class Posiljka extends Model
         $this->firma_id = $firma_id;
         $this->posiljalac_id = $posiljalac_id;
         $this->primalac_id = $primalac_id;
-        $this->broj_posiljke = PosiljkaBroj::poslednjiBrojFormat(); //request()->broj_posiljke ?? '';
+        $this->broj_posiljke = request()->broj_posiljke ?? '';
         $this->broj_dolaznice = request()->broj_dolaznice ?? '';
         $this->broj_racuna = request()->broj_racuna ?? '';
         $this->ugovor = request()->ugovor ?? '';
