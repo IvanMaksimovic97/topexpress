@@ -215,10 +215,9 @@ class PosiljkaController extends Controller
         <w:br/>
         <w:t>".mb_strtoupper($posiljka->sadrzina, 'UTF-8')."</w:t>
         <w:br/>
+        <w:t>".($posiljka->ima_otkupninu ? "<w:br/><w:rPr><w:b w:val='true'/></w:rPr>".mb_strtoupper('OTKUPNINA: ', 'UTF-8')."<w:rPr><w:b w:val='false'/></w:rPr>".$posiljka->otkupnina : '')."</w:t>
         <w:br/>
-        <w:t>".($posiljka->ima_otkupninu ? "<w:rPr><w:b w:val='true'/></w:rPr>".mb_strtoupper('OTKUPNINA: ', 'UTF-8')."<w:rPr><w:b w:val='false'/></w:rPr>".$posiljka->otkupnina : '')."</w:t>
-        <w:br/>
-        <w:t><w:rPr><w:b w:val='true'/></w:rPr>".mb_strtoupper('POŠTARINA: ', 'UTF-8')."<w:rPr><w:b w:val='false'/></w:rPr>".mb_strtoupper($posiljka->postarina, 'UTF-8')."</w:t>
+        <w:t>".((float) $posiljka->postarina > 0 ? "<w:rPr><w:b w:val='true'/></w:rPr>".mb_strtoupper('POŠTARINA: ', 'UTF-8')."<w:rPr><w:b w:val='false'/></w:rPr>".mb_strtoupper($posiljka->postarina, 'UTF-8') : '')."</w:t>
         <w:br/>
         <w:br/>
         <w:t><w:rPr><w:b w:val='true'/></w:rPr>".mb_strtoupper('POŠTARINU PLAĆA:', 'UTF-8')."<w:rPr><w:b w:val='false'/></w:rPr></w:t>
@@ -253,7 +252,7 @@ class PosiljkaController extends Controller
             dd($e);
         }
 
-        unlink($posiljka->broj_posiljke.'.jpg');
+        @unlink($posiljka->broj_posiljke.'.jpg');
 
         return response()->download(storage_path($posiljka->broj_posiljke.'.docx'))->deleteFileAfterSend(true);
     }
