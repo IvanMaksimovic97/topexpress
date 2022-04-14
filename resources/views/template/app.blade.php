@@ -126,7 +126,7 @@
         url: '{{ route('cms.posiljka-status') }}' + '/' + id + '/' + status,
         method: 'get',
         success: function () {
-          alert('Uspešna izmena statusa.');
+          
         },
         error: function (err) {
           alert('Neuspešna izmena statusa.');
