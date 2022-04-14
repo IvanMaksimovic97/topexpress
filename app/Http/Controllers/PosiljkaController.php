@@ -54,6 +54,13 @@ class PosiljkaController extends Controller
         return response()->json(['message' => 'Uspešna izmena!']);
     }
 
+    public function proveraBrojaPosiljke($broj)
+    {
+        $posiljka = Posiljka::where('broj_posiljke', $broj)->first();
+
+        return $posiljka ? 1 : 0;
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -61,7 +68,7 @@ class PosiljkaController extends Controller
      */
     public function create()
     {
-        $posiljkaBroj = PosiljkaBroj::poslednjiBrojFormat();
+        //$posiljkaBroj = PosiljkaBroj::poslednjiBrojFormat();
         $vrste_usluga = VrstaUsluge::all(['id', 'naziv']);
         $nacini_placanja = NacinPlacanja::all(['id', 'naziv']);
         $kompanije = Kompanija::all(['id', 'naziv', 'naziv_pun']);
@@ -77,7 +84,7 @@ class PosiljkaController extends Controller
             'primalacPosiljalac', 
             'naselja', 
             'ulice',
-            'posiljkaBroj',
+            //'posiljkaBroj',
             'racuni'
         ));
     }
@@ -140,8 +147,6 @@ class PosiljkaController extends Controller
         $posiljka = new Posiljka;
         $posiljka->setValues($kompanija->id ?? -1, $posiljalac->id, $primalac->id, $cena ? $cena->cena_sa_pdv : 0);
         $posiljka->save();
-
-        PosiljkaBroj::povecajBroj();
 
         if ($request->broj_racuna != null && $request->broj_racuna != '') {
             $racunPostoji = Racun::where('broj_racuna', $request->broj_racuna)->first();

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/postarina/vrsta/{id_vrsta}/masa/{masa}', 'CenovnikController@dohvatiCenuPostarine')->name('cena-postarine');
+Route::get('/broj-posiljke-validacija/{broj?}', 'PosiljkaController@proveraBrojaPosiljke')->name('broj-posiljke-validacija');
 Route::get('/', 'SiteController@index')->name('index');
 
 Route::group([

@@ -126,6 +126,46 @@ $(document).on('input', '#pr_ulica', function (e) {
     $('#pr_ulica_id').val('');
 });
 
+const brojRegex = /^TE\d{6}BG$/;
+var brojJeValidan = false;
+var brojNevalidanPoruka = '';
+
+function validacijaBrojaPosiljke(element)
+{
+    brojJeValidan = false;
+
+    $('#broj_posiljke-invalid-text').html('');
+    $(element).removeClass('is-invalid');
+
+    if (brojRegex.test(element.val())) {
+        $.ajax({
+            url: '{{ route('broj-posiljke-validacija') }}' + '/' + element.val(),
+            method: 'get',
+            success: function (data) {
+                if (data == '1') {
+                    $('#broj_posiljke-invalid-text').html('Pošiljka sa unetim brojem već postoji!');
+                    $(element).addClass('is-invalid');
+
+                    brojNevalidanPoruka = 'Pošiljka sa unetim brojem već postoji!';
+                    brojJeValidan = false;
+                } else {
+                    brojJeValidan = true;
+                }
+            }
+        });
+    } else {
+        $('#broj_posiljke-invalid-text').html('Neispravan format broja pošiljke!');
+        $(element).addClass('is-invalid');
+
+        brojNevalidanPoruka = 'Neispravan format broja pošiljke!';
+        brojJeValidan = false;
+    }
+}
+
+$(document).on('input', '#broj_posiljke', function (e) {
+    validacijaBrojaPosiljke($(this));
+});
+
 $(document).on('change', '#vrsta-usluge', function () {
     if (this.value == '-1') {
         $('#masa').attr('disabled', 'disabled');
@@ -235,6 +275,12 @@ $(document).on('click', '#unesi', function(e) {
             element.addClass('is-invalid');
             valid = false;
         }
+    }
+
+    if (!brojJeValidan) {
+        $('#broj_posiljke-invalid-text').html(brojNevalidanPoruka);
+        $('#broj_posiljke').addClass('is-invalid');
+        valid = false;
     }
 
     if (!valid) {
