@@ -86,17 +86,19 @@ class DostavaController extends Controller
         $dostava->broj_spiska = $request->broj_spiska;
         $dostava->radnik = $request->radnik;
         $dostava->za_datum = $request->datum;
-        $dostava->za_naplatu = Posiljka::whereIn('id', $request->posiljke)->sum(DB::raw('vrednost + postarina'));
+        $dostava->za_naplatu = Posiljka::whereIn('id', $request->posiljke ?? [])->where('status', 1)->sum(DB::raw('vrednost + postarina'));
         $dostava->save();
 
-        DB::transaction(function () use ($request, $dostava) {
-            foreach ($request->posiljke as $posiljka) {
-                $dostavaStavka = new DostavaStavka;
-                $dostavaStavka->dostava_id = $dostava->id;
-                $dostavaStavka->posiljka_id = $posiljka;
-                $dostavaStavka->save();
-            }
-        });
+        if ($request->posiljke) {
+            DB::transaction(function () use ($request, $dostava) {
+                foreach ($request->posiljke as $posiljka) {
+                    $dostavaStavka = new DostavaStavka;
+                    $dostavaStavka->dostava_id = $dostava->id;
+                    $dostavaStavka->posiljka_id = $posiljka;
+                    $dostavaStavka->save();
+                }
+            });
+        }
         
         return redirect()->route('cms.dostava.index');
     }
@@ -245,17 +247,19 @@ class DostavaController extends Controller
         $dostava->broj_spiska = $request->broj_spiska;
         $dostava->radnik = $request->radnik;
         $dostava->za_datum = $request->datum;
-        $dostava->za_naplatu = Posiljka::whereIn('id', $request->posiljke)->sum(DB::raw('vrednost + postarina'));
+        $dostava->za_naplatu = Posiljka::whereIn('id', $request->posiljke ?? [])->where('status', 1)->sum(DB::raw('vrednost + postarina'));
         $dostava->save();
 
         DB::transaction(function () use ($request, $dostava) {
             DostavaStavka::where('dostava_id', $dostava->id)->delete();
 
-            foreach ($request->posiljke as $posiljka) {
-                $dostavaStavka = new DostavaStavka;
-                $dostavaStavka->dostava_id = $dostava->id;
-                $dostavaStavka->posiljka_id = $posiljka;
-                $dostavaStavka->save();
+            if ($request->posiljke) {
+                foreach ($request->posiljke as $posiljka) {
+                    $dostavaStavka = new DostavaStavka;
+                    $dostavaStavka->dostava_id = $dostava->id;
+                    $dostavaStavka->posiljka_id = $posiljka;
+                    $dostavaStavka->save();
+                }
             }
         });
 
