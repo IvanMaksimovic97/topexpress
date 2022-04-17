@@ -7,6 +7,7 @@ use App\DostavaStavka;
 use App\Korisnik;
 use App\Posiljka;
 use App\View\Components\PosiljkaTabela;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -24,7 +25,13 @@ class DostavaController extends Controller
         ]);
 
         if (request()->search) {
-            $spisak = $spisak->where('broj_spiska', 'like', '%'.request()->search.'%');
+            $spisak = $spisak->whereRaw('lower(broj_spiska) LIKE ?', ['%'.strtolower(request()->search.'%')]);
+        }
+
+        if (request()->date) {
+            $spisak = $spisak->whereRaw('date(created_at) = ?', [Carbon::parse(request()->date)->format('Y-m-d')]);
+        } else {
+            $spisak = $spisak->whereRaw('date(created_at) = ?', [Carbon::now()->format('Y-m-d')]);
         }
 
         $spisak = $spisak->get();

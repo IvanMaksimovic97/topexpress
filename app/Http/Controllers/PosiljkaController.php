@@ -14,6 +14,7 @@ use App\Ulica;
 use App\VrstaUsluge;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PosiljkaController extends Controller
 {
@@ -37,7 +38,13 @@ class PosiljkaController extends Controller
         ]);
 
         if (request()->search) {
-            $posiljke = $posiljke->where('broj_posiljke', 'like', '%'.request()->search.'%');
+            $posiljke = $posiljke->whereRaw('lower(broj_posiljke) LIKE ?', ['%'.strtolower(request()->search.'%')]);
+        }
+
+        if (request()->date) {
+            $posiljke = $posiljke->whereRaw('date(created_at) = ?', [Carbon::parse(request()->date)->format('Y-m-d')]);
+        } else {
+            $posiljke = $posiljke->whereRaw('date(created_at) = ?', [Carbon::now()->format('Y-m-d')]);
         }
 
         $posiljke = $posiljke->get();
