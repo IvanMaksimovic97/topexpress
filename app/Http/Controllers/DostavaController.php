@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Dostava;
+use App\DostavaBroj;
 use App\DostavaStavka;
 use App\Korisnik;
 use App\Posiljka;
@@ -56,13 +57,7 @@ class DostavaController extends Controller
      */
     public function create()
     {
-        $brojDostave = Dostava::orderBy('id', 'desc')->first();
-        
-        if ($brojDostave == null) {
-            $brojDostave = 1;
-        } else {
-            $brojDostave = (int) $brojDostave->id + 1;
-        }
+        $brojDostave = DostavaBroj::poslednjiBrojFormat();
 
         $dostava = new Dostava;
         $posiljkeDostave = [];
@@ -103,6 +98,8 @@ class DostavaController extends Controller
         $dostava->za_datum = $request->datum;
         //$dostava->za_naplatu = Posiljka::whereIn('id', $request->posiljke ?? [])->where('status', 1)->sum(DB::raw('vrednost + postarina'));
         $dostava->save();
+
+        DostavaBroj::povecajBroj();
 
         if ($request->posiljke) {
             DB::transaction(function () use ($request, $dostava) {
