@@ -69,6 +69,7 @@ class DostavaController extends Controller
         $posiljke = Posiljka::whereRaw('date(created_at) = ?', [Carbon::now()->format('Y-m-d')])
                     ->where('status', '!=', 1)
                     ->select(['id', 'broj_posiljke'])
+                    ->orderBy('id', 'desc')
                     ->get();
 
         return view('dostava.create', compact('posiljke', 'posiljkeDostave', 'dostava', 'brojDostave'));
@@ -100,7 +101,7 @@ class DostavaController extends Controller
         $dostava->broj_spiska = $request->broj_spiska;
         $dostava->radnik = $request->radnik;
         $dostava->za_datum = $request->datum;
-        $dostava->za_naplatu = Posiljka::whereIn('id', $request->posiljke ?? [])->where('status', 1)->sum(DB::raw('vrednost + postarina'));
+        //$dostava->za_naplatu = Posiljka::whereIn('id', $request->posiljke ?? [])->where('status', 1)->sum(DB::raw('vrednost + postarina'));
         $dostava->save();
 
         if ($request->posiljke) {
@@ -248,7 +249,10 @@ class DostavaController extends Controller
             $q->whereRaw('date(created_at) = ?', [Carbon::parse($dostava->za_datum)->format('Y-m-d')]);
             $q->where('status', '!=', 1);
         })
-        ->orWhereIn('id', $posiljkeDostave)->select(['id', 'broj_posiljke'])->get();
+        ->orWhereIn('id', $posiljkeDostave)
+        ->select(['id', 'broj_posiljke'])
+        ->orderBy('posiljka.id', 'desc')
+        ->get();
 
         return view('dostava.edit', compact('dostava', 'posiljke', 'posiljkeDostave'));
     }
@@ -266,7 +270,7 @@ class DostavaController extends Controller
         $dostava->broj_spiska = $request->broj_spiska;
         $dostava->radnik = $request->radnik;
         $dostava->za_datum = $request->datum;
-        $dostava->za_naplatu = Posiljka::whereIn('id', $request->posiljke ?? [])->where('status', 1)->sum(DB::raw('vrednost + postarina'));
+        //$dostava->za_naplatu = Posiljka::whereIn('id', $request->posiljke ?? [])->where('status', 1)->sum(DB::raw('vrednost + postarina'));
         $dostava->save();
 
         DB::transaction(function () use ($request, $dostava) {
