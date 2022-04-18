@@ -48,21 +48,21 @@
                 <th>Štampaj</th>
                 <th>Pošiljke</th>
                 <th>Izmeni</th>
-                <th>#</th>
-                <th>Broj spsika</th>
+                <th>Status</th>
+                <th>Broj</th>
                 <th>Vrsta</th>
                 <th>Tip</th>
                 <th>Broj pošiljki</th>
                 <th>Za naplatu</th>
                 <th>Za datum</th>
                 <th>Zaduženi radnik</th>
-                <th>Status</th>
                 <th>Datum unosa</th>
+                <th>#</th>
               </tr>
             </thead>
             <tbody>
                 @foreach ($spisak as $stavka)
-                    <tr>
+                    <tr @if($stavka->status) class="table-success" @endif>
                         <td><a href="{{ route('cms.dostava.show', $stavka) }}" class="btn btn-sm btn-primary">Štampaj  <i class="ti-printer btn-icon-append"></i></a></th>
                         <td>
                             <button class="btn btn-sm btn-secondary prikazi" data-id="{{ $stavka->id }}">
@@ -71,7 +71,7 @@
                             </button>
                         </td>
                         <td><a href="{{ route('cms.dostava.edit', $stavka) }}" class="btn btn-sm btn-danger">Izmeni</a></td>
-                        <td>{!! $stavka->id !!}</td>
+                        <td>{!! $stavka->status ? 'Razdužen' : 'Zadužen' !!}</td>
                         <td>{!! $stavka->broj_spiska !!}</td>
                         <td>{!! $stavka->vrsta !!}</td>
                         <td>{!! $stavka->tip !!}</td>
@@ -79,8 +79,8 @@
                         <td>{!! $stavka->za_naplatu !!} RSD</td>
                         <td>{!! date('d.m.Y.', strtotime($stavka->za_datum)) !!}</td>
                         <td>{!! $stavka->radnik !!}</td>
-                        <td>{!! $stavka->status !!}</td>
                         <td>{!! date('d.m.Y.', strtotime($stavka->created_at)) !!}</td>
+                        <td>{!! $stavka->id !!}</td>
                     </tr>
                 @endforeach
             </tbody>
