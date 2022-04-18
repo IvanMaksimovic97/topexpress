@@ -30,18 +30,31 @@
                   </tr>
                 </thead>
                 <tbody>
+                  @php
+                    $brojUrucenih = 0;
+                    $brojVracenih = 0;
+                    $brojZaNarednu = 0;
+                    $iznos = 0;
+                    $postarina = 0;
+                  @endphp
                     @foreach ($posiljke as $posiljka)
                       @php
+                        
                         $rowColor = '';
                         switch ($posiljka->status) {
                           case 1:
                             $rowColor = 'table-success';
+                            $iznos += $posiljka->otkupnina;
+                            $postarina += $posiljka->postarina;
+                            $brojUrucenih++;
                             break;
                           case 2:
                             $rowColor = 'table-danger';
+                            $brojVracenih++;
                             break;
                           case 3:
                             $rowColor = 'table-info';
+                            $brojZaNarednu++;
                             break;
                           default:
                             # code...
@@ -83,5 +96,53 @@
             </div>
           </div>
         </div>
-      </div>
+    </div>
+
+    @if ($dostava)
+      @if ($dostava->status)
+      <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title mb-0">Izveštaj</h4>
+            <div class="table-responsive pt-3">
+                    <div class="table-responsive">
+                      <table class="table" style="white-space: nowrap!important; width: 1%!important;">
+                        <thead>
+                          
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th>Br. uručenih:</th>
+                            <td>{{ $brojUrucenih }}</td>
+                          </tr>
+                          <tr>
+                            <th>Br. vraćenih:</th>
+                            <td>{{ $brojVracenih }}</td>
+                          </tr>
+                          <tr>
+                            <th>Br. za narednu dostavu:</th>
+                            <td>{{ $brojZaNarednu }}</td>
+                          </tr>
+                          <tr>
+                            <th>Naplaćeno ukupno:</th>
+                            <td>{{ number_format($iznos, 2) }} RSD</td>
+                          </tr>
+                          <tr>
+                            <th>Poštarina ukupno:</th>
+                            <td>{{ number_format($postarina, 2) }} RSD</td>
+                          </tr>
+                          <tr>
+                            <th>UKUPNO:</th>
+                            <th>{{ number_format($postarina + $iznos, 2) }} RSD</th>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+            </div>
+          </div>
+        </div>
+    </div>
+      @endif
+    @endif
+
 </div>

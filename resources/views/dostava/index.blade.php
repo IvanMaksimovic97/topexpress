@@ -61,7 +61,17 @@
               </tr>
             </thead>
             <tbody>
+              @php
+                $brojRazduzenih = 0;
+                $iznos = 0;
+              @endphp
                 @foreach ($spisak as $stavka)
+                @php
+                  if ($stavka->status) {
+                    $iznos += $stavka->za_naplatu;
+                    $brojRazduzenih++;
+                  }
+                @endphp
                     <tr @if($stavka->status) class="table-success" @endif>
                         <td><a href="{{ route('cms.dostava.show', $stavka) }}" class="btn btn-sm btn-primary">Štampaj  <i class="ti-printer btn-icon-append"></i></a></th>
                         <td>
@@ -90,6 +100,33 @@
     </div>
 </div>
 
+<div class="col-lg-12 grid-margin stretch-card">
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title mb-0">Izveštaj</h4>
+      <div class="table-responsive pt-3">
+              <div class="table-responsive">
+                <table class="table" style="white-space: nowrap!important; width: 1%!important;">
+                  <thead>
+                    
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th>Br. razduženih:</th>
+                      <td>{{ $brojRazduzenih }}</td>
+                    </tr>
+                    <tr>
+                      <th>UKUPNO:</th>
+                      <th>{{ number_format($iznos, 2) }} RSD</th>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -106,6 +143,7 @@
             </div>
         </div>
         <div class="modal-footer">
+          <a href="#" id="razduzi" class="btn btn-sm btn-success">Razduži</a>
           <button type="button" class="btn btn-sm btn-primary close-modal" data-dismiss="modal">Zatvori</button>
         </div>
       </div>
@@ -117,6 +155,9 @@
 <script>
 $(document).on('click', '.prikazi', function () {
     const id = $(this).data('id');
+
+    $('#razduzi').attr('href', '{{ route('cms.razduzi') }}' + '/' + id);
+
     let element = $(this);
 
     element.attr('disabled', 'disabled');

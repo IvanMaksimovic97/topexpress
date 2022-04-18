@@ -11,10 +11,11 @@
     <div class="row">
         @include('dostava._form')
         <div id="posiljke-render">
-            <x-posiljka-tabela :posiljke="$dostava->stavke"></x-posiljka-tabela>
+            <x-posiljka-tabela :posiljke="$dostava->stavke" :dostava="$dostava"></x-posiljka-tabela>
         </div>
         <div class="col-md-4">
             <button type="submit" id="unesi" class="btn btn-primary mb-2">Izmeni</button>
+            <a href="{{ route('cms.razduzi', $dostava) }}" id="razduzi" class="btn btn-success mb-2">Razduži</a>
         </div>
     </div>
 </form>

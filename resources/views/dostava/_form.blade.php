@@ -28,7 +28,7 @@
               <div class="row">
                 <div class="form-group" id="posiljka-div">
                     <label>Dodaj pošiljku</label>
-                    <select class="js-example-basic-single w-100" name="posiljke[]" id="posiljke" multiple="multiple">
+                    <select class="js-example-basic-single w-100" name="posiljke[]" id="posiljke" multiple="multiple" @if($dostava->status) disabled="disabled" @endif>
                         <option value="0">Izaberi</option>
                         @foreach ($posiljke as $posiljka)
                             <option @if(in_array($posiljka->id, $posiljkeDostave)) selected="selected" @endif value="{{ $posiljka->id }}">{{ $posiljka->broj_posiljke }}</option>

@@ -61,7 +61,7 @@ class DostavaController extends Controller
 
         $dostava = new Dostava;
         $posiljkeDostave = [];
-        $posiljke = Posiljka::whereRaw('date(created_at) = ?', [Carbon::now()->format('Y-m-d')])
+        $posiljke = Posiljka::whereRaw('date(created_at) <= ?', [Carbon::now()->format('Y-m-d')])
                     ->where('status', '!=', 1)
                     ->select(['id', 'broj_posiljke'])
                     ->orderBy('id', 'desc')
@@ -80,8 +80,18 @@ class DostavaController extends Controller
     public function posiljkeUnete($id_dostava)
     {
         $posiljke = Dostava::with(['stavke'])->where('id', $id_dostava)->first();
-        $posiljkeComponent = new PosiljkaTabela($posiljke->stavke);
+        $posiljkeComponent = new PosiljkaTabela($posiljke->stavke, $posiljke);
         return $posiljkeComponent->render()->render();
+    }
+
+    public function razduzi($id)
+    {
+        $dostava = Dostava::with(['stavke'])->findOrFail($id);
+        $dostava->status = 1;
+        $dostava->za_naplatu = $dostava->stavke()->where('posiljka.status', 1)->sum(DB::raw('posiljka.vrednost + posiljka.postarina'));
+        $dostava->save();
+
+        return redirect()->route('cms.dostava.edit', $dostava);
     }
 
     /**
@@ -243,7 +253,7 @@ class DostavaController extends Controller
         $posiljkeDostave = $dostava->stavke->pluck('id')->toArray();
 
         $posiljke = Posiljka::where(function ($q) use ($dostava) {
-            $q->whereRaw('date(created_at) = ?', [Carbon::parse($dostava->za_datum)->format('Y-m-d')]);
+            $q->whereRaw('date(created_at) <= ?', [Carbon::parse($dostava->za_datum)->format('Y-m-d')]);
             $q->where('status', '!=', 1);
         })
         ->orWhereIn('id', $posiljkeDostave)
@@ -270,19 +280,21 @@ class DostavaController extends Controller
         //$dostava->za_naplatu = Posiljka::whereIn('id', $request->posiljke ?? [])->where('status', 1)->sum(DB::raw('vrednost + postarina'));
         $dostava->save();
 
-        DB::transaction(function () use ($request, $dostava) {
-            DostavaStavka::where('dostava_id', $dostava->id)->delete();
-
-            if ($request->posiljke) {
-                foreach ($request->posiljke as $posiljka) {
-                    $dostavaStavka = new DostavaStavka;
-                    $dostavaStavka->dostava_id = $dostava->id;
-                    $dostavaStavka->posiljka_id = $posiljka;
-                    $dostavaStavka->save();
+        if (!$dostava->status) {
+            DB::transaction(function () use ($request, $dostava) {
+                DostavaStavka::where('dostava_id', $dostava->id)->delete();
+    
+                if ($request->posiljke) {
+                    foreach ($request->posiljke as $posiljka) {
+                        $dostavaStavka = new DostavaStavka;
+                        $dostavaStavka->dostava_id = $dostava->id;
+                        $dostavaStavka->posiljka_id = $posiljka;
+                        $dostavaStavka->save();
+                    }
                 }
-            }
-        });
-
+            });
+        }
+        
         return redirect()->route('cms.dostava.index');
     }
 
