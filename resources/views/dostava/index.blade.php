@@ -12,8 +12,12 @@
           <div class="input-group">
               <div class="row">
                   <div class="col">
-                      <h4 class="card-title">Pretraga</h4>
-                      <input type="text" class="form-control" value="{!! request()->search !!}" name="search" placeholder="Pretraga po broju pošiljke">
+                      <h4 class="card-title">Br. spiska</h4>
+                      <input type="text" class="form-control" value="{!! request()->search !!}" name="search" placeholder="Pretraga po broju spiska">
+                  </div>
+                  <div class="col">
+                    <h4 class="card-title">Br. pošiljke</h4>
+                    <input type="text" class="form-control" value="{!! request()->search_po !!}" name="search_po" placeholder="Pretraga po broju pošiljke">
                   </div>
                   <div class="col">
                       <h4 class="card-title">Datum</h4>

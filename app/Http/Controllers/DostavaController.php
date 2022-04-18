@@ -24,6 +24,12 @@ class DostavaController extends Controller
             'stavke'
         ]);
 
+        if (request()->search_po) {
+            $spisak = $spisak->whereHas('stavke', function ($q) {
+                $q->whereRaw('lower(posiljka.broj_posiljke) LIKE ?', ['%'.strtolower(request()->search_po.'%')]);
+            });
+        }
+
         if (request()->search) {
             $spisak = $spisak->whereRaw('lower(broj_spiska) LIKE ?', ['%'.strtolower(request()->search.'%')]);
         }
@@ -56,7 +62,11 @@ class DostavaController extends Controller
 
         $dostava = new Dostava;
         $posiljkeDostave = [];
-        $posiljke = Posiljka::where('status', '!=', 1)->select(['id', 'broj_posiljke'])->get();
+        $posiljke = Posiljka::whereRaw('date(created_at) = ?', [Carbon::now()->format('Y-m-d')])
+                    ->where('status', '!=', 1)
+                    ->select(['id', 'broj_posiljke'])
+                    ->get();
+
         return view('dostava.create', compact('posiljke', 'posiljkeDostave', 'dostava', 'brojDostave'));
     }
 
@@ -229,8 +239,13 @@ class DostavaController extends Controller
         ])->find($id);
 
         $posiljkeDostave = $dostava->stavke->pluck('id')->toArray();
-        $posiljke = Posiljka::where('status', '!=', -1)->orWhereIn('id', $posiljkeDostave)->select(['id', 'broj_posiljke'])->get();
-        
+
+        $posiljke = Posiljka::where(function ($q) use ($dostava) {
+            $q->whereRaw('date(created_at) = ?', [Carbon::parse($dostava->za_datum)->format('Y-m-d')]);
+            $q->where('status', '!=', 1);
+        })
+        ->orWhereIn('id', $posiljkeDostave)->select(['id', 'broj_posiljke'])->get();
+
         return view('dostava.edit', compact('dostava', 'posiljke', 'posiljkeDostave'));
     }
 
