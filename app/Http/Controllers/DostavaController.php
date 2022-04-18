@@ -34,6 +34,10 @@ class DostavaController extends Controller
             $spisak = $spisak->whereRaw('lower(broj_spiska) LIKE ?', ['%'.strtolower(request()->search.'%')]);
         }
 
+        if (request()->search_radnik) {
+            $spisak = $spisak->whereRaw('lower(radnik) LIKE ?', ['%'.strtolower(request()->search_radnik.'%')]);
+        }
+
         if (request()->date) {
             $spisak = $spisak->whereRaw('date(created_at) = ?', [Carbon::parse(request()->date)->format('Y-m-d')]);
         } else {

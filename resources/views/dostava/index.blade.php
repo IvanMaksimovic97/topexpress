@@ -20,6 +20,10 @@
                     <input type="text" class="form-control" value="{!! request()->search_po !!}" name="search_po" placeholder="Pretraga po broju pošiljke">
                   </div>
                   <div class="col">
+                    <h4 class="card-title">Radnik</h4>
+                    <input type="text" class="form-control" value="{!! request()->search_radnik !!}" name="search_radnik" placeholder="Pretraga radniku">
+                  </div>
+                  <div class="col">
                       <h4 class="card-title">Datum</h4>
                       <input type="date" class="form-control" value="{!! date('Y-m-d', strtotime(request()->date ?? now())) !!}" name="date" placeholder="datum">
                   </div>
