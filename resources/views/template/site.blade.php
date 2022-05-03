@@ -63,7 +63,7 @@
     <div class="container-fluid p-0">
         <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-lg-5">
             <a href="{{ route('index') }}" class="navbar-brand ml-lg-3">
-                <h1 class="m-0 display-5 text-uppercase text-primary"><i class="fa fa-truck mr-2"></i>TOP EXPRESS</h1>
+                <h1 class="m-0 display-5 text-uppercase text-primary"><i class="fa fa-truck mr-2"></i>TOP EXPRESS 2022</h1>
             </a>
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
@@ -98,7 +98,7 @@
                 <div class="row">
                     <div class="col-md-6 mb-5">
                         <h3 class="text-primary mb-4">TOP EXPRESS 2022</h3>
-                        <p><i class="fa fa-map-marker-alt mr-2"></i>Jurija Gagarina 204, 11070 Novi Beograd, Beograd, Srbija</p>
+                        <p><i class="fa fa-map-marker-alt mr-2"></i>Karađorđev trg 34e, 11080 Zemun, Beograd, Srbija</p>
                         <p><i class="fa fa-phone-alt mr-2"></i>+381 11 7777733</p>
                         <p><i class="fa fa-phone-alt mr-2"></i>+381 66 8150900</p>
                         <p><i class="fa fa-envelope mr-2"></i>office@topexpress.rs</p>

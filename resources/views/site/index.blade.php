@@ -1,7 +1,7 @@
 @extends('template.site')
 @section('title', 'TOP EXPRESS')
 @section('content')
-<!-- Header Start -->
+{{-- <!-- Header Start -->
 <div class="jumbotron jumbotron-fluid mb-5">
 	<div class="container text-center py-5">
 		<h1 class="text-primary mb-4">Safe & Faster</h1>
@@ -393,5 +393,5 @@
 		</div>
 	</div>
 </div>
-<!-- Testimonial End -->
+<!-- Testimonial End --> --}}
 @endsection
