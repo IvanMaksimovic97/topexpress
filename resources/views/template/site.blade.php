@@ -63,7 +63,7 @@
     <div class="container-fluid p-0">
         <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-lg-5">
             <a href="{{ route('index') }}" class="navbar-brand ml-lg-3">
-                <h1 class="m-0 display-5 text-uppercase text-primary"><i class="fa fa-truck mr-2"></i>TOP EXPRESS 2022</h1>
+                <h1 class="m-0 display-5 text-uppercase text-danger"><i class="fa fa-truck mr-2"></i>TOP EXPRESS 2022</h1>
             </a>
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
@@ -97,7 +97,7 @@
             <div class="col-lg-7 col-md-6">
                 <div class="row">
                     <div class="col-md-6 mb-5">
-                        <h3 class="text-primary mb-4">TOP EXPRESS 2022</h3>
+                        <h3 class="text-danger mb-4">TOP EXPRESS 2022</h3>
                         <p><i class="fa fa-map-marker-alt mr-2"></i>Karađorđev trg 34e, 11080 Zemun, Beograd, Srbija</p>
                         <p><i class="fa fa-phone-alt mr-2"></i>+381 11 7777733</p>
                         <p><i class="fa fa-phone-alt mr-2"></i>+381 66 8150900</p>
@@ -114,7 +114,7 @@
                         </div> --}}
                     </div>
                     <div class="col-md-6 mb-5">
-                        <h3 class="text-primary mb-4">Linkovi</h3>
+                        <h3 class="text-danger mb-4">Linkovi</h3>
                         <div class="d-flex flex-column justify-content-start">
                             <a class="text-white mb-2" href="{{ route('index') }}"><i class="fa fa-angle-right mr-2"></i>Početna</a>
                             <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>O nama</a>
@@ -125,13 +125,13 @@
                 </div>
             </div>
             <div class="col-lg-5 col-md-6 mb-5">
-                <h3 class="text-primary mb-4">Newsletter</h3>
+                <h3 class="text-danger mb-4">Newsletter</h3>
                 <p>Prijava za newsletter</p>
                 <div class="w-100">
                     <div class="input-group">
                         <input type="text" class="form-control border-light" style="padding: 30px;" placeholder="Vaš e-mail">
                         <div class="input-group-append">
-                            <button class="btn btn-primary px-4">Prijavi se</button>
+                            <button class="btn btn-danger px-4">Prijavi se</button>
                         </div>
                     </div>
                 </div>
@@ -141,10 +141,10 @@
     <div class="container-fluid bg-dark text-white border-top py-4 px-sm-3 px-md-5" style="border-color: #3E3E4E !important;">
         <div class="row">
             <div class="col-lg-6 text-center text-md-left mb-3 mb-md-0">
-                <p class="m-0 text-white">&copy; <a href="#">TOP EXPRESS 2022</a>. Sva prava zadržana. 
+                <p class="m-0 text-white">&copy; <a href="#" class="text-danger">TOP EXPRESS 2022</a>. Sva prava zadržana. 
 				
 				<!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-				Designed by <a href="https://htmlcodex.com">HTML Codex</a>
+				Designed by <a href="https://htmlcodex.com" class="text-danger">HTML Codex</a>
                 </p>
             </div>
             <div class="col-lg-6 text-center text-md-right">
@@ -169,7 +169,7 @@
 
 
     <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+    <a href="#" class="btn btn-lg btn-danger back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
 
     <!-- JavaScript Libraries -->

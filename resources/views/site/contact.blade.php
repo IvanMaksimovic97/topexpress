@@ -20,15 +20,15 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-5 pb-4 pb-lg-0">
-                <div class="bg-primary text-dark text-center p-4">
-                    <h4 class="m-0"><i class="fa fa-map-marker-alt text-white mr-2"></i>Jurija Gagarina 204, 11070 Novi Beograd, Beograd, Srbija</h4>
+                <div class="bg-danger text-dark text-center p-4">
+                    <h4 class="m-0"><i class="fa fa-map-marker-alt text-white mr-2"></i>Karađorđev trg 34e, 11080 Zemun, Beograd, Srbija</h4>
                 </div>
                 <iframe style="width: 100%; height: 470px;"
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3001156.4288297426!2d-78.01371936852176!3d42.72876761954724!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4ccc4bf0f123a5a9%3A0xddcfc6c1de189567!2sNew%20York%2C%20USA!5e0!3m2!1sen!2sbd!4v1603794290143!5m2!1sen!2sbd"
+                    src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2829.3118770534306!2d20.417778195106496!3d44.83558160142083!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x475a650bc8fd131d%3A0xf917ea6d0def2aa5!2z0JrQsNGA0LDRktC-0YDRktC10LIg0KLRgNCzIDM0LCDQkdC10L7Qs9GA0LDQtCAxMTAwMA!5e0!3m2!1ssr!2srs!4v1651854316961!5m2!1ssr!2srs"
                     frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
             </div>
             <div class="col-lg-7">
-                <h6 class="text-primary text-uppercase font-weight-bold">Kontaktirajte nas</h6>
+                <h6 class="text-danger text-uppercase font-weight-bold">Kontaktirajte nas</h6>
                 <h1 class="mb-4">Kontakt za bilo koja pitanja</h1>
                 <div class="contact-form bg-secondary" style="padding: 30px;">
                     <div id="success"></div>
@@ -55,7 +55,7 @@
                             <p class="help-block text-danger"></p>
                         </div>
                         <div>
-                            <button class="btn btn-primary py-3 px-4" type="submit" id="sendMessageButton">Pošalji poruku</button>
+                            <button class="btn btn-danger py-3 px-4" type="submit" id="sendMessageButton">Pošalji poruku</button>
                         </div>
                     </form>
                 </div>

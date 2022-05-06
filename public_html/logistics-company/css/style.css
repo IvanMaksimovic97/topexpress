@@ -152,7 +152,7 @@ sup {
 }
 
 a {
-  color: #FF4800;
+  color: #dc3545;
   text-decoration: none;
   background-color: transparent;
 }
@@ -3976,7 +3976,7 @@ input[type="button"].btn-block {
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {
   color: #fff;
-  background-color: #FF4800;
+  background-color: #dc3545;
 }
 
 .nav-fill > .nav-link,
@@ -9532,7 +9532,7 @@ p,
 .navbar-light .navbar-nav .nav-link:hover,
 .navbar-light .navbar-nav .nav-link.active {
   color: #FFFFFF;
-  background: #FF4800;
+  background: #dc3545;
 }
 
 @media (max-width: 991.98px) {
