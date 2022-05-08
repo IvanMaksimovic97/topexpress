@@ -187,16 +187,12 @@ class DostavaController extends Controller
 
             $c4 = $table->addCell(3000);
 
-            $adresa = $stavka->primalac->ulica.' '.$stavka->primalac->broj;
+            $adresa = $stavka->primalac->ulica.' '.$stavka->primalac->broj.''.($stavka->primalac->podbroj != '' ? '('.$stavka->primalac->podbroj.')' : '');
             if ($stavka->primalac->stan != '') {
                 $adresa .= '/'.$stavka->primalac->stan;
             }
 
             $c4->addText(htmlspecialchars($adresa));
-
-            if ($stavka->primalac->podbroj) {
-                $c4->addText(htmlspecialchars('Podbroj: '.$stavka->primalac->podbroj));
-            }
 
             if ($stavka->primalac->sprat) {
                 $c4->addText(htmlspecialchars('Sprat: '.$stavka->primalac->sprat));
