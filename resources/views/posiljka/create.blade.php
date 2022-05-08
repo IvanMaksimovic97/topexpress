@@ -287,5 +287,41 @@ $(document).on('click', '#unesi', function(e) {
         e.preventDefault();
     }
 });
+
+$(document).on('click', '#reset-posiljalac', function (e) {
+    const p_type = 'po';
+    $(`#posiljalac_id`).val('');
+    $(`#${p_type}_naziv`).val('');
+    $(`#${p_type}_naselje`).val('');
+    $(`#${p_type}_naselje_id`).val('');
+    $(`#${p_type}_ulica`).val('');
+    $(`#${p_type}_ulica_id`).val('');
+    $(`#${p_type}_broj`).val('');
+    $(`#${p_type}_podbroj`).val('');
+    $(`#${p_type}_sprat`).val('');
+    $(`#${p_type}_stan`).val('');
+    $(`#${p_type}_napomena`).val('');
+    $(`#${p_type}_kontakt_osoba`).val('');
+    $(`#${p_type}_kontakt_telefon`).val('');
+    $(`#${p_type}_email`).val('');
+});
+
+$(document).on('click', '#reset-primalac', function (e) {
+    const p_type = 'pr';
+    $(`#primalac_id`).val('');
+    $(`#${p_type}_naziv`).val('');
+    $(`#${p_type}_naselje`).val('');
+    $(`#${p_type}_naselje_id`).val('');
+    $(`#${p_type}_ulica`).val('');
+    $(`#${p_type}_ulica_id`).val('');
+    $(`#${p_type}_broj`).val('');
+    $(`#${p_type}_podbroj`).val('');
+    $(`#${p_type}_sprat`).val('');
+    $(`#${p_type}_stan`).val('');
+    $(`#${p_type}_napomena`).val('');
+    $(`#${p_type}_kontakt_osoba`).val('');
+    $(`#${p_type}_kontakt_telefon`).val('');
+    $(`#${p_type}_email`).val('');
+});
 </script>
 @endsection

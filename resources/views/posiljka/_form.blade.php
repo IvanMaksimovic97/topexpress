@@ -83,7 +83,14 @@
 <div class="col-md-6 grid-margin stretch-card">
   <div class="card">
     <div class="card-body">
-      <h4 class="card-title">Pošiljalac</h4>
+        <div class="row">
+            <div class="col">
+                <h4 class="card-title">Pošiljalac</h4>
+            </div>
+            <div class="col d-flex justify-content-end">
+                <button type="button" id="reset-posiljalac" class="btn btn-sm btn-primary">Resetuj</button>
+            </div>
+        </div>
       <div class="form-group">
         <label>Naziv</label>
         <div class="korisnik-typeahead" id="posiljalac_div">
@@ -155,7 +162,14 @@
 <div class="col-md-6 grid-margin stretch-card">
   <div class="card">
     <div class="card-body">
-        <h4 class="card-title">Primalac</h4>
+        <div class="row">
+            <div class="col">
+                <h4 class="card-title">Primalac</h4>
+            </div>
+            <div class="col d-flex justify-content-end">
+                <button type="button" id="reset-primalac" class="btn btn-sm btn-primary">Resetuj</button>
+            </div>
+        </div>
         <div class="form-group">
           <label>Naziv</label>
           <div class="korisnik-typeahead" id="primalac_div">
