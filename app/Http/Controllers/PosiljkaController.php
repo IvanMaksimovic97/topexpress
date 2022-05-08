@@ -203,7 +203,7 @@ class PosiljkaController extends Controller
         <w:br/>
         <w:t>".mb_strtoupper($posiljka->posiljalac->naziv, 'UTF-8')."</w:t>
         <w:br/>
-        <w:t>".mb_strtoupper($posiljka->posiljalac->ulica." ".$posiljka->posiljalac->broj, 'UTF-8')."</w:t>
+        <w:t>".mb_strtoupper($posiljka->posiljalac->ulica." ".$posiljka->posiljalac->broj.($posiljka->posiljalac->podbroj != '' ? '('.$posiljka->posiljalac->podbroj.')' : '')."".($posiljka->posiljalac->stan != '' ? '/'.$posiljka->posiljalac->stan : ''), 'UTF-8')."</w:t>
         <w:br/>
         <w:t>".mb_strtoupper($posiljka->posiljalac->naselje, 'UTF-8')."</w:t>
         <w:br/>
@@ -214,7 +214,7 @@ class PosiljkaController extends Controller
         <w:br/>
         <w:t>".mb_strtoupper($posiljka->primalac->naziv, 'UTF-8')."</w:t>
         <w:br/>
-        <w:t>".mb_strtoupper($posiljka->primalac->ulica." ".$posiljka->primalac->broj, 'UTF-8')."</w:t>
+        <w:t>".mb_strtoupper($posiljka->primalac->ulica." ".$posiljka->primalac->broj.($posiljka->primalac->podbroj != '' ? '('.$posiljka->primalac->podbroj.')' : '')."".($posiljka->primalac->stan != '' ? '/'.$posiljka->primalac->stan : ''), 'UTF-8')."</w:t>
         <w:br/>
         <w:t>".mb_strtoupper($posiljka->primalac->naselje, 'UTF-8')."</w:t>
         <w:br/>
