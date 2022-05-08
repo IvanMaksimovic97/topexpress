@@ -80,9 +80,9 @@ class PosiljkaController extends Controller
         $vrste_usluga = VrstaUsluge::all(['id', 'naziv']);
         $nacini_placanja = NacinPlacanja::all(['id', 'naziv']);
         $kompanije = Kompanija::all(['id', 'naziv', 'naziv_pun']);
-        $primalacPosiljalac = PosiljalacPrimalac::all();
-        $naselja = Naselje::all(['id', 'naziv']);
-        $ulice = Ulica::all(['id', 'naziv']);
+        $primalacPosiljalac = PosiljalacPrimalac::groupBy('naziv')->get();
+        $naselja = Naselje::groupBy('naziv')->get();
+        $ulice = Ulica::groupBy('naziv')->get();
         $racuni = Racun::all(['id', 'broj_racuna']);
 
         $posiljka = new Posiljka;
@@ -279,16 +279,14 @@ class PosiljkaController extends Controller
         $vrste_usluga = VrstaUsluge::all(['id', 'naziv']);
         $nacini_placanja = NacinPlacanja::all(['id', 'naziv']);
         $kompanije = Kompanija::all(['id', 'naziv', 'naziv_pun']);
-        $primalacPosiljalac = PosiljalacPrimalac::all();
-        $naselja = Naselje::all(['id', 'naziv']);
-        $ulice = Ulica::all(['id', 'naziv']);
+        $primalacPosiljalac = PosiljalacPrimalac::groupBy('naziv')->get();
+        $naselja = Naselje::groupBy('naziv')->get();
+        $ulice = Ulica::groupBy('naziv')->get();
         $racuni = Racun::all(['id', 'broj_racuna']);
 
         $spisak = Dostava::whereHas('stavke', function($q) use ($posiljka) {
             $q->where('dostava_stavka.posiljka_id', $posiljka->id);
         })->get();
-
-        //dd($spisak);
 
         return view('posiljka.edit', compact(
             'posiljka',
