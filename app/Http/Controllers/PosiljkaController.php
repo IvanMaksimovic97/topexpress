@@ -38,8 +38,22 @@ class PosiljkaController extends Controller
             'firma'
         ]);
 
-        if (request()->search) {
-            $posiljke = $posiljke->whereRaw('lower(broj_posiljke) LIKE ?', ['%'.strtolower(request()->search.'%')]);
+        if (request()->search || request()->search_po || request()->search_pr) {
+            if (request()->search) {
+                $posiljke = $posiljke->whereRaw('lower(broj_posiljke) LIKE ?', ['%'.strtolower(request()->search.'%')]);
+            }
+            
+            if (request()->search_po) {
+                $posiljke = $posiljke->whereHas('posiljalac', function($q) {
+                    $q->whereRaw('lower(posiljalac_primalac.naziv) LIKE ?', ['%'.strtolower(request()->search_po.'%')]);
+                });
+            }
+
+            if (request()->search_pr) {
+                $posiljke = $posiljke->whereHas('primalac', function($q) {
+                    $q->whereRaw('lower(posiljalac_primalac.naziv) LIKE ?', ['%'.strtolower(request()->search_pr.'%')]);
+                });
+            }
         } else {
             if (request()->date) {
                 $posiljke = $posiljke->whereRaw('date(created_at) = ?', [Carbon::parse(request()->date)->format('Y-m-d')]);

@@ -12,8 +12,16 @@
                 <div class="input-group">
                     <div class="row">
                         <div class="col">
-                            <h4 class="card-title">Pretraga</h4>
+                            <h4 class="card-title">Broj</h4>
                             <input type="text" class="form-control" value="{!! request()->search !!}" name="search" placeholder="Pretraga po broju pošiljke">
+                        </div>
+                        <div class="col">
+                            <h4 class="card-title">Pošiljalac</h4>
+                            <input type="text" class="form-control" value="{!! request()->search_po !!}" name="search_po" placeholder="Pretraga po broju pošiljaocu">
+                        </div>
+                        <div class="col">
+                            <h4 class="card-title">Primalac</h4>
+                            <input type="text" class="form-control" value="{!! request()->search_pr !!}" name="search_pr" placeholder="Pretraga po broju primaocu">
                         </div>
                         <div class="col">
                             <h4 class="card-title">Datum</h4>
