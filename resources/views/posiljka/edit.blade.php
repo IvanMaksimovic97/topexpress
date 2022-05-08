@@ -10,7 +10,70 @@
     @csrf
     <div class="row">
         @include('posiljka._form')
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">Lista dostavnih spiskova na kojima se nalazi posiljka</h4>
+                <div class="table-responsive pt-3">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>Štampaj</th>
+                        {{-- <th>Pošiljke</th> --}}
+                        <th>Izmeni</th>
+                        <th>Status</th>
+                        <th>Broj</th>
+                        <th>Vrsta</th>
+                        <th>Tip</th>
+                        <th>Broj pošiljki</th>
+                        <th>Za naplatu</th>
+                        <th>Za datum</th>
+                        <th>Zaduženi radnik</th>
+                        <th>Datum unosa</th>
+                        <th>#</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @php
+                        $brojRazduzenih = 0;
+                        $iznos = 0;
+                      @endphp
+                        @foreach ($spisak as $stavka)
+                        @php
+                          if ($stavka->status) {
+                            $iznos += $stavka->za_naplatu;
+                            $brojRazduzenih++;
+                          }
+                        @endphp
+                            <tr @if($stavka->status) class="table-success" @endif>
+                                <td><a href="{{ route('cms.dostava.show', $stavka) }}" class="btn btn-sm btn-primary">Štampaj  <i class="ti-printer btn-icon-append"></i></a></th>
+                                {{-- <td>
+                                    <button class="btn btn-sm btn-secondary prikazi" data-id="{{ $stavka->id }}">
+                                        <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                        Prikaži
+                                    </button>
+                                </td> --}}
+                                <td><a href="{{ route('cms.dostava.edit', $stavka) }}" class="btn btn-sm btn-danger">Izmeni</a></td>
+                                <td>{!! $stavka->status ? 'Razdužen' : 'Zadužen' !!}</td>
+                                <td>{!! $stavka->broj_spiska !!}</td>
+                                <td>{!! $stavka->vrsta !!}</td>
+                                <td>{!! $stavka->tip !!}</td>
+                                <td>{!! $stavka->stavke->count() !!}</td>
+                                <td>{!! $stavka->za_naplatu !!} RSD</td>
+                                <td>{!! date('d.m.Y.', strtotime($stavka->za_datum)) !!}</td>
+                                <td>{!! $stavka->radnik !!}</td>
+                                <td>{!! date('d.m.Y.', strtotime($stavka->created_at)) !!}</td>
+                                <td>{!! $stavka->id !!}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+        </div>
         <div class="col-md-4">
+            
             {{-- <button type="submit" id="unesi" class="btn btn-primary mb-2">Izmeni</button> --}}
         </div>
     </div>

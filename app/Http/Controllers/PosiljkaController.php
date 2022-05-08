@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Cenovnik;
+use App\Dostava;
 use App\Kompanija;
 use App\NacinPlacanja;
 use App\Naselje;
@@ -283,6 +284,12 @@ class PosiljkaController extends Controller
         $ulice = Ulica::all(['id', 'naziv']);
         $racuni = Racun::all(['id', 'broj_racuna']);
 
+        $spisak = Dostava::whereHas('stavke', function($q) use ($posiljka) {
+            $q->where('dostava_stavka.posiljka_id', $posiljka->id);
+        })->get();
+
+        //dd($spisak);
+
         return view('posiljka.edit', compact(
             'posiljka',
             'vrste_usluga', 
@@ -292,7 +299,8 @@ class PosiljkaController extends Controller
             'naselja', 
             'ulice',
             //'posiljkaBroj',
-            'racuni'
+            'racuni',
+            'spisak'
         ));
     }
 
