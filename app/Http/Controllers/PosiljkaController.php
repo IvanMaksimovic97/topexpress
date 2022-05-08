@@ -39,12 +39,12 @@ class PosiljkaController extends Controller
 
         if (request()->search) {
             $posiljke = $posiljke->whereRaw('lower(broj_posiljke) LIKE ?', ['%'.strtolower(request()->search.'%')]);
-        }
-
-        if (request()->date) {
-            $posiljke = $posiljke->whereRaw('date(created_at) = ?', [Carbon::parse(request()->date)->format('Y-m-d')]);
         } else {
-            $posiljke = $posiljke->whereRaw('date(created_at) = ?', [Carbon::now()->format('Y-m-d')]);
+            if (request()->date) {
+                $posiljke = $posiljke->whereRaw('date(created_at) = ?', [Carbon::parse(request()->date)->format('Y-m-d')]);
+            } else {
+                $posiljke = $posiljke->whereRaw('date(created_at) = ?', [Carbon::now()->format('Y-m-d')]);
+            }
         }
 
         $posiljke = $posiljke->get();
@@ -84,7 +84,10 @@ class PosiljkaController extends Controller
         $ulice = Ulica::all(['id', 'naziv']);
         $racuni = Racun::all(['id', 'broj_racuna']);
 
+        $posiljka = new Posiljka;
+
         return view('posiljka.create', compact(
+            'posiljka',
             'vrste_usluga', 
             'nacini_placanja', 
             'kompanije', 
@@ -272,7 +275,25 @@ class PosiljkaController extends Controller
      */
     public function edit(Posiljka $posiljka)
     {
-        //
+        $vrste_usluga = VrstaUsluge::all(['id', 'naziv']);
+        $nacini_placanja = NacinPlacanja::all(['id', 'naziv']);
+        $kompanije = Kompanija::all(['id', 'naziv', 'naziv_pun']);
+        $primalacPosiljalac = PosiljalacPrimalac::all();
+        $naselja = Naselje::all(['id', 'naziv']);
+        $ulice = Ulica::all(['id', 'naziv']);
+        $racuni = Racun::all(['id', 'broj_racuna']);
+
+        return view('posiljka.edit', compact(
+            'posiljka',
+            'vrste_usluga', 
+            'nacini_placanja', 
+            'kompanije', 
+            'primalacPosiljalac', 
+            'naselja', 
+            'ulice',
+            //'posiljkaBroj',
+            'racuni'
+        ));
     }
 
     /**

@@ -8,6 +8,7 @@
                 <thead>
                   <tr>
                     <th>Štampaj</th>
+                    <th>Izmeni</th>
                     <th>Status pošiljke</th>
                     <th>Broj pošiljke</th>
                     <th>Datum prijema</th>
@@ -63,6 +64,7 @@
                       @endphp
                         <tr @if($rowColor != '') class="{{ $rowColor }}" @endif>
                             <td><a href="{{ route('cms.posiljka.show', $posiljka) }}" class="btn btn-sm btn-primary">Štampaj  <i class="ti-printer btn-icon-append"></i></a></td>
+                            <td><a href="{{ route('cms.posiljka.edit', $posiljka) }}" class="btn btn-sm btn-danger">Izmeni  <i class="mdi mdi-lead-pencil"></i></a></td>
                             <td>
                               <select class="posiljka-status" data-id="{!! $posiljka->id !!}" @if($posiljka->status == 1) disabled @endif>
                                 <option value="0" @if($posiljka->status == 0) selected @endif>Nije uručena</option>
