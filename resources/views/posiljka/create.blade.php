@@ -245,6 +245,8 @@ $(document).on('click', '#postarina-izracunaj', function(e) {
 });
 
 $(document).on('click', '#unesi', function(e) {
+    $('#sadrzina').css('border-color', '#dee2e6');
+
     let valid = true;
     let elements = [
         $('#vrsta-usluge'),
@@ -275,6 +277,11 @@ $(document).on('click', '#unesi', function(e) {
             element.addClass('is-invalid');
             valid = false;
         }
+    }
+
+    if ($('#sadrzina').val() == '') {
+        $('#sadrzina').css('border-color', '#dc3545');
+        valid = false;
     }
 
     if (!brojJeValidan) {
