@@ -126,6 +126,21 @@ $(document).on('input', '#pr_ulica', function (e) {
     $('#pr_ulica_id').val('');
 });
 
+$(document).on('input', '#otkupnina', function (e) {
+    let vrednost_val = parseFloat($('#vrednost').val());
+    let otkupnina = $(this);
+
+    if (isNaN(vrednost_val)) {
+        vrednost_val = 0;
+    }
+
+    otkupnina.removeClass('is-invalid');
+    
+    if (parseFloat(otkupnina.val()) > vrednost_val) {
+        otkupnina.addClass('is-invalid');
+    }
+});
+
 const brojRegex = /^TE\d{6}BG$/;
 var brojJeValidan = false;
 var brojNevalidanPoruka = '';
@@ -246,6 +261,7 @@ $(document).on('click', '#postarina-izracunaj', function(e) {
 
 $(document).on('click', '#unesi', function(e) {
     $('#sadrzina').css('border-color', '#dee2e6');
+    $('#otkupnina').removeClass('is-invalid');
 
     let valid = true;
     let elements = [
@@ -287,6 +303,21 @@ $(document).on('click', '#unesi', function(e) {
     if (!brojJeValidan) {
         $('#broj_posiljke-invalid-text').html(brojNevalidanPoruka);
         $('#broj_posiljke').addClass('is-invalid');
+        valid = false;
+    }
+
+    let vrednost = $('#vrednost');
+    let otkupnina = $('#otkupnina');
+
+    let vrednost_val = parseFloat(vrednost.val());
+    let otkupnina_val = parseFloat(otkupnina.val());
+
+    if (isNaN(vrednost_val)) {
+        vrednost_val = 0;
+    }
+
+    if (otkupnina_val > vrednost_val) {
+        otkupnina.addClass('is-invalid');
         valid = false;
     }
 
