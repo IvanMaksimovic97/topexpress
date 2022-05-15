@@ -34,6 +34,19 @@
         </div>
       </li>
       <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="collapse" href="#kompanija-meni" aria-expanded="false" aria-controls="ui-basic">
+          <i class="mdi mdi-city menu-icon"></i>
+          <span class="menu-title">Firme</span>
+          <i class="menu-arrow"></i> 
+        </a>
+        <div class="collapse" id="kompanija-meni">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item"> <a class="nav-link" href="{{ route('cms.kompanija.index') }}">Lista</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ route('cms.kompanija.create') }}">Nova</a></li>
+          </ul>
+        </div>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="#">
           <i class="mdi mdi-settings menu-icon"></i>
           <span class="menu-title">Administracija</span>

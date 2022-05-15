@@ -34,7 +34,8 @@ Route::group([
         Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
         Route::resources([
             'posiljka' => 'PosiljkaController',
-            'dostava' => 'DostavaController'
+            'dostava' => 'DostavaController',
+            'kompanija' => 'CompanyController'
         ]);
 
         Route::get('/posiljke/{ids?}', 'DostavaController@posiljke')->name('posiljke');
