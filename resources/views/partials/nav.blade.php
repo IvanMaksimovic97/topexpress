@@ -47,6 +47,19 @@
         </div>
       </li>
       <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="collapse" href="#ugovor-meni" aria-expanded="false" aria-controls="ui-basic">
+          <i class="mdi mdi-note-text menu-icon"></i>
+          <span class="menu-title">Ugovori</span>
+          <i class="menu-arrow"></i> 
+        </a>
+        <div class="collapse" id="ugovor-meni">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item"> <a class="nav-link" href="{{ route('cms.ugovor.index') }}">Lista</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ route('cms.ugovor.create') }}">Novi</a></li>
+          </ul>
+        </div>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="#">
           <i class="mdi mdi-settings menu-icon"></i>
           <span class="menu-title">Administracija</span>

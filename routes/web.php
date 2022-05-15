@@ -32,10 +32,12 @@ Route::group([
         /// ovde rute ako je ulogovan
         Route::get('/logout', 'LoginController@logout')->name('logout');
         Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+        
         Route::resources([
             'posiljka' => 'PosiljkaController',
             'dostava' => 'DostavaController',
-            'kompanija' => 'CompanyController'
+            'kompanija' => 'CompanyController',
+            'ugovor' => 'UgovorController'
         ]);
 
         Route::get('/posiljke/{ids?}', 'DostavaController@posiljke')->name('posiljke');

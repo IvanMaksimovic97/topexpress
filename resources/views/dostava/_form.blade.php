@@ -12,7 +12,7 @@
                             <option value="{{ $usluga->id }}">{{ $usluga->naziv }}</option>
                         @endforeach --}}
                     </select>
-                  </div>
+                </div>
               </div>
               <div class="row">
                 <div class="form-group" id="tip-div">
