@@ -11,6 +11,13 @@
     @csrf
     <div class="row">
         @include('ugovor._form')
+        <div class="col-12 grid-margin">
+            <div class="card">
+              <div class="card-body">
+                <x-ugovor-cenovnik :ugovorid="$ugovor->id"></x-ugovor-cenovnik>
+              </div>
+            </div>
+        </div>
         <div id="ugovori-render"></div>
         <div class="col-md-4">
             <button type="submit" id="unesi" class="btn btn-primary mb-2">Izmeni</button>

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Kompanija;
 use App\Ugovor;
+use App\VrstaUsluge;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UgovorController extends Controller
 {
@@ -55,7 +57,13 @@ class UgovorController extends Controller
         $ugovor->kraj = $request->kraj;
         $ugovor->save();
 
-        return view('ugovor.index');
+        $ugovor->deleteCenovnik();
+
+        DB::transaction(function () use ($ugovor) {
+            $ugovor->setCenovnik();
+        });
+
+        return redirect()->route('cms.ugovor.index');
     }
 
     /**
@@ -100,6 +108,12 @@ class UgovorController extends Controller
         $ugovor->kraj = $request->kraj;
         $ugovor->save();
 
+        $ugovor->deleteCenovnik();
+
+        DB::transaction(function () use ($ugovor) {
+            $ugovor->setCenovnik();
+        });
+        
         return redirect()->route('cms.ugovor.edit', $ugovor);
     }
 

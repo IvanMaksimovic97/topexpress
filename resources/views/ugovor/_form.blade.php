@@ -9,8 +9,7 @@
                         <select class="js-example-basic-single w-100" name="kompanija_id" id="kompanija_id" required>
                             <option value="">Izaberi</option>
                             @foreach ($kompanije as $kompanija)
-                                <option value="{{ $kompanija->id }}">{{ $kompanija->naziv }}</option>
-                                
+                                <option @if($ugovor->kompanija_id == $kompanija->id) selected @endif value="{{ $kompanija->id }}">{{ $kompanija->naziv }}</option>
                             @endforeach
                         </select>
                     </div>
