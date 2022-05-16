@@ -83,11 +83,12 @@ class CenovnikController extends Controller
         //
     }
 
-    public function dohvatiCenuPostarine($id_vrsta, $masa)
+    public function dohvatiCenuPostarine($id_vrsta, $masa, $ugovor_id)
     {
         $masa = floatval($masa);
         $cena = Cenovnik::where([
             ['vrsta_usluge_id', $id_vrsta],
+            ['ugovor_id', $ugovor_id],
             ['min_kg', '<', $masa],
             ['max_kg', '>=', $masa]
         ])->firstOrFail();

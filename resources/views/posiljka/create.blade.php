@@ -83,12 +83,13 @@ var ulice = JSON.parse('{!! $ulice !!}');
 var naselja = JSON.parse('{!! $naselja !!}');
 var primalacPosiljalac = JSON.parse('{!! $primalacPosiljalac !!}');
 var racuni = JSON.parse('{!! $racuni !!}');
+var ugovori = JSON.parse('{!! $ugovori !!}');
 
 $(function () {
     var vrsta_usluge_select2 = $("#vrsta-usluge").select2();
     var nacin_placanja_select2 = $("#nacin-placanja").select2();
 
-    autocompleteInit('#firma', '#firma_id', firme, 'naziv');
+    autocompleteInit('#firma', '#firma_id', ugovori, 'naslov');
     autocompleteInit('#po_naziv', '#posiljalac_id', primalacPosiljalac, 'naziv');
     autocompleteInit('#pr_naziv', '#primalac_id', primalacPosiljalac, 'naziv');
     autocompleteInit('#po_naselje', '#po_naselje_id', naselja, 'naziv');
@@ -237,12 +238,14 @@ $(document).on('click', '#ima_otkupninu', function () {
 
 $(document).on('click', '#postarina-izracunaj', function(e) {
     
-    let route = '{{ route('cena-postarine', ["#vrsta#", "#masa#"]) }}';
+    let route = '{{ route('cena-postarine', ["#vrsta#", "#masa#", "#ugovor#"]) }}';
     let masa = parseFloat($('#masa').val());
     let id_vrsta = $('#vrsta-usluge').val();
+    let id_ugovor = $('#firma_id').val() != '' ? $('#firma_id').val() : -1;
 
     route = route.replace('#vrsta#', id_vrsta);
     route = route.replace('#masa#', masa);
+    route = route.replace('#ugovor#', id_ugovor);
 
     $('#masa').removeClass('is-invalid');
     
@@ -257,6 +260,14 @@ $(document).on('click', '#postarina-izracunaj', function(e) {
             $('#postarina').val('Greška!');
         }
     })
+});
+
+$(document).on('click', '#rucni-unos', function (e) {
+    if (this.checked) {
+        $('#postarina').removeAttr('disabled');
+    } else {
+        $('#postarina').attr('disabled', 'disabled');
+    }
 });
 
 $(document).on('click', '#unesi', function(e) {

@@ -11,6 +11,7 @@ use App\PosiljalacPrimalac;
 use App\Posiljka;
 use App\PosiljkaBroj;
 use App\Racun;
+use App\Ugovor;
 use App\Ulica;
 use App\VrstaUsluge;
 use Carbon\Carbon;
@@ -98,6 +99,12 @@ class PosiljkaController extends Controller
         $naselja = Naselje::groupBy('naziv')->get();
         $ulice = Ulica::groupBy('naziv')->get();
         $racuni = Racun::all(['id', 'broj_racuna']);
+        $ugovori = Ugovor::with(['kompanija'])->get();
+
+        $ugovori->transform(function ($item) {
+            $item->naslov = $item->kompanija->naziv . ' - ' . $item->broj_ugovora;
+            return $item;
+        });
 
         $posiljka = new Posiljka;
 
@@ -110,7 +117,8 @@ class PosiljkaController extends Controller
             'naselja', 
             'ulice',
             //'posiljkaBroj',
-            'racuni'
+            'racuni',
+            'ugovori'
         ));
     }
 
@@ -122,13 +130,13 @@ class PosiljkaController extends Controller
      */
     public function store(Request $request)
     {
-        $kompanija = $request->firma_id ? Kompanija::find($request->firma_id) : new Kompanija;
-        if (!$request->firma_id) {
-            if ($request->ugovor) {
-                $kompanija->setValues();
-                $kompanija->save();
-            }
-        }
+        // $kompanija = $request->firma_id ? Kompanija::find($request->firma_id) : new Kompanija;
+        // if (!$request->firma_id) {
+        //     if ($request->ugovor) {
+        //         $kompanija->setValues();
+        //         $kompanija->save();
+        //     }
+        // }
         
         $po_naselje = $request->po_naselje_id ? Naselje::find($request->po_naselje_id) : new Naselje;
         if (!$request->po_naselje_id) {
@@ -165,12 +173,23 @@ class PosiljkaController extends Controller
         $masa = floatval($request->masa_kg);
         $cena = Cenovnik::where([
             ['vrsta_usluge_id', $request->vrsta_usluge_id],
+            ['ugovor_id', $request->firma_id],
             ['min_kg', '<', $masa],
             ['max_kg', '>=', $masa]
         ])->first();
 
+        $cena_konacna = 0;
+
+        if ($cena) {
+            $cena_konacna = $cena->cena_sa_pdv;
+        }
+
+        if ($request->has('rucni_unos')) {
+            $cena_konacna = floatval($request->postarina);
+        }
+
         $posiljka = new Posiljka;
-        $posiljka->setValues($kompanija->id ?? -1, $posiljalac->id, $primalac->id, $cena ? $cena->cena_sa_pdv : 0);
+        $posiljka->setValues($request->firma_id ?? -1, $posiljalac->id, $primalac->id, $cena_konacna);
         $posiljka->save();
 
         if ($request->broj_racuna != null && $request->broj_racuna != '') {
@@ -297,6 +316,12 @@ class PosiljkaController extends Controller
         $naselja = Naselje::groupBy('naziv')->get();
         $ulice = Ulica::groupBy('naziv')->get();
         $racuni = Racun::all(['id', 'broj_racuna']);
+        $ugovori = Ugovor::with(['kompanija'])->get();
+
+        $ugovori->transform(function ($item) {
+            $item->naslov = $item->kompanija->naziv . ' - ' . $item->broj_ugovora;
+            return $item;
+        });
 
         $spisak = Dostava::whereHas('stavke', function($q) use ($posiljka) {
             $q->where('dostava_stavka.posiljka_id', $posiljka->id);
@@ -312,7 +337,8 @@ class PosiljkaController extends Controller
             'ulice',
             //'posiljkaBroj',
             'racuni',
-            'spisak'
+            'spisak',
+            'ugovori'
         ));
     }
 

@@ -342,6 +342,12 @@
             </div>
             <div class="form-group">
                 <button type="button" id="postarina-izracunaj" class="btn btn-sm btn-primary mb-2">Izračunaj</button>
+                <div class="form-check">
+                    <label class="form-check-label">
+                      <input type="checkbox" id="rucni-unos" value="rucni-unos-postarine" name="rucni_unos" class="form-check-input">
+                      Unesi ručno
+                    <i class="input-helper"></i></label>
+                </div>
             </div>
         </div>
     </div>
