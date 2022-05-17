@@ -190,6 +190,18 @@ $(document).on('change', '#vrsta-usluge', function () {
     }
 });
 
+$(document).on('change', '#nacin-placanja', function(e) {
+    const value = this.value;
+
+    if (value != 2 && value != 4 && value != 5) {
+        $('#firma_id').val('');
+        $('#firma').val('');
+        $('#blok-za-firmu').addClass('d-none');
+    } else {
+        $('#blok-za-firmu').removeClass('d-none');
+    }
+});
+
 var racunRequired = false;
 
 $(document).on('click', '.radio-uplata', function () {

@@ -66,7 +66,7 @@
                         <input value="{{ $posiljka->broj_dolaznice }}" type="text" class="form-control" name="broj_dolaznice" id="broj_dolaznice"/>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" id="blok-za-firmu">
                     <div class="form-group w-100">
                         <label>Firma</label>
                         <div id="firma-div" class="w-100">
