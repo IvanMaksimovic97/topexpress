@@ -22,8 +22,8 @@
                           <td><a href="{{ route('cms.ugovor.edit', $ugovor) }}" class="btn btn-sm btn-primary">Izmeni  <i class="mdi mdi-lead-pencil"></i></a></td>
                           <td>{!! $ugovor->kompanija->naziv !!}</td>
                           <td>{!! $ugovor->broj_ugovora !!}</td>
-                          <td>{!! date('d.m.Y.', strtotime($ugovor->pocetak)) !!}</td>
-                          <td>{!! date('d.m.Y.', strtotime($ugovor->kraj)) !!}</td>
+                          <td>{!! $ugovor->pocetak ? date('d.m.Y.', strtotime($ugovor->pocetak)) : '-' !!}</td>
+                          <td>{!! $ugovor->kraj ? date('d.m.Y.', strtotime($ugovor->kraj)) : '-' !!}</td>
                           <td>{!! $ugovor->id !!}</td>
                         </tr>
                     @endforeach
