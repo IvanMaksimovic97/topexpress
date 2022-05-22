@@ -105,23 +105,23 @@
     <div class="card-body">
       <h4 class="card-title mb-0">Izveštaj</h4>
       <div class="table-responsive pt-3">
-              <div class="table-responsive">
-                <table class="table" style="white-space: nowrap!important; width: 1%!important;">
-                  <thead>
-                    
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th>Br. razduženih:</th>
-                      <td>{{ $brojRazduzenih }}</td>
-                    </tr>
-                    <tr>
-                      <th>UKUPNO:</th>
-                      <th>{{ number_format($iznos, 2) }} RSD</th>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+          <div class="table-responsive">
+            <table class="table" style="white-space: nowrap!important; width: 1%!important;">
+              <thead>
+                
+              </thead>
+              <tbody>
+                <tr>
+                  <th>Br. razduženih:</th>
+                  <td>{{ $brojRazduzenih }}</td>
+                </tr>
+                <tr>
+                  <th>UKUPNO:</th>
+                  <th>{{ number_format($iznos, 2) }} RSD</th>
+                </tr>
+              </tbody>
+            </table>
+          </div>
       </div>
     </div>
   </div>

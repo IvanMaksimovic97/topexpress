@@ -130,14 +130,6 @@ class PosiljkaController extends Controller
      */
     public function store(Request $request)
     {
-        // $kompanija = $request->firma_id ? Kompanija::find($request->firma_id) : new Kompanija;
-        // if (!$request->firma_id) {
-        //     if ($request->ugovor) {
-        //         $kompanija->setValues();
-        //         $kompanija->save();
-        //     }
-        // }
-        
         $po_naselje = $request->po_naselje_id ? Naselje::find($request->po_naselje_id) : new Naselje;
         if (!$request->po_naselje_id) {
             $po_naselje->setValues($request->po_naselje);
@@ -173,7 +165,7 @@ class PosiljkaController extends Controller
         $masa = floatval($request->masa_kg);
         $cena = Cenovnik::where([
             ['vrsta_usluge_id', $request->vrsta_usluge_id],
-            ['ugovor_id', $request->firma_id],
+            ['ugovor_id', $request->firma_id ?? -1],
             ['min_kg', '<', $masa],
             ['max_kg', '>=', $masa]
         ])->first();

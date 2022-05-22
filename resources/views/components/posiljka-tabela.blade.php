@@ -66,7 +66,7 @@
                             <td><a href="{{ route('cms.posiljka.show', $posiljka) }}" class="btn btn-sm btn-primary">Štampaj  <i class="ti-printer btn-icon-append"></i></a></td>
                             <td><a href="{{ route('cms.posiljka.edit', $posiljka) }}" class="btn btn-sm btn-danger">Izmeni  <i class="mdi mdi-lead-pencil"></i></a></td>
                             <td>
-                              <select class="posiljka-status" data-id="{!! $posiljka->id !!}" @if($posiljka->status == 1) disabled @endif>
+                              <select class="posiljka-status" data-id="{!! $posiljka->id !!}" @if($posiljka->status == 1)  @endif>
                                 <option value="0" @if($posiljka->status == 0) selected @endif>Nije uručena</option>
                                 <option value="1" @if($posiljka->status == 1) selected @endif>Uručena</option>
                                 <option value="2" @if($posiljka->status == 2) selected @endif>Vraćena</option>
@@ -144,6 +144,38 @@
           </div>
         </div>
     </div>
+
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title mb-0">Izveštaj po pošiljaocu</h4>
+          <div class="table-responsive pt-3">
+                  <div class="table-responsive">
+                    <table class="table" style="white-space: nowrap!important; width: 1%!important;">
+                      <thead>
+                        <tr>
+                          <th>Ime i prezime</th>
+                          <th>NALOG iznos</th>
+                          <th>UPUTNICA iznos</th>
+                          <th>UKUPAN iznos</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @foreach ($posiljaociIzvestaj as $posiljaocItem)
+                          <tr>
+                            <td>{{ $posiljaocItem['naziv'] }}</td>
+                            <td>{{ number_format($posiljaocItem['nalog_iznos'], 2) }} rsd</td>
+                            <td>{{ number_format($posiljaocItem['uputnica_iznos'], 2) }} rsd</td>
+                            <td>{{ number_format($posiljaocItem['ukupan_iznos'], 2) }} rsd</td>
+                          </tr>
+                        @endforeach
+                      </tbody>
+                    </table>
+                  </div>
+          </div>
+        </div>
+      </div>
+  </div>
       @endif
     @endif
 
