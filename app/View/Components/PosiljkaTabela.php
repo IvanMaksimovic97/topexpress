@@ -40,17 +40,19 @@ class PosiljkaTabela extends Component
     public function izvestajPoPosiljaocu()
     {
         foreach ($this->posiljke as $posiljka) {
-            if (array_key_exists($posiljka->posiljalac_id, $this->posiljaociIzvestaj)) {
-                $this->posiljaociIzvestaj[$posiljka->posiljalac_id]['ukupan_iznos'] += (float) $posiljka->vrednost;
-                $this->posiljaociIzvestaj[$posiljka->posiljalac_id]['nalog_iznos'] +=  $posiljka->otkupnina_vrsta == 'Nalog za uplatu' ? (float) $posiljka->vrednost : 0;
-                $this->posiljaociIzvestaj[$posiljka->posiljalac_id]['uputnica_iznos'] += $posiljka->otkupnina_vrsta == 'TOP EXPRESS uputnica' ? (float) $posiljka->vrednost : 0;
-            } else {
-                $this->posiljaociIzvestaj[$posiljka->posiljalac_id] = [
-                    'naziv' => $posiljka->posiljalac->naziv,
-                    'ukupan_iznos' => (float) $posiljka->vrednost,
-                    'nalog_iznos' => $posiljka->otkupnina_vrsta == 'Nalog za uplatu' ? (float) $posiljka->vrednost : 0,
-                    'uputnica_iznos' => $posiljka->otkupnina_vrsta == 'TOP EXPRESS uputnica' ? (float) $posiljka->vrednost : 0,
-                ];
+            if ($posiljka->status == 1) {
+                if (array_key_exists($posiljka->posiljalac_id, $this->posiljaociIzvestaj)) {
+                    $this->posiljaociIzvestaj[$posiljka->posiljalac_id]['ukupan_iznos'] += (float) $posiljka->vrednost;
+                    $this->posiljaociIzvestaj[$posiljka->posiljalac_id]['nalog_iznos'] +=  $posiljka->otkupnina_vrsta == 'Nalog za uplatu' ? (float) $posiljka->vrednost : 0;
+                    $this->posiljaociIzvestaj[$posiljka->posiljalac_id]['uputnica_iznos'] += $posiljka->otkupnina_vrsta == 'TOP EXPRESS uputnica' ? (float) $posiljka->vrednost : 0;
+                } else {
+                    $this->posiljaociIzvestaj[$posiljka->posiljalac_id] = [
+                        'naziv' => $posiljka->posiljalac->naziv,
+                        'ukupan_iznos' => (float) $posiljka->vrednost,
+                        'nalog_iznos' => $posiljka->otkupnina_vrsta == 'Nalog za uplatu' ? (float) $posiljka->vrednost : 0,
+                        'uputnica_iznos' => $posiljka->otkupnina_vrsta == 'TOP EXPRESS uputnica' ? (float) $posiljka->vrednost : 0,
+                    ];
+                }
             }
         }
     }
