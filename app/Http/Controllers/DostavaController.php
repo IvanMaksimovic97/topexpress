@@ -6,6 +6,7 @@ use App\Dostava;
 use App\DostavaBroj;
 use App\DostavaStavka;
 use App\Korisnik;
+use App\PosiljalacPrimalac;
 use App\Posiljka;
 use App\View\Components\PosiljkaTabela;
 use Carbon\Carbon;
@@ -223,6 +224,107 @@ class DostavaController extends Controller
         }
 
         return response()->download(storage_path($dostava->broj_spiska.'.docx'))->deleteFileAfterSend(true);
+    }
+
+    public function spisakPoPosiljaocu($id, $posiljalac_id)
+    {
+        $dostava = Dostava::with([
+            'stavke' => function($q) use ($posiljalac_id) {
+                $q->where('posiljka.status', 1);
+                $q->where('posiljka.posiljalac_id', $posiljalac_id);
+            },
+            'stavke.posiljalac',
+            'stavke.posiljalac.ulica',
+            'stavke.posiljalac.naselje',
+            'stavke.primalac',
+            'stavke.primalac.ulica',
+            'stavke.primalac.naselje',
+            'stavke.vrstaUsluge',
+            'stavke.nacinPlacanja',
+            'stavke.firma'
+        ])
+        ->findOrFail($id);
+
+        $posiljalac = PosiljalacPrimalac::findOrFail($posiljalac_id);
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord->setDefaultParagraphStyle(array('align' => 'both', 'spaceAfter' => \PhpOffice\PhpWord\Shared\Converter::pointToTwip(0), 'spacing' => 0));
+        $section = $phpWord->addSection(array('orientation' => 'landscape'));
+        
+        $header = array('size' => 16, 'bold' => true);
+        $section->addText(htmlspecialchars('Pošiljalac: '.$posiljalac->naziv), $header);
+        $section->addTextBreak(1);
+        $section->addText(htmlspecialchars('Broj spiska: '.$dostava->broj_spiska.' Datum: '.date('d.m.Y.', strtotime($dostava->za_datum))), $header);
+        $section->addTextBreak(1);
+
+        $styleTable = array('borderSize' => 6, 'borderColor' => '000000', 'cellMargin' => 80);
+        $styleFirstRow = array('borderBottomSize' => 18, 'borderBottomColor' => '000000');
+        $styleCell = array('space' => array('line' => 1000));
+        $fontStyle = array('bold' => true, 'align' => 'center');
+        $phpWord->addTableStyle('Fancy Table', $styleTable, $styleFirstRow);
+        $table = $section->addTable('Fancy Table');
+
+        $table->addRow();
+        $table->addCell(500, $styleCell)->addText(htmlspecialchars('R.B.'), $fontStyle);
+        $table->addCell(3000, $styleCell)->addText(htmlspecialchars('PRIMALAC'), $fontStyle);
+        $table->addCell(2000, $styleCell)->addText(htmlspecialchars('BROJ POŠILJKE'), $fontStyle);
+        $table->addCell(2000, $styleCell)->addText(htmlspecialchars('IZNOS'), $fontStyle);
+        $table->addCell(2500, $styleCell)->addText(htmlspecialchars('NAPOMENA'), $fontStyle);
+
+        $rb = 1;
+        foreach ($dostava->stavke as $stavka) {
+            $table->addRow();
+
+            $c1 = $table->addCell(500);
+            $c1->addText(htmlspecialchars($rb));
+
+            $c2 = $table->addCell(3000);
+            $c2->addText(htmlspecialchars($stavka->primalac->naziv));
+            //$c2->addText(htmlspecialchars($stavka->primalac->kontakt_telefon));
+            
+            $c3 = $table->addCell(2000);
+            $c3->addText(htmlspecialchars($stavka->broj_posiljke));
+
+            $c4 = $table->addCell(2000);
+            $c4->addText(htmlspecialchars(number_format($stavka->vrednost, 2)));
+            
+            $c5 = $table->addCell(2500);
+            $c5->addText(htmlspecialchars(''));
+
+            $rb++;
+        }
+
+        $table->addRow();
+
+        $c1 = $table->addCell(500);
+        $c1->addText(htmlspecialchars(''));
+
+        $c2 = $table->addCell(3000);
+        $c2->addText(htmlspecialchars(''));
+        //$c2->addText(htmlspecialchars($stavka->primalac->kontakt_telefon));
+        
+        $c3 = $table->addCell(2000);
+        $c3->addText(htmlspecialchars('UKUPNO'));
+
+        $c4 = $table->addCell(2000);
+        $c4->addText(htmlspecialchars(number_format($dostava->stavke->sum('vrednost'), 2)));
+        
+        $c5 = $table->addCell(2500);
+        $c5->addText(htmlspecialchars(''));
+        
+        $section->addTextBreak(1);
+        $section->addText(htmlspecialchars('POŠILJKE PREDAO: '.Korisnik::ulogovanKorisnik()->ime.' '.Korisnik::ulogovanKorisnik()->prezime));
+        $section->addTextBreak(1);
+        $section->addText(htmlspecialchars('POŠILJKE PRIMIO: '.$dostava->radnik));
+
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        try {
+            $objWriter->save(storage_path($dostava->broj_spiska.'_'.$posiljalac->naziv.'.docx'));
+        } catch (\Exception $e) {
+            dd($e);
+        }
+
+        return response()->download(storage_path($dostava->broj_spiska.'_'.$posiljalac->naziv.'.docx'))->deleteFileAfterSend(true);
     }
 
     /**

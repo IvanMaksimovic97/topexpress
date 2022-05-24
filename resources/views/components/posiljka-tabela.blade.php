@@ -164,14 +164,14 @@
                         </tr>
                       </thead>
                       <tbody>
-                        @foreach ($posiljaociIzvestaj as $posiljaocItem)
+                        @foreach ($posiljaociIzvestaj as $p_id => $posiljaocItem)
                           @php
                             $subIterations = 0;
                           @endphp
                           @foreach ($posiljaocItem['urucene_posiljke'] as $urucena_posiljka)
                             <tr>
                               @if ($subIterations == 0)
-                                <td rowspan="{{ count($posiljaocItem['urucene_posiljke']) }}"><a href="#" class="btn btn-sm btn-primary">Štampaj  <i class="ti-printer btn-icon-append"></i></a></td>
+                                <td rowspan="{{ count($posiljaocItem['urucene_posiljke']) }}"><a href="{{ route('cms.posiljalac-izvestaj', [$dostava->id, $p_id]) }}" class="btn btn-sm btn-primary">Štampaj  <i class="ti-printer btn-icon-append"></i></a></td>
                                 <td rowspan="{{ count($posiljaocItem['urucene_posiljke']) }}">{{ $posiljaocItem['naziv'] }}</td>
                               @endif
                               <td>{{ $urucena_posiljka->primalac->naziv }}</td>
