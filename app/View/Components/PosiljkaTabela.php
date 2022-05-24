@@ -30,6 +30,7 @@ class PosiljkaTabela extends Component
      */
     public function render()
     {
+        //dd($this->posiljaociIzvestaj);
         return view('components.posiljka-tabela', [
             'posiljke' => $this->posiljke, 
             'dostava' => $this->dostava,
@@ -39,18 +40,21 @@ class PosiljkaTabela extends Component
 
     public function izvestajPoPosiljaocu()
     {
+        //dd($this->posiljke);
         foreach ($this->posiljke as $posiljka) {
             if ($posiljka->status == 1) {
                 if (array_key_exists($posiljka->posiljalac_id, $this->posiljaociIzvestaj)) {
                     $this->posiljaociIzvestaj[$posiljka->posiljalac_id]['ukupan_iznos'] += (float) $posiljka->vrednost;
                     $this->posiljaociIzvestaj[$posiljka->posiljalac_id]['nalog_iznos'] +=  $posiljka->otkupnina_vrsta == 'Nalog za uplatu' ? (float) $posiljka->vrednost : 0;
                     $this->posiljaociIzvestaj[$posiljka->posiljalac_id]['uputnica_iznos'] += $posiljka->otkupnina_vrsta == 'TOP EXPRESS uputnica' ? (float) $posiljka->vrednost : 0;
+                    $this->posiljaociIzvestaj[$posiljka->posiljalac_id]['urucene_posiljke'][] = $posiljka;
                 } else {
                     $this->posiljaociIzvestaj[$posiljka->posiljalac_id] = [
                         'naziv' => $posiljka->posiljalac->naziv,
                         'ukupan_iznos' => (float) $posiljka->vrednost,
                         'nalog_iznos' => $posiljka->otkupnina_vrsta == 'Nalog za uplatu' ? (float) $posiljka->vrednost : 0,
                         'uputnica_iznos' => $posiljka->otkupnina_vrsta == 'TOP EXPRESS uputnica' ? (float) $posiljka->vrednost : 0,
+                        'urucene_posiljke' => [$posiljka]
                     ];
                 }
             }
