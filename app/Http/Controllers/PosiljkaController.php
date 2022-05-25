@@ -278,8 +278,10 @@ class PosiljkaController extends Controller
         $section->addImage($posiljka->broj_posiljke.'.jpg', array('align' => 'center', 'width' => 100));
         // $section->addText($posiljka->broj_posiljke, null, array('align' => 'center', 'bold' => true, 'size' => 11));
         $font = $section->addText($description);
-        $section->addText($footer, null, array('align' => 'center', 'size' => 11));
+        //$section->addText($footer, null, array('align' => 'center', 'size' => 11));
         $font->setFontStyle($fontStyle);
+
+        $section->addImage('site/images/adresnica.jpg', ['align' => 'center', 'width' => 100]);
 
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
         try {
