@@ -37,6 +37,11 @@ class Posiljka extends Model
         return $this->hasOne(Kompanija::class, 'id', 'firma_id');
     }
 
+    public function dostave()
+    {
+        return $this->belongsToMany(Dostava::class, 'dostava_stavka');
+    }
+
     public function setValues($firma_id, $posiljalac_id, $primalac_id, $postarina)
     {
         $this->vrsta_usluge_id = request()->vrsta_usluge_id;

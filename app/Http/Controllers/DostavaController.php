@@ -62,9 +62,19 @@ class DostavaController extends Controller
 
         $dostava = new Dostava;
         $posiljkeDostave = [];
-        $posiljke = Posiljka::whereRaw('date(created_at) <= ?', [Carbon::now()->format('Y-m-d')])
+        $posiljke = Posiljka::
+                    whereRaw('date(created_at) <= ?', [Carbon::now()->format('Y-m-d')])
                     ->where('status', '!=', 1)
                     ->select(['id', 'broj_posiljke'])
+                    ->addSelect(DB::raw('
+                        (SELECT COUNT(*) 
+                            FROM dostava_stavka 
+                            WHERE dostava_stavka.posiljka_id = posiljka.id AND 
+                            (
+                                SELECT COUNT(*) FROM dostava WHERE dostava_stavka.dostava_id = dostava.id AND dostava.status = 0
+                            )
+                        ) AS postoji_na_zaduzenom_spisku'))
+                    ->having('postoji_na_zaduzenom_spisku', 0)
                     ->orderBy('id', 'desc')
                     ->get();
 
@@ -356,6 +366,15 @@ class DostavaController extends Controller
         })
         ->orWhereIn('id', $posiljkeDostave)
         ->select(['id', 'broj_posiljke'])
+        // ->addSelect(DB::raw('
+        //                 (SELECT COUNT(*) 
+        //                     FROM dostava_stavka 
+        //                     WHERE dostava_stavka.posiljka_id = posiljka.id AND 
+        //                     (
+        //                         SELECT COUNT(*) FROM dostava WHERE dostava_stavka.dostava_id = dostava.id AND dostava.status = 0
+        //                     )
+        //                 ) AS postoji_na_zaduzenom_spisku'))
+        // ->havingRaw('(postoji_na_zaduzenom_spisku = 0 OR id = ?)', [$posiljkeDostave])
         ->orderBy('posiljka.id', 'desc')
         ->get();
 
