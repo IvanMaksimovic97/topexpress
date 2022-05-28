@@ -122,12 +122,33 @@
     $(document).on('change', '.posiljka-status', function() {
       const id = $(this).data('id');
       const dostava_id = $(this).data('spisakid');
-      const status = $(this).val();
+      const status = parseInt($(this).val());
+
+      let rowColor = '';
+      let row = $(this).parent().parent();
+
+      switch(status) {
+        case 2:
+          rowColor = 'table-success';
+        break;
+        case 3:
+          rowColor = 'table-danger';
+        break;
+        case 4:
+          rowColor = 'table-info';
+        break;
+        default:
+          // code block
+      }
+
       $.ajax({
         url: '{{ route('cms.posiljka-status') }}' + '/' + id + '/' + dostava_id + '/' + status,
         method: 'get',
         success: function () {
-          
+          row.removeClass('table-success');
+          row.removeClass('table-danger');
+          row.removeClass('table-info');
+          row.addClass(rowColor);
         },
         error: function (err) {
           alert('Neuspešna izmena statusa.');

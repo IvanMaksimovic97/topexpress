@@ -45,17 +45,17 @@
                         
                         $rowColor = '';
                         switch ($posiljka->status_po_spisku) {
-                          case 1:
+                          case 2:
                             $rowColor = 'table-success';
                             $iznos += $posiljka->otkupnina;
                             $postarina += $posiljka->postarina;
                             $brojUrucenih++;
                             break;
-                          case 2:
+                          case 3:
                             $rowColor = 'table-danger';
                             $brojVracenih++;
                             break;
-                          case 3:
+                          case 4:
                             $rowColor = 'table-info';
                             $brojZaNarednu++;
                             break;
@@ -71,9 +71,10 @@
                             <td>
                               <select class="posiljka-status" data-id="{!! $posiljka->id !!}" data-spisakid="{!! $posiljka->id_dostava !!}" @if($posiljka->status_po_spisku == 1)  @endif>
                                 <option value="0" @if($posiljka->status_po_spisku == 0) selected @endif>Primljena</option>
-                                <option value="1" @if($posiljka->status_po_spisku == 1) selected @endif>Uručena</option>
-                                <option value="2" @if($posiljka->status_po_spisku == 2) selected @endif>Vraćena</option>
-                                <option value="3" @if($posiljka->status_po_spisku == 3) selected @endif>Za narednu dostavu</option>
+                                <option value="1" @if($posiljka->status_po_spisku == 1) selected @endif>Na dostavi</option>
+                                <option value="2" @if($posiljka->status_po_spisku == 2) selected @endif>Uručena</option>
+                                <option value="3" @if($posiljka->status_po_spisku == 3) selected @endif>Vraćena</option>
+                                <option value="4" @if($posiljka->status_po_spisku == 4) selected @endif>Za narednu dostavu</option>
                               </select>
                             </td>
                             @endif
