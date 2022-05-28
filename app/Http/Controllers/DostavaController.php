@@ -116,7 +116,7 @@ class DostavaController extends Controller
     {
         $dostava = Dostava::with(['stavke'])->findOrFail($id);
         $dostava->status = 1;
-        $dostava->za_naplatu = $dostava->stavke()->where('posiljka.status', 1)->sum(DB::raw('posiljka.vrednost + posiljka.postarina'));
+        $dostava->za_naplatu = $dostava->stavke()->where('dostava_stavka.status', 2)->sum(DB::raw('posiljka.vrednost + posiljka.postarina'));
         $dostava->save();
 
         return redirect()->route('cms.dostava.edit', $dostava);
