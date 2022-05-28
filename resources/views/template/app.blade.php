@@ -27,6 +27,10 @@
     * {
       text-transform: uppercase;
     }
+
+    input {
+      text-transform: initial;
+    }
   </style>
   @yield('custom-css')
 </head>
