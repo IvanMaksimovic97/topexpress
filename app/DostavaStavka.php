@@ -11,4 +11,19 @@ class DostavaStavka extends Model
 
     protected $table = 'dostava_stavka';
     protected $guarded = [];
+
+    public static function mozeDaSeRazduzi($dostava_id)
+    {
+        $mozeDaSeRazduzi = self::where('dostava_id', $dostava_id)
+        ->where(function ($q) {
+            $q->where('status', 0);
+            $q->orWhere('status', 1);
+        })->first();
+
+        if ($mozeDaSeRazduzi) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

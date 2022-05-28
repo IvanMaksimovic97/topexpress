@@ -75,7 +75,9 @@ class PosiljkaController extends Controller
         $posiljka->status = $status;
         $posiljka->save();
 
-        return response()->json(['message' => 'Uspešna izmena!']);
+        $mozeDaSeRazduzi = DostavaStavka::mozeDaSeRazduzi($id_spisak);
+
+        return response()->json(['message' => 'Uspešna izmena!', 'razduzi' => $mozeDaSeRazduzi]);
     }
 
     public function proveraBrojaPosiljke($broj)

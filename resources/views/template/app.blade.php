@@ -23,6 +23,11 @@
   <link rel="stylesheet" href="{{ asset('star_admin/css/vertical-layout-light/style.css') }}">
   <!-- endinject -->
   <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+  <style>
+    * {
+      text-transform: uppercase;
+    }
+  </style>
   @yield('custom-css')
 </head>
 <body>
@@ -116,9 +121,10 @@
   <script src="{{ asset('star_admin/js/dashboard.js') }}"></script>
   <script src="{{ asset('star_admin/js/Chart.roundedBarCharts.js') }}"></script>
   <!-- End custom js for this page-->
-  @yield('custom-js')
 
   <script>
+    var razduzi = false;
+
     $(document).on('change', '.posiljka-status', function() {
       const id = $(this).data('id');
       const dostava_id = $(this).data('spisakid');
@@ -144,17 +150,30 @@
       $.ajax({
         url: '{{ route('cms.posiljka-status') }}' + '/' + id + '/' + dostava_id + '/' + status,
         method: 'get',
-        success: function () {
+        success: function (data) {
           row.removeClass('table-success');
           row.removeClass('table-danger');
           row.removeClass('table-info');
           row.addClass(rowColor);
+          
+          razduzi = data.razduzi;
         },
         error: function (err) {
           alert('Neuspešna izmena statusa.');
         }
       })
     });
+
+    $(document).on('click', '#razduzi', function(e) {
+      // e.preventDefault();
+      // console.log(razduzi);
+      if (!razduzi) {
+        e.preventDefault();
+        alert('NIJE MOGUĆE RAZDUŽITI SPISAK, PROVERITE STATUSE POŠILJAKA!');
+      }
+    })
   </script>
+
+  @yield('custom-js')
 </body>
 </html>

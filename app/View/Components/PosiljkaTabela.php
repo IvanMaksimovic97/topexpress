@@ -42,7 +42,7 @@ class PosiljkaTabela extends Component
     {
         //dd($this->posiljke);
         foreach ($this->posiljke as $posiljka) {
-            if ($posiljka->status == 1) {
+            if ($posiljka->status_po_spisku == 2) {
                 if (array_key_exists($posiljka->posiljalac_id, $this->posiljaociIzvestaj)) {
                     $this->posiljaociIzvestaj[$posiljka->posiljalac_id]['ukupan_iznos'] += (float) $posiljka->vrednost;
                     $this->posiljaociIzvestaj[$posiljka->posiljalac_id]['nalog_iznos'] +=  $posiljka->otkupnina_vrsta == 'Nalog za uplatu' ? (float) $posiljka->vrednost : 0;

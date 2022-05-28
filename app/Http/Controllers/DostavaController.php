@@ -85,6 +85,7 @@ class DostavaController extends Controller
     {
         $posiljke = Posiljka::whereIn('id', explode(',', $ids))->get();
         $posiljkeComponent = new PosiljkaTabela($posiljke);
+        
         return $posiljkeComponent->render()->render();
     }
 
@@ -92,7 +93,9 @@ class DostavaController extends Controller
     {
         $posiljke = Dostava::with(['stavke'])->where('id', $id_dostava)->first();
         $posiljkeComponent = new PosiljkaTabela($posiljke->stavke, $posiljke);
-        return $posiljkeComponent->render()->render();
+        $mozeDaSeRazduzi = DostavaStavka::mozeDaSeRazduzi($id_dostava);
+        
+        return response()->json(['html' => $posiljkeComponent->render()->render(), 'razduzi' => $mozeDaSeRazduzi]);
     }
 
     public function razduzi($id)
@@ -379,7 +382,9 @@ class DostavaController extends Controller
         ->orderBy('posiljka.id', 'desc')
         ->get();
 
-        return view('dostava.edit', compact('dostava', 'posiljke', 'posiljkeDostave'));
+        $mozeDaSeRazduzi = DostavaStavka::mozeDaSeRazduzi($id);
+
+        return view('dostava.edit', compact('dostava', 'posiljke', 'posiljkeDostave', 'mozeDaSeRazduzi'));
     }
 
     /**

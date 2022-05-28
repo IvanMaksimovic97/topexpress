@@ -169,9 +169,11 @@ $(document).on('click', '.prikazi', function () {
         url: '{{ route('cms.posiljke-unete') }}' + '/' + id,
         method: 'get',
         success: function (data) {
-            $('#telo').html(data);
+            $('#telo').html(data.html);
             $('#exampleModal').modal('toggle');
 
+            razduzi = data.razduzi;
+            
             element.removeAttr('disabled');
             element.find('.spinner-border').addClass('d-none');
         }
