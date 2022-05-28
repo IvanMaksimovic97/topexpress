@@ -119,7 +119,7 @@ class DostavaController extends Controller
         $dostava->za_naplatu = $dostava->stavke()->where('dostava_stavka.status', 2)->sum(DB::raw('posiljka.vrednost + posiljka.postarina'));
         $dostava->save();
 
-        return redirect()->route('cms.dostava.edit', $dostava);
+        return redirect()->back();
     }
 
     /**
@@ -258,7 +258,7 @@ class DostavaController extends Controller
     {
         $dostava = Dostava::with([
             'stavke' => function($q) use ($posiljalac_id) {
-                $q->where('posiljka.status', 1);
+                $q->where('dostava_stavka.status', 2);
                 $q->where('posiljka.posiljalac_id', $posiljalac_id);
             },
             'stavke.posiljalac',
