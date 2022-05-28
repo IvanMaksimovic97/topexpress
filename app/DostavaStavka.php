@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class DostavaStavka extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'dostava_stavka';
     protected $guarded = [];
 }

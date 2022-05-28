@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Cenovnik;
 use App\Dostava;
+use App\DostavaStavka;
 use App\Kompanija;
 use App\NacinPlacanja;
 use App\Naselje;
@@ -68,9 +69,9 @@ class PosiljkaController extends Controller
         return view('posiljka.index', compact('posiljke'));
     }
 
-    public function updateStatus($id, $status)
+    public function updateStatus($id_posiljka, $id_spisak, $status)
     {
-        $posiljka = Posiljka::findOrFail($id);
+        $posiljka = DostavaStavka::where('dostava_id', $id_spisak)->where('posiljka_id', $id_posiljka)->first();
         $posiljka->status = $status;
         $posiljka->save();
 

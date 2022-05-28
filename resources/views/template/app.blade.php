@@ -121,9 +121,10 @@
   <script>
     $(document).on('change', '.posiljka-status', function() {
       const id = $(this).data('id');
+      const dostava_id = $(this).data('spisakid');
       const status = $(this).val();
       $.ajax({
-        url: '{{ route('cms.posiljka-status') }}' + '/' + id + '/' + status,
+        url: '{{ route('cms.posiljka-status') }}' + '/' + id + '/' + dostava_id + '/' + status,
         method: 'get',
         success: function () {
           

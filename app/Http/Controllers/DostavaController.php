@@ -128,6 +128,7 @@ class DostavaController extends Controller
                     $dostavaStavka = new DostavaStavka;
                     $dostavaStavka->dostava_id = $dostava->id;
                     $dostavaStavka->posiljka_id = $posiljka;
+                    $dostavaStavka->status = 0;
                     $dostavaStavka->save();
                 }
             });
@@ -406,6 +407,15 @@ class DostavaController extends Controller
                         $dostavaStavka = new DostavaStavka;
                         $dostavaStavka->dostava_id = $dostava->id;
                         $dostavaStavka->posiljka_id = $posiljka;
+
+                        $status = DostavaStavka::
+                            withTrashed()
+                            ->where('posiljka_id', $posiljka)
+                            ->where('dostava_id', $dostava->id)
+                            ->orderBy('id', 'desc')
+                            ->first();
+                        
+                        $dostavaStavka->status = $status ? $status->status : 0;
                         $dostavaStavka->save();
                     }
                 }

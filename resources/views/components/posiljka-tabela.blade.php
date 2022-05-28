@@ -9,7 +9,9 @@
                   <tr>
                     <th>Štampaj</th>
                     <th>Izmeni</th>
-                    <th>Status pošiljke</th>
+                    @if(Route::currentRouteName() != 'cms.posiljka.index')
+                      <th>Status pošiljke</th>
+                    @endif
                     <th>Broj pošiljke</th>
                     <th>Datum prijema</th>
                     <th>Vrsta usluge</th>
@@ -42,7 +44,7 @@
                       @php
                         
                         $rowColor = '';
-                        switch ($posiljka->status) {
+                        switch ($posiljka->status_po_spisku) {
                           case 1:
                             $rowColor = 'table-success';
                             $iznos += $posiljka->otkupnina;
@@ -65,14 +67,16 @@
                         <tr @if($rowColor != '') class="{{ $rowColor }}" @endif>
                             <td><a href="{{ route('cms.posiljka.show', $posiljka) }}" class="btn btn-sm btn-primary">Štampaj  <i class="ti-printer btn-icon-append"></i></a></td>
                             <td><a href="{{ route('cms.posiljka.edit', $posiljka) }}" class="btn btn-sm btn-danger">Izmeni  <i class="mdi mdi-lead-pencil"></i></a></td>
+                            @if(Route::currentRouteName() != 'cms.posiljka.index')
                             <td>
-                              <select class="posiljka-status" data-id="{!! $posiljka->id !!}" @if($posiljka->status == 1)  @endif>
-                                <option value="0" @if($posiljka->status == 0) selected @endif>Nije uručena</option>
-                                <option value="1" @if($posiljka->status == 1) selected @endif>Uručena</option>
-                                <option value="2" @if($posiljka->status == 2) selected @endif>Vraćena</option>
-                                <option value="3" @if($posiljka->status == 3) selected @endif>Za narednu dostavu</option>
+                              <select class="posiljka-status" data-id="{!! $posiljka->id !!}" data-spisakid="{!! $posiljka->id_dostava !!}" @if($posiljka->status_po_spisku == 1)  @endif>
+                                <option value="0" @if($posiljka->status_po_spisku == 0) selected @endif>Primljena</option>
+                                <option value="1" @if($posiljka->status_po_spisku == 1) selected @endif>Uručena</option>
+                                <option value="2" @if($posiljka->status_po_spisku == 2) selected @endif>Vraćena</option>
+                                <option value="3" @if($posiljka->status_po_spisku == 3) selected @endif>Za narednu dostavu</option>
                               </select>
                             </td>
+                            @endif
                             <td>{!! $posiljka->broj_posiljke !!}</td>
                             <td>{!! date('d.m.Y. H:i:s', strtotime($posiljka->created_at)) !!}</td>
                             <td>{!! $posiljka->vrstaUsluge->naziv !!}</td>
