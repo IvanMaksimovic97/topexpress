@@ -13,7 +13,7 @@
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
               <div class="card-body">
-                <h4 class="card-title">Lista dostavnih spiskova na kojima se nalazi posiljka</h4>
+                <h4 class="card-title">ISTORIJA POŠILJKE</h4>
                 <div class="table-responsive pt-3">
                   <table class="table table-bordered">
                     <thead>
@@ -21,14 +21,13 @@
                         <th>Štampaj</th>
                         {{-- <th>Pošiljke</th> --}}
                         <th>Izmeni</th>
-                        <th>Status</th>
-                        <th>Broj</th>
-                        <th>Vrsta</th>
-                        <th>Tip</th>
+                        <th>Status pošiljke</th>
+                        <th>Status spiska</th>
+                        <th>Broj spiska</th>
+                        <th>Zaduženi radnik</th>
                         <th>Broj pošiljki</th>
                         <th>Za naplatu</th>
                         <th>Za datum</th>
-                        <th>Zaduženi radnik</th>
                         <th>Datum unosa</th>
                         <th>#</th>
                       </tr>
@@ -37,33 +36,56 @@
                       @php
                         $brojRazduzenih = 0;
                         $iznos = 0;
+                        $rowColor = '';
                       @endphp
                         @foreach ($spisak as $stavka)
                         @php
-                          if ($stavka->status) {
-                            $iznos += $stavka->za_naplatu;
+                          if ($stavka->dostava->status) {
+                            $iznos += $stavka->dostava->za_naplatu;
                             $brojRazduzenih++;
                           }
+
+                          switch ($stavka->status) {
+                          case 2:
+                            $rowColor = 'table-success';
+                            break;
+                          case 3:
+                            $rowColor = 'table-danger';
+                            break;
+                          case 4:
+                            $rowColor = 'table-info';
+                            break;
+                          default:
+                            # code...
+                            break;
+                        }
                         @endphp
-                            <tr @if($stavka->status) class="table-success" @endif>
-                                <td><a href="{{ route('cms.dostava.show', $stavka) }}" class="btn btn-sm btn-primary">Štampaj  <i class="ti-printer btn-icon-append"></i></a></th>
+                            <tr class="{!! $rowColor !!}">
+                                <td><a href="{{ route('cms.dostava.show', $stavka->dostava) }}" class="btn btn-sm btn-primary">Štampaj  <i class="ti-printer btn-icon-append"></i></a></th>
                                 {{-- <td>
                                     <button class="btn btn-sm btn-secondary prikazi" data-id="{{ $stavka->id }}">
                                         <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
                                         Prikaži
                                     </button>
                                 </td> --}}
-                                <td><a href="{{ route('cms.dostava.edit', $stavka) }}" class="btn btn-sm btn-danger">Izmeni</a></td>
-                                <td>{!! $stavka->status ? 'Razdužen' : 'Zadužen' !!}</td>
-                                <td>{!! $stavka->broj_spiska !!}</td>
-                                <td>{!! $stavka->vrsta !!}</td>
-                                <td>{!! $stavka->tip !!}</td>
-                                <td>{!! $stavka->stavke->count() !!}</td>
-                                <td>{!! $stavka->za_naplatu !!} RSD</td>
-                                <td>{!! date('d.m.Y.', strtotime($stavka->za_datum)) !!}</td>
-                                <td>{!! $stavka->radnik !!}</td>
-                                <td>{!! date('d.m.Y.', strtotime($stavka->created_at)) !!}</td>
-                                <td>{!! $stavka->id !!}</td>
+                                <td><a href="{{ route('cms.dostava.edit', $stavka->dostava) }}" class="btn btn-sm btn-danger">Izmeni</a></td>
+                                <td>
+                                    <select class="posiljka-status" data-id="{!! $stavka->id !!}" data-spisakid="{!! $stavka->dostava->id !!}" disabled="disabled">
+                                      <option value="0" @if($stavka->status == 0) selected @endif>Primljena</option>
+                                      <option value="1" @if($stavka->status == 1) selected @endif>Na dostavi</option>
+                                      <option value="2" @if($stavka->status == 2) selected @endif>Uručena</option>
+                                      <option value="3" @if($stavka->status == 3) selected @endif>Vraćena</option>
+                                      <option value="4" @if($stavka->status == 4) selected @endif>Za narednu dostavu</option>
+                                    </select>
+                                  </td>
+                                <td>{!! $stavka->dostava->status ? 'Razdužen' : 'Zadužen' !!}</td>
+                                <td>{!! $stavka->dostava->broj_spiska !!}</td>
+                                <td>{!! $stavka->dostava->radnik !!}</td>
+                                <td>{!! $stavka->dostava->stavke->count() !!}</td>
+                                <td>{!! $stavka->dostava->za_naplatu !!} RSD</td>
+                                <td>{!! date('d.m.Y.', strtotime($stavka->dostava->za_datum)) !!}</td>
+                                <td>{!! date('d.m.Y. H:i:s', strtotime($stavka->dostava->created_at)) !!}</td>
+                                <td>{!! $stavka->dostava->id !!}</td>
                             </tr>
                         @endforeach
                     </tbody>

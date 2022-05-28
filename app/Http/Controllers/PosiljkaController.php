@@ -320,9 +320,9 @@ class PosiljkaController extends Controller
             return $item;
         });
 
-        $spisak = Dostava::whereHas('stavke', function($q) use ($posiljka) {
-            $q->where('dostava_stavka.posiljka_id', $posiljka->id);
-        })->get();
+        $spisak = DostavaStavka::with(['dostava'])->where('posiljka_id', $posiljka->id)->get();
+
+        //dd($spisak);
 
         return view('posiljka.edit', compact(
             'posiljka',

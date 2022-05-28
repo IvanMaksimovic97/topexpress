@@ -12,6 +12,11 @@ class DostavaStavka extends Model
     protected $table = 'dostava_stavka';
     protected $guarded = [];
 
+    public function dostava()
+    {
+        return $this->hasOne(Dostava::class, 'id', 'dostava_id');
+    }
+
     public static function mozeDaSeRazduzi($dostava_id)
     {
         $mozeDaSeRazduzi = self::where('dostava_id', $dostava_id)

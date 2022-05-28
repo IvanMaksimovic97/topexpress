@@ -50,8 +50,8 @@
                 <th>Izmeni</th>
                 <th>Status</th>
                 <th>Broj</th>
-                <th>Vrsta</th>
-                <th>Tip</th>
+                {{-- <th>Vrsta</th>
+                <th>Tip</th> --}}
                 <th>Broj pošiljki</th>
                 <th>Za naplatu</th>
                 <th>Za datum</th>
@@ -83,13 +83,13 @@
                         <td><a href="{{ route('cms.dostava.edit', $stavka) }}" class="btn btn-sm btn-danger">Izmeni</a></td>
                         <td>{!! $stavka->status ? 'Razdužen' : 'Zadužen' !!}</td>
                         <td>{!! $stavka->broj_spiska !!}</td>
-                        <td>{!! $stavka->vrsta !!}</td>
-                        <td>{!! $stavka->tip !!}</td>
+                        {{-- <td>{!! $stavka->vrsta !!}</td>
+                        <td>{!! $stavka->tip !!}</td> --}}
                         <td>{!! $stavka->stavke->count() !!}</td>
                         <td>{!! $stavka->za_naplatu !!} RSD</td>
                         <td>{!! date('d.m.Y.', strtotime($stavka->za_datum)) !!}</td>
                         <td>{!! $stavka->radnik !!}</td>
-                        <td>{!! date('d.m.Y.', strtotime($stavka->created_at)) !!}</td>
+                        <td>{!! date('d.m.Y. H:i:s', strtotime($stavka->created_at)) !!}</td>
                         <td>{!! $stavka->id !!}</td>
                     </tr>
                 @endforeach
