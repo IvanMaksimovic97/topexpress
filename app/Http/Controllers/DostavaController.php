@@ -64,7 +64,7 @@ class DostavaController extends Controller
         $posiljkeDostave = [];
         $posiljke = Posiljka::
                     whereRaw('date(created_at) <= ?', [Carbon::now()->format('Y-m-d')])
-                    ->where('status', '!=', 1)
+                    // ->where('status', '!=', 2)
                     ->select(['id', 'broj_posiljke'])
                     ->addSelect(DB::raw('
                         (SELECT COUNT(*) 
@@ -74,9 +74,19 @@ class DostavaController extends Controller
                                 SELECT COUNT(*) FROM dostava WHERE dostava_stavka.dostava_id = dostava.id AND dostava.status = 0
                             )
                         ) AS postoji_na_zaduzenom_spisku'))
+                    ->addSelect(DB::raw(
+                        '(
+                            SELECT COUNT(*) 
+                            FROM dostava_stavka
+                            WHERE dostava_stavka.posiljka_id = posiljka.id AND dostava_stavka.status = 2
+                        ) AS urucen_status'
+                    ))
                     ->having('postoji_na_zaduzenom_spisku', 0)
+                    ->having('urucen_status', 0)
                     ->orderBy('id', 'desc')
                     ->get();
+        
+        //dd($posiljke);
 
         return view('dostava.create', compact('posiljke', 'posiljkeDostave', 'dostava', 'brojDostave'));
     }
@@ -95,7 +105,11 @@ class DostavaController extends Controller
         $posiljkeComponent = new PosiljkaTabela($posiljke->stavke, $posiljke);
         $mozeDaSeRazduzi = DostavaStavka::mozeDaSeRazduzi($id_dostava);
         
-        return response()->json(['html' => $posiljkeComponent->render()->render(), 'razduzi' => $mozeDaSeRazduzi]);
+        return response()->json([
+            'html' => $posiljkeComponent->render()->render(), 
+            'razduzi' => $mozeDaSeRazduzi, 
+            'razduzen' => $posiljke->status
+        ]);
     }
 
     public function razduzi($id)
@@ -366,19 +380,28 @@ class DostavaController extends Controller
 
         $posiljke = Posiljka::where(function ($q) use ($dostava) {
             $q->whereRaw('date(created_at) <= ?', [Carbon::parse($dostava->za_datum)->format('Y-m-d')]);
-            $q->where('status', '!=', 1);
+            //$q->where('status', '!=', 1);
         })
         ->orWhereIn('id', $posiljkeDostave)
         ->select(['id', 'broj_posiljke'])
-        // ->addSelect(DB::raw('
-        //                 (SELECT COUNT(*) 
-        //                     FROM dostava_stavka 
-        //                     WHERE dostava_stavka.posiljka_id = posiljka.id AND 
-        //                     (
-        //                         SELECT COUNT(*) FROM dostava WHERE dostava_stavka.dostava_id = dostava.id AND dostava.status = 0
-        //                     )
-        //                 ) AS postoji_na_zaduzenom_spisku'))
-        // ->havingRaw('(postoji_na_zaduzenom_spisku = 0 OR id = ?)', [$posiljkeDostave])
+        ->addSelect(DB::raw('
+            (SELECT COUNT(*) 
+                FROM dostava_stavka 
+                WHERE dostava_stavka.posiljka_id = posiljka.id AND 
+                (
+                    SELECT COUNT(*)
+                    FROM dostava 
+                    WHERE dostava_stavka.dostava_id = dostava.id AND dostava.status = 0
+                )
+            ) AS postoji_na_zaduzenom_spisku'))
+        ->addSelect(DB::raw(
+            '(
+                SELECT COUNT(*) 
+                FROM dostava_stavka
+                WHERE dostava_stavka.posiljka_id = posiljka.id AND dostava_stavka.status = 2
+            ) AS urucen_status'
+        ))
+        ->havingRaw('(urucen_status = 0 AND postoji_na_zaduzenom_spisku = 0) OR id IN ('.implode(',', $posiljkeDostave).')')
         ->orderBy('posiljka.id', 'desc')
         ->get();
 

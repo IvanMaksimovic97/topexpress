@@ -69,7 +69,12 @@
                             <td><a href="{{ route('cms.posiljka.edit', $posiljka) }}" class="btn btn-sm btn-danger">Izmeni  <i class="mdi mdi-lead-pencil"></i></a></td>
                             @if(Route::currentRouteName() != 'cms.posiljka.index')
                             <td>
-                              <select class="posiljka-status" data-id="{!! $posiljka->id !!}" data-spisakid="{!! $posiljka->id_dostava !!}" @if($posiljka->status_po_spisku == 1)  @endif>
+                              <select class="posiljka-status" data-id="{!! $posiljka->id !!}" data-spisakid="{!! $posiljka->id_dostava !!}"
+                                @if ($dostava)
+                                  @if ($dostava->status)
+                                    disabled="disabled"
+                                  @endif
+                                @endif>
                                 <option value="0" @if($posiljka->status_po_spisku == 0) selected @endif>Primljena</option>
                                 <option value="1" @if($posiljka->status_po_spisku == 1) selected @endif>Na dostavi</option>
                                 <option value="2" @if($posiljka->status_po_spisku == 2) selected @endif>Uručena</option>

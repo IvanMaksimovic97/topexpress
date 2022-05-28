@@ -154,6 +154,7 @@
 @section('custom-js')
 <script>
 $(document).on('click', '.prikazi', function () {
+    $('#razduzi').show();
     const id = $(this).data('id');
 
     $('#razduzi').attr('href', '{{ route('cms.razduzi') }}' + '/' + id);
@@ -170,10 +171,13 @@ $(document).on('click', '.prikazi', function () {
         method: 'get',
         success: function (data) {
             $('#telo').html(data.html);
+            if (data.razduzen) {
+              $('#razduzi').hide();
+            }
             $('#exampleModal').modal('toggle');
 
             razduzi = data.razduzi;
-            
+
             element.removeAttr('disabled');
             element.find('.spinner-border').addClass('d-none');
         }

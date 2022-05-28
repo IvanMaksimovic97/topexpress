@@ -15,7 +15,9 @@
         </div>
         <div class="col-md-4">
             <button type="submit" id="unesi" class="btn btn-primary mb-2">Izmeni</button>
-            <a href="{{ route('cms.razduzi', $dostava) }}" id="razduzi" class="btn btn-success mb-2">Razduži</a>
+            @if (!$dostava->status)
+                <a href="{{ route('cms.razduzi', $dostava) }}" id="razduzi" class="btn btn-success mb-2">Razduži</a>
+            @endif
         </div>
     </div>
 </form>
