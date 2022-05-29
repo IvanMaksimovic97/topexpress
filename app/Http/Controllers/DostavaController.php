@@ -138,7 +138,7 @@ class DostavaController extends Controller
         $dostava->za_naplatu += $postarinaExtra;
         $dostava->save();
 
-        return redirect()->back();
+        return redirect()->route('cms.dostava.index');
     }
 
     /**
