@@ -80,6 +80,15 @@ class PosiljkaController extends Controller
         return response()->json(['message' => 'Uspešna izmena!', 'razduzi' => $mozeDaSeRazduzi]);
     }
 
+    public function updateStatusVracena($id_posiljka, $id_spisak, $status)
+    {
+        $posiljka = DostavaStavka::where('dostava_id', $id_spisak)->where('posiljka_id', $id_posiljka)->first();
+        $posiljka->vracena = intval($status);
+        $posiljka->save();
+
+        return response()->json(['message' => 'Uspešna izmena!']);
+    }
+
     public function proveraBrojaPosiljke($broj)
     {
         $posiljka = Posiljka::where('broj_posiljke', $broj)->first();
@@ -321,8 +330,6 @@ class PosiljkaController extends Controller
         });
 
         $spisak = DostavaStavka::with(['dostava'])->where('posiljka_id', $posiljka->id)->get();
-
-        //dd($spisak);
 
         return view('posiljka.edit', compact(
             'posiljka',

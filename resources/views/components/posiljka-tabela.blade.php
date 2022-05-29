@@ -11,6 +11,7 @@
                     <th>Izmeni</th>
                     @if(Route::currentRouteName() != 'cms.posiljka.index')
                       <th>Status pošiljke</th>
+                      <th>Vraćena</th>
                     @endif
                     <th>Broj pošiljke</th>
                     <th>Datum prijema</th>
@@ -53,10 +54,18 @@
                             break;
                           case 3:
                             $rowColor = 'table-danger';
+                            if ($posiljka->vracena_posiljka) {
+                              $postarinaTMP = $posiljka->nacin_placanja_id == 3 ? $posiljka->postarina * 2 : 0;
+                              $postarina += $postarinaTMP;
+                            }
                             $brojVracenih++;
                             break;
                           case 4:
                             $rowColor = 'table-info';
+                            if ($posiljka->vracena_posiljka) {
+                              $postarinaTMP = $posiljka->nacin_placanja_id == 3 ? $posiljka->postarina * 2 : 0;
+                              $postarina += $postarinaTMP;
+                            }
                             $brojZaNarednu++;
                             break;
                           default:
@@ -81,6 +90,30 @@
                                 <option value="3" @if($posiljka->status_po_spisku == 3) selected @endif>Vraćena</option>
                                 <option value="4" @if($posiljka->status_po_spisku == 4) selected @endif>Za narednu dostavu</option>
                               </select>
+                            </td>
+                            <td>
+                              <div class="form-check">
+                                <label class="form-check-label">
+                                  <input type="checkbox"
+                                  
+                                  @if ($dostava)
+                                    @if ($dostava->status)
+                                      disabled="disabled"
+                                    @endif
+                                  @endif
+
+                                  @if($posiljka->vracena_posiljka) checked="checked" @endif value="1" class="form-check-input return" data-id="{!! $posiljka->id !!}" data-spisakid="{!! $posiljka->id_dostava !!}">
+                                  @if($posiljka->vracena_posiljka && $posiljka->status_po_spisku == 3)
+                                    @if($posiljka->nacin_placanja_id == 1)
+                                      Iznos poštarine: 0
+                                    @endif
+                                    @if($posiljka->nacin_placanja_id == 3)
+                                      Iznos poštarine: {{ number_format(((float) $posiljka->postarina) * 2, 2) }}
+                                    @endif
+                                  @endif
+                                  <i class="input-helper"></i>
+                                </label>
+                              </div>
                             </td>
                             @endif
                             <td>{!! $posiljka->broj_posiljke !!}</td>

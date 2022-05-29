@@ -47,6 +47,7 @@ Route::group([
         Route::get('/posiljaoci-primaoci/{ime?}', 'PosiljalacPrimalacController@getPosiljaoci')->name('posiljaoci-primaoci');
 
         Route::get('/posiljka-status/{id_posiljka?}/{id_spisak?}/{status?}', 'PosiljkaController@updateStatus')->name('posiljka-status');
+        Route::get('/posiljka-status-vracena/{id_posiljka?}/{id_spisak?}/{status?}', 'PosiljkaController@updateStatusVracena')->name('posiljka-status-vracena');
 
         Route::get('/posiljalac-izvestaj/{id}/{posiljalac_id}', 'DostavaController@spisakPoPosiljaocu')->name('posiljalac-izvestaj');
         Route::get('/posiljalac-izvestaj-spiskovi/{spiskovi}/{posiljalac_id}/{datum}', 'DostavaController@spiskoviPoPosiljaocu')->name('posiljalac-izvestaj-spiskovi');

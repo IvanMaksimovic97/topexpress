@@ -128,6 +128,14 @@ class DostavaController extends Controller
         $dostava = Dostava::with(['stavke'])->findOrFail($id);
         $dostava->status = 1;
         $dostava->za_naplatu = $dostava->stavke()->where('dostava_stavka.status', 2)->sum(DB::raw('posiljka.vrednost + posiljka.postarina'));
+        
+        $postarinaExtra = $dostava->stavke()
+            ->where('dostava_stavka.status', 3)
+            ->where('posiljka.nacin_placanja_id', 3)
+            ->where('dostava_stavka.vracena', 1)
+            ->sum(DB::raw('posiljka.postarina * 2'));
+
+        $dostava->za_naplatu += $postarinaExtra;
         $dostava->save();
 
         return redirect()->back();

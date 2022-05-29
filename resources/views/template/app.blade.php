@@ -176,6 +176,23 @@
         alert('NIJE MOGUĆE RAZDUŽITI SPISAK, PROVERITE STATUSE POŠILJAKA!');
       }
     })
+
+    $(document).on('click', '.return', function(e) {
+      const id = $(this).data('id');
+      const dostava_id = $(this).data('spisakid');
+      const checked = $(this).is(":checked") ? 1 : 0;
+
+      $.ajax({
+        url: '{{ route('cms.posiljka-status-vracena') }}' + '/' + id + '/' + dostava_id + '/' + checked,
+        method: 'get',
+        success: function (data) {
+          
+        },
+        error: function (err) {
+          alert('Neuspešna izmena statusa.');
+        }
+      })
+    });
   </script>
 
   @yield('custom-js')
