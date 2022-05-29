@@ -127,6 +127,65 @@
   </div>
 </div>
 
+<div class="col-lg-12 grid-margin stretch-card">
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title mb-0">Izveštaj po pošiljaocu</h4>
+      <div class="table-responsive pt-3">
+              <div class="table-responsive">
+                <table class="table table-bordered" style="white-space: nowrap!important; width: 1%!important;">
+                  <thead>
+                    <tr>
+                      <th>Štampaj</th>
+                      <th>Posiljalac</th>
+                      <th>Primalac</th>
+                      <th>Broj pošiljke</th>
+                      <th>NALOG iznos</th>
+                      <th>UPUTNICA iznos</th>
+                      <th>UKUPAN iznos</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach ($izvestaj->posiljaociIzvestaj as $p_id => $posiljaocItem)
+                      @php
+                        $subIterations = 0;
+                      @endphp
+                      @foreach ($posiljaocItem['urucene_posiljke'] as $urucena_posiljka)
+                        <tr>
+                          @if ($subIterations == 0)
+                            <td rowspan="{{ count($posiljaocItem['urucene_posiljke']) }}"><a href="#" class="btn btn-sm btn-primary">Štampaj  <i class="ti-printer btn-icon-append"></i></a></td>
+                            <td rowspan="{{ count($posiljaocItem['urucene_posiljke']) }}">{{ $posiljaocItem['naziv'] }}</td>
+                          @endif
+                          <td>{{ $urucena_posiljka->primalac->naziv }}</td>
+                          <td>{{ $urucena_posiljka->broj_posiljke }}</td>
+                          <td>{{ $urucena_posiljka->otkupnina_vrsta == 'Nalog za uplatu' ? number_format((float) $urucena_posiljka->vrednost, 2) : 0.00 }}</td>
+                          <td>{{ $urucena_posiljka->otkupnina_vrsta == 'TOP EXPRESS uputnica' ? number_format((float) $urucena_posiljka->vrednost, 2) : 0.00 }}</td>
+                          @if ($subIterations == 0)
+                            <td rowspan="{{ count($posiljaocItem['urucene_posiljke']) }}">{{ number_format((float) $posiljaocItem['ukupan_iznos'], 2) }}</td>
+                          @endif
+                        </tr>
+                        @php
+                          $subIterations++;
+                          if ($subIterations == count($posiljaocItem['urucene_posiljke'])) {
+                            $subIterations = 0;
+                          }
+                        @endphp
+                      @endforeach
+                      {{-- <tr>
+                        <td>{{ $posiljaocItem['naziv'] }}</td>
+                        <td>{{ number_format($posiljaocItem['nalog_iznos'], 2) }} rsd</td>
+                        <td>{{ number_format($posiljaocItem['uputnica_iznos'], 2) }} rsd</td>
+                        <td>{{ number_format($posiljaocItem['ukupan_iznos'], 2) }} rsd</td>
+                      </tr> --}}
+                    @endforeach
+                  </tbody>
+                </table>
+              </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">

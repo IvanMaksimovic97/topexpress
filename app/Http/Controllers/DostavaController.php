@@ -48,7 +48,17 @@ class DostavaController extends Controller
 
         $spisak = $spisak->get();
 
-        return view('dostava.index', compact('spisak'));
+        $posiljke = Posiljka::join('dostava_stavka', 'posiljka.id', '=', 'dostava_stavka.posiljka_id')
+                    ->whereIn('dostava_stavka.dostava_id', $spisak->pluck('id')->toArray())
+                    ->where('dostava_stavka.status', 2)
+                    ->select('posiljka.*', 'dostava_stavka.status as status_po_spisku', 'dostava_stavka.dostava_id')
+                    ->get();
+
+        $izvestaj = new PosiljkaTabela($posiljke, $spisak);
+
+        //dd($izvestaj->posiljaociIzvestaj);
+
+        return view('dostava.index', compact('spisak', 'izvestaj'));
     }
 
     /**
