@@ -49,14 +49,15 @@ class DostavaController extends Controller
         $spisak = $spisak->get();
 
         $posiljke = Posiljka::join('dostava_stavka', 'posiljka.id', '=', 'dostava_stavka.posiljka_id')
+                    ->join('dostava', 'dostava_stavka.dostava_id', '=', 'dostava.id')
                     ->whereIn('dostava_stavka.dostava_id', $spisak->pluck('id')->toArray())
                     ->where('dostava_stavka.status', 2)
-                    ->select('posiljka.*', 'dostava_stavka.status as status_po_spisku', 'dostava_stavka.dostava_id')
+                    ->select('posiljka.*', 'dostava.radnik', 'dostava.broj_spiska', 'dostava_stavka.status as status_po_spisku', 'dostava_stavka.dostava_id')
+                    // ->orderBy('posiljka.primalac_id', 'asc')
+                    // ->orderBy('dostava.radnik', 'asc')
                     ->get();
 
         $izvestaj = new PosiljkaTabela($posiljke, $spisak);
-
-        //dd($izvestaj->posiljaociIzvestaj);
 
         return view('dostava.index', compact('spisak', 'izvestaj'));
     }
@@ -363,6 +364,108 @@ class DostavaController extends Controller
         }
 
         return response()->download(storage_path($dostava->broj_spiska.'_'.$posiljalac->naziv.'.docx'))->deleteFileAfterSend(true);
+    }
+
+    public function spiskoviPoPosiljaocu($spiskovi, $posiljalac_id, $datum)
+    {
+        $posiljalac = PosiljalacPrimalac::findOrFail($posiljalac_id);
+
+        $posiljke = Posiljka::with(['primalac'])
+            ->join('dostava_stavka', 'posiljka.id', '=', 'dostava_stavka.posiljka_id')
+            ->join('dostava', 'dostava_stavka.dostava_id', '=', 'dostava.id')
+            ->whereIn('dostava_stavka.dostava_id', explode(',', $spiskovi))
+            ->where('posiljka.posiljalac_id', $posiljalac_id)
+            ->where('dostava_stavka.status', 2)
+            ->select('posiljka.*', 'dostava.radnik', 'dostava.broj_spiska', 'dostava_stavka.status as status_po_spisku', 'dostava_stavka.dostava_id')
+            // ->orderBy('posiljka.primalac_id', 'asc')
+            // ->orderBy('dostava.radnik', 'asc')
+            ->get();
+        
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord->setDefaultParagraphStyle(array('align' => 'both', 'spaceAfter' => \PhpOffice\PhpWord\Shared\Converter::pointToTwip(0), 'spacing' => 0));
+        $section = $phpWord->addSection(array('orientation' => 'landscape'));
+        
+        $header = array('size' => 16, 'bold' => true);
+        $section->addText(htmlspecialchars('Pošiljalac: '.$posiljalac->naziv), $header);
+        $section->addTextBreak(1);
+        $section->addText(htmlspecialchars('Brojevi spiskova: '.implode(',', $posiljke->pluck('broj_spiska')->unique()->sort()->toArray()).' Datum: '.date('d.m.Y.', strtotime($datum))), $header);
+        $section->addTextBreak(1);
+
+        $styleTable = array('borderSize' => 6, 'borderColor' => '000000', 'cellMargin' => 80);
+        $styleFirstRow = array('borderBottomSize' => 18, 'borderBottomColor' => '000000');
+        $styleCell = array('space' => array('line' => 1000));
+        $fontStyle = array('bold' => true, 'align' => 'center');
+        $phpWord->addTableStyle('Fancy Table', $styleTable, $styleFirstRow);
+        $table = $section->addTable('Fancy Table');
+
+        $table->addRow();
+        $table->addCell(500, $styleCell)->addText(htmlspecialchars('R.B.'), $fontStyle);
+        $table->addCell(3000, $styleCell)->addText(htmlspecialchars('PRIMALAC'), $fontStyle);
+        $table->addCell(3000, $styleCell)->addText(htmlspecialchars('RADNIK'), $fontStyle);
+        $table->addCell(2000, $styleCell)->addText(htmlspecialchars('BROJ POŠILJKE'), $fontStyle);
+        $table->addCell(2000, $styleCell)->addText(htmlspecialchars('IZNOS'), $fontStyle);
+        $table->addCell(2500, $styleCell)->addText(htmlspecialchars('NAPOMENA'), $fontStyle);
+
+        $rb = 1;
+        foreach ($posiljke as $stavka) {
+            $table->addRow();
+
+            $c1 = $table->addCell(500);
+            $c1->addText(htmlspecialchars($rb));
+
+            $c2 = $table->addCell(3000);
+            $c2->addText(htmlspecialchars($stavka->primalac->naziv));
+            //$c2->addText(htmlspecialchars($stavka->primalac->kontakt_telefon));
+
+            $cr = $table->addCell(3000);
+            $cr->addText(htmlspecialchars($stavka->radnik));
+            
+            $c3 = $table->addCell(2000);
+            $c3->addText(htmlspecialchars($stavka->broj_posiljke));
+
+            $c4 = $table->addCell(2000);
+            $c4->addText(htmlspecialchars(number_format($stavka->vrednost, 2)));
+            
+            $c5 = $table->addCell(2500);
+            $c5->addText(htmlspecialchars(''));
+
+            $rb++;
+        }
+
+        $table->addRow();
+
+        $c1 = $table->addCell(500);
+        $c1->addText(htmlspecialchars(''));
+
+        $c2 = $table->addCell(3000);
+        $c2->addText(htmlspecialchars(''));
+        //$c2->addText(htmlspecialchars($stavka->primalac->kontakt_telefon));
+
+        $cr = $table->addCell(3000);
+        $cr->addText(htmlspecialchars(''));
+        
+        $c3 = $table->addCell(2000);
+        $c3->addText(htmlspecialchars('UKUPNO'));
+
+        $c4 = $table->addCell(2000);
+        $c4->addText(htmlspecialchars(number_format($posiljke->sum('vrednost'), 2)));
+        
+        $c5 = $table->addCell(2500);
+        $c5->addText(htmlspecialchars(''));
+
+        // $section->addTextBreak(1);
+        // $section->addText(htmlspecialchars('POŠILJKE PREDAO: '.Korisnik::ulogovanKorisnik()->ime.' '.Korisnik::ulogovanKorisnik()->prezime));
+        // $section->addTextBreak(1);
+        // $section->addText(htmlspecialchars('POŠILJKE PRIMIO: '.$dostava->radnik));
+
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        try {
+            $objWriter->save(storage_path($datum.'_'.$posiljalac->naziv.'.docx'));
+        } catch (\Exception $e) {
+            dd($e);
+        }
+
+        return response()->download(storage_path($datum.'_'.$posiljalac->naziv.'.docx'))->deleteFileAfterSend(true);
     }
 
     /**

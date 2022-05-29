@@ -153,7 +153,7 @@
                       @foreach ($posiljaocItem['urucene_posiljke'] as $urucena_posiljka)
                         <tr>
                           @if ($subIterations == 0)
-                            <td rowspan="{{ count($posiljaocItem['urucene_posiljke']) }}"><a href="#" class="btn btn-sm btn-primary">Štampaj  <i class="ti-printer btn-icon-append"></i></a></td>
+                            <td rowspan="{{ count($posiljaocItem['urucene_posiljke']) }}"><a href="{{ route('cms.posiljalac-izvestaj-spiskovi', [implode(',', $spisak->pluck('id')->toArray()), $p_id, date('Y-m-d', strtotime(request()->date ?? now()))]) }}" class="btn btn-sm btn-primary">Štampaj  <i class="ti-printer btn-icon-append"></i></a></td>
                             <td rowspan="{{ count($posiljaocItem['urucene_posiljke']) }}">{{ $posiljaocItem['naziv'] }}</td>
                           @endif
                           <td>{{ $urucena_posiljka->primalac->naziv }}</td>
