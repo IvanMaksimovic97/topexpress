@@ -80,10 +80,18 @@
                             <td>
                               <select class="posiljka-status" data-id="{!! $posiljka->id !!}" data-spisakid="{!! $posiljka->id_dostava !!}"
                                 @if ($dostava)
-                                  @if ($dostava->status)
+                                  @if ($dostava->status && strtotime(date('Y-m-d', strtotime($dostava->created_at))) != strtotime(date('Y-m-d', strtotime(now()))))
                                     disabled="disabled"
                                   @endif
-                                @endif>
+                                @endif
+                                @if ($posiljka->status_po_spisku != '0' && 
+                                    $posiljka->status_po_spisku != '1' && 
+                                    $posiljka->status_po_spisku != '2' && 
+                                    $posiljka->status_po_spisku != '3' && 
+                                    $posiljka->status_po_spisku != '4')
+                                    disabled="disabled"
+                                @endif
+                                >
                                 <option value="0" @if($posiljka->status_po_spisku == 0) selected @endif>Primljena</option>
                                 <option value="1" @if($posiljka->status_po_spisku == 1) selected @endif>Na dostavi</option>
                                 <option value="2" @if($posiljka->status_po_spisku == 2) selected @endif>Uručena</option>
@@ -97,7 +105,7 @@
                                   <input type="checkbox"
                                   
                                   @if ($dostava)
-                                    @if ($dostava->status)
+                                    @if ($dostava->status && strtotime(date('Y-m-d', strtotime($dostava->created_at))) != strtotime(date('Y-m-d', strtotime(now()))))
                                       disabled="disabled"
                                     @endif
                                   @endif

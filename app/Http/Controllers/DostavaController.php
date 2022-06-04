@@ -110,6 +110,54 @@ class DostavaController extends Controller
         return $posiljkeComponent->render()->render();
     }
 
+    public function posiljkeNaDostavi($ids, $dostava_id)
+    {
+        $dostava = Dostava::findOrFail($dostava_id);
+        $posiljke = Posiljka::
+            whereIn('posiljka.id', explode(',', $ids))
+            ->select('posiljka.*')
+            ->addSelect(DB::raw(
+                '(
+                    SELECT id
+                    FROM dostava_stavka
+                    WHERE dostava_stavka.dostava_id = 66
+                    AND dostava_stavka.posiljka_id = posiljka.id
+                    AND deleted_at IS NULL
+                ) as ds_id'
+            ))
+            ->addSelect(DB::raw(
+                '(
+                    SELECT vracena
+                    FROM dostava_stavka
+                    WHERE dostava_stavka.dostava_id = 66
+                    AND dostava_stavka.posiljka_id = posiljka.id
+                    AND deleted_at IS NULL
+                ) as vracena_posiljka'
+            ))
+            ->addSelect(DB::raw(
+                '(
+                    SELECT status
+                    FROM dostava_stavka
+                    WHERE dostava_stavka.dostava_id = 66
+                    AND dostava_stavka.posiljka_id = posiljka.id
+                    AND deleted_at IS NULL
+                ) as status_po_spisku'
+            ))
+            ->orderBy('ds_id')
+            ->get();
+        
+        $posiljke->transform(function($item) use ($dostava_id) {
+            $item->id_dostava = $dostava_id;
+            return $item;
+        });
+
+        //dd($posiljke);
+
+        $posiljkeComponent = new PosiljkaTabela($posiljke, $dostava);
+        
+        return $posiljkeComponent->render()->render();
+    }
+
     public function posiljkeUnete($id_dostava)
     {
         $posiljke = Dostava::with(['stavke'])->where('id', $id_dostava)->first();
@@ -522,8 +570,17 @@ class DostavaController extends Controller
                 WHERE dostava_stavka.posiljka_id = posiljka.id AND dostava_stavka.status = 2
             ) AS urucen_status'
         ))
-        ->havingRaw('(urucen_status = 0 AND postoji_na_zaduzenom_spisku = 0) OR id IN ('.implode(',', $posiljkeDostave).')')
-        ->orderBy('posiljka.id', 'desc')
+        ->addSelect(DB::raw(
+            '(
+                SELECT id
+                FROM dostava_stavka
+                WHERE dostava_stavka.dostava_id = 66
+                AND dostava_stavka.posiljka_id = posiljka.id
+                AND deleted_at IS NULL
+            ) as ds_id'
+        ))
+        ->havingRaw('(urucen_status = 0 AND postoji_na_zaduzenom_spisku = 0) OR id IN ('.(count($posiljkeDostave) ? implode(',', $posiljkeDostave) : 0).')')
+        ->orderBy('ds_id')
         ->get();
 
         $mozeDaSeRazduzi = DostavaStavka::mozeDaSeRazduzi($id);
@@ -545,6 +602,8 @@ class DostavaController extends Controller
         $dostava->radnik = $request->radnik;
         $dostava->za_datum = $request->datum;
         //$dostava->za_naplatu = Posiljka::whereIn('id', $request->posiljke ?? [])->where('status', 1)->sum(DB::raw('vrednost + postarina'));
+
+        //dd($request->all(), $dostava);
         $dostava->save();
 
         if (!$dostava->status) {
@@ -571,7 +630,7 @@ class DostavaController extends Controller
             });
         }
         
-        return redirect()->route('cms.dostava.index');
+        return redirect()->route('cms.dostava.edit', $dostava);
     }
 
     /**

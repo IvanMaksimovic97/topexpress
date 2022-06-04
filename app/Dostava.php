@@ -14,6 +14,8 @@ class Dostava extends Model
 
     public function stavke()
     {
-        return $this->belongsToMany(Posiljka::class, 'dostava_stavka')->withPivot(['status as status_po_spisku', 'dostava_id as id_dostava', 'vracena as vracena_posiljka']);
+        return $this->belongsToMany(Posiljka::class, 'dostava_stavka')
+            ->withPivot(['status as status_po_spisku', 'dostava_id as id_dostava', 'vracena as vracena_posiljka'])
+            ->where('dostava_stavka.deleted_at', null);
     }
 }

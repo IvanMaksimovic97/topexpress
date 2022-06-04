@@ -42,7 +42,7 @@ $(document).on('change', '#posiljke', function (e) {
     }
 
     $.ajax({
-        url: '{{ route('cms.posiljke') }}' + '/' + posiljke_ids,
+        url: '{{ route('cms.posiljke-na-dostavi') }}' + '/' + posiljke_ids + '/' + '{{ $dostava->id }}',
         method: 'get',
         success: function (data) {
             $('#posiljke-render').html(data);

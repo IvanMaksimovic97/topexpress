@@ -71,22 +71,27 @@ class PosiljkaController extends Controller
 
     public function updateStatus($id_posiljka, $id_spisak, $status)
     {
+        $dostava = Dostava::findOrFail($id_spisak);
         $posiljka = DostavaStavka::where('dostava_id', $id_spisak)->where('posiljka_id', $id_posiljka)->first();
         $posiljka->status = $status;
         $posiljka->save();
 
         $mozeDaSeRazduzi = DostavaStavka::mozeDaSeRazduzi($id_spisak);
+        $posiljke_ids = $posiljka = DostavaStavka::where('dostava_id', $id_spisak)->pluck('posiljka_id')->toArray();
 
-        return response()->json(['message' => 'Uspešna izmena!', 'razduzi' => $mozeDaSeRazduzi]);
+        return response()->json(['message' => 'Uspešna izmena!', 'razduzi' => $mozeDaSeRazduzi, 'p_ids' => implode(',', $posiljke_ids), 'je_razduzen' => $dostava->status]);
     }
 
     public function updateStatusVracena($id_posiljka, $id_spisak, $status)
     {
+        $dostava = Dostava::findOrFail($id_spisak);
         $posiljka = DostavaStavka::where('dostava_id', $id_spisak)->where('posiljka_id', $id_posiljka)->first();
         $posiljka->vracena = intval($status);
         $posiljka->save();
 
-        return response()->json(['message' => 'Uspešna izmena!']);
+        $posiljke_ids = $posiljka = DostavaStavka::where('dostava_id', $id_spisak)->pluck('posiljka_id')->toArray();
+
+        return response()->json(['message' => 'Uspešna izmena!', 'p_ids' => implode(',', $posiljke_ids), 'je_razduzen' => $dostava->status]);
     }
 
     public function proveraBrojaPosiljke($broj)

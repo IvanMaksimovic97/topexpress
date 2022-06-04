@@ -161,6 +161,16 @@
           row.addClass(rowColor);
           
           razduzi = data.razduzi;
+
+          if (data.je_razduzen) {
+            $.ajax({
+              url: '{{ route('cms.posiljke-na-dostavi') }}' + '/' + data.p_ids + '/' + dostava_id,
+              method: 'get',
+              success: function (data) {
+                $('#posiljke-render').html(data);
+              }
+            })
+          }
         },
         error: function (err) {
           alert('Neuspešna izmena statusa.');
@@ -186,7 +196,15 @@
         url: '{{ route('cms.posiljka-status-vracena') }}' + '/' + id + '/' + dostava_id + '/' + checked,
         method: 'get',
         success: function (data) {
-          
+          if (data.je_razduzen) {
+            $.ajax({
+              url: '{{ route('cms.posiljke-na-dostavi') }}' + '/' + data.p_ids + '/' + dostava_id,
+              method: 'get',
+              success: function (data) {
+                $('#posiljke-render').html(data);
+              }
+            })
+          }
         },
         error: function (err) {
           alert('Neuspešna izmena statusa.');
