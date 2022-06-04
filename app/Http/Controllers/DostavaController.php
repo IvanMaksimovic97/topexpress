@@ -120,7 +120,7 @@ class DostavaController extends Controller
                 '(
                     SELECT id
                     FROM dostava_stavka
-                    WHERE dostava_stavka.dostava_id = 66
+                    WHERE dostava_stavka.dostava_id = '.$dostava_id.'
                     AND dostava_stavka.posiljka_id = posiljka.id
                     AND deleted_at IS NULL
                 ) as ds_id'
@@ -129,7 +129,7 @@ class DostavaController extends Controller
                 '(
                     SELECT vracena
                     FROM dostava_stavka
-                    WHERE dostava_stavka.dostava_id = 66
+                    WHERE dostava_stavka.dostava_id = '.$dostava_id.'
                     AND dostava_stavka.posiljka_id = posiljka.id
                     AND deleted_at IS NULL
                 ) as vracena_posiljka'
@@ -138,7 +138,7 @@ class DostavaController extends Controller
                 '(
                     SELECT status
                     FROM dostava_stavka
-                    WHERE dostava_stavka.dostava_id = 66
+                    WHERE dostava_stavka.dostava_id = '.$dostava_id.'
                     AND dostava_stavka.posiljka_id = posiljka.id
                     AND deleted_at IS NULL
                 ) as status_po_spisku'
@@ -160,14 +160,53 @@ class DostavaController extends Controller
 
     public function posiljkeUnete($id_dostava)
     {
-        $posiljke = Dostava::with(['stavke'])->where('id', $id_dostava)->first();
-        $posiljkeComponent = new PosiljkaTabela($posiljke->stavke, $posiljke);
+        $ids = DostavaStavka::where('dostava_id', $id_dostava)->where('deleted_at', null)->pluck('posiljka_id')->toArray();
+        $posiljke = Posiljka::
+            whereIn('posiljka.id', $ids)
+            ->select('posiljka.*')
+            ->addSelect(DB::raw(
+                '(
+                    SELECT id
+                    FROM dostava_stavka
+                    WHERE dostava_stavka.dostava_id = '.$id_dostava.'
+                    AND dostava_stavka.posiljka_id = posiljka.id
+                    AND deleted_at IS NULL
+                ) as ds_id'
+            ))
+            ->addSelect(DB::raw(
+                '(
+                    SELECT vracena
+                    FROM dostava_stavka
+                    WHERE dostava_stavka.dostava_id = '.$id_dostava.'
+                    AND dostava_stavka.posiljka_id = posiljka.id
+                    AND deleted_at IS NULL
+                ) as vracena_posiljka'
+            ))
+            ->addSelect(DB::raw(
+                '(
+                    SELECT status
+                    FROM dostava_stavka
+                    WHERE dostava_stavka.dostava_id = '.$id_dostava.'
+                    AND dostava_stavka.posiljka_id = posiljka.id
+                    AND deleted_at IS NULL
+                ) as status_po_spisku'
+            ))
+            ->orderBy('ds_id')
+            ->get();
+        
+        $posiljke->transform(function($item) use ($id_dostava) {
+            $item->id_dostava = $id_dostava;
+            return $item;
+        });
+
+        $dostava = Dostava::where('id', $id_dostava)->first();
+        $posiljkeComponent = new PosiljkaTabela($posiljke, $dostava);
         $mozeDaSeRazduzi = DostavaStavka::mozeDaSeRazduzi($id_dostava);
         
         return response()->json([
             'html' => $posiljkeComponent->render()->render(), 
             'razduzi' => $mozeDaSeRazduzi, 
-            'razduzen' => $posiljke->status
+            'razduzen' => $dostava->status
         ]);
     }
 
@@ -574,7 +613,7 @@ class DostavaController extends Controller
             '(
                 SELECT id
                 FROM dostava_stavka
-                WHERE dostava_stavka.dostava_id = 66
+                WHERE dostava_stavka.dostava_id = '.$dostava->id.'
                 AND dostava_stavka.posiljka_id = posiljka.id
                 AND deleted_at IS NULL
             ) as ds_id'
@@ -601,9 +640,6 @@ class DostavaController extends Controller
         $dostava->broj_spiska = $request->broj_spiska;
         $dostava->radnik = $request->radnik;
         $dostava->za_datum = $request->datum;
-        //$dostava->za_naplatu = Posiljka::whereIn('id', $request->posiljke ?? [])->where('status', 1)->sum(DB::raw('vrednost + postarina'));
-
-        //dd($request->all(), $dostava);
         $dostava->save();
 
         if (!$dostava->status) {
@@ -629,6 +665,17 @@ class DostavaController extends Controller
                 }
             });
         }
+
+        $dostava->za_naplatu = $dostava->stavke()->where('dostava_stavka.status', 2)->sum(DB::raw('posiljka.vrednost + posiljka.postarina'));
+        
+        $postarinaExtra = $dostava->stavke()
+            ->where('dostava_stavka.status', 3)
+            ->where('posiljka.nacin_placanja_id', 3)
+            ->where('dostava_stavka.vracena', 1)
+            ->sum(DB::raw('posiljka.postarina * 2'));
+
+        $dostava->za_naplatu += $postarinaExtra;
+        $dostava->save();
         
         return redirect()->route('cms.dostava.edit', $dostava);
     }

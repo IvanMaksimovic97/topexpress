@@ -168,6 +168,7 @@
               method: 'get',
               success: function (data) {
                 $('#posiljke-render').html(data);
+                $('#telo').html(data);
               }
             })
           }
@@ -202,6 +203,7 @@
               method: 'get',
               success: function (data) {
                 $('#posiljke-render').html(data);
+                $('#telo').html(data);
               }
             })
           }

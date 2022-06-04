@@ -79,6 +79,17 @@ class PosiljkaController extends Controller
         $mozeDaSeRazduzi = DostavaStavka::mozeDaSeRazduzi($id_spisak);
         $posiljke_ids = $posiljka = DostavaStavka::where('dostava_id', $id_spisak)->pluck('posiljka_id')->toArray();
 
+        $dostava->za_naplatu = $dostava->stavke()->where('dostava_stavka.status', 2)->sum(DB::raw('posiljka.vrednost + posiljka.postarina'));
+        
+        $postarinaExtra = $dostava->stavke()
+            ->where('dostava_stavka.status', 3)
+            ->where('posiljka.nacin_placanja_id', 3)
+            ->where('dostava_stavka.vracena', 1)
+            ->sum(DB::raw('posiljka.postarina * 2'));
+
+        $dostava->za_naplatu += $postarinaExtra;
+        $dostava->save();
+
         return response()->json(['message' => 'Uspešna izmena!', 'razduzi' => $mozeDaSeRazduzi, 'p_ids' => implode(',', $posiljke_ids), 'je_razduzen' => $dostava->status]);
     }
 
@@ -90,6 +101,17 @@ class PosiljkaController extends Controller
         $posiljka->save();
 
         $posiljke_ids = $posiljka = DostavaStavka::where('dostava_id', $id_spisak)->pluck('posiljka_id')->toArray();
+
+        $dostava->za_naplatu = $dostava->stavke()->where('dostava_stavka.status', 2)->sum(DB::raw('posiljka.vrednost + posiljka.postarina'));
+        
+        $postarinaExtra = $dostava->stavke()
+            ->where('dostava_stavka.status', 3)
+            ->where('posiljka.nacin_placanja_id', 3)
+            ->where('dostava_stavka.vracena', 1)
+            ->sum(DB::raw('posiljka.postarina * 2'));
+
+        $dostava->za_naplatu += $postarinaExtra;
+        $dostava->save();
 
         return response()->json(['message' => 'Uspešna izmena!', 'p_ids' => implode(',', $posiljke_ids), 'je_razduzen' => $dostava->status]);
     }
