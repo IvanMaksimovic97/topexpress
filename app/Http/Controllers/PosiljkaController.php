@@ -249,13 +249,20 @@ class PosiljkaController extends Controller
         file_put_contents($posiljka->broj_posiljke.'.jpg', $barcodeImage);
 
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord->setDefaultParagraphStyle(
+            array(
+                //'align'      => 'both',
+                //'spaceAfter' => \PhpOffice\PhpWord\Shared\Converter::pointToTwip(12),
+                'spacing'    => 0,
+                )
+            );
         $section = $phpWord->addSection([
             'pageSizeH' => \PhpOffice\PhpWord\Shared\Converter::inchToTwip(6),
             'pageSizeW' => \PhpOffice\PhpWord\Shared\Converter::inchToTwip(3),
             'marginLeft' => 100, 
             'marginRight' => 100,
-            'marginTop' => 500, 
-            'marginBottom' => 500
+            'marginTop' => 0, 
+            'marginBottom' => 0
         ]);
 
         $fontStyle = new \PhpOffice\PhpWord\Style\Font();
@@ -273,6 +280,8 @@ class PosiljkaController extends Controller
         <w:br/>
         <w:t>".mb_strtoupper($posiljka->posiljalac->kontakt_telefon, 'UTF-8')."</w:t>
         <w:br/>
+        <w:t>".mb_strtoupper($posiljka->posiljalac->napomena, 'UTF-8')."</w:t>
+        <w:br/>
         <w:br/>
         <w:t><w:rPr><w:b w:val='true'/></w:rPr>".mb_strtoupper('PRIMALAC:', 'UTF-8')."<w:rPr><w:b w:val='false'/></w:rPr></w:t>
         <w:br/>
@@ -283,6 +292,8 @@ class PosiljkaController extends Controller
         <w:t>".mb_strtoupper($posiljka->primalac->naselje, 'UTF-8')."</w:t>
         <w:br/>
         <w:t>".mb_strtoupper($posiljka->primalac->kontakt_telefon, 'UTF-8')."</w:t>
+        <w:br/>
+        <w:t>".mb_strtoupper($posiljka->primalac->napomena, 'UTF-8')."</w:t>
         <w:br/>
         <w:br/>
         <w:t><w:rPr><w:b w:val='true'/></w:rPr>".mb_strtoupper('MASA: ', 'UTF-8')."<w:rPr><w:b w:val='false'/></w:rPr></w:t>
@@ -314,13 +325,13 @@ class PosiljkaController extends Controller
         <w:t>".date('d.m.Y.')."</w:t>
         </w:r>";
 
-        $section->addImage($posiljka->broj_posiljke.'.jpg', array('align' => 'center', 'width' => 100));
+        $section->addImage($posiljka->broj_posiljke.'.jpg', array('align' => 'center', 'width' => 130));
         // $section->addText($posiljka->broj_posiljke, null, array('align' => 'center', 'bold' => true, 'size' => 11));
         $font = $section->addText($description);
-        //$section->addText($footer, null, array('align' => 'center', 'size' => 11));
+        $section->addText($footer, null, array('align' => 'center', 'size' => 11));
         $font->setFontStyle($fontStyle);
 
-        $section->addImage('site/images/adresnica.jpg', ['align' => 'center', 'width' => 100]);
+        $section->addImage('site/images/adresnica.jpg', ['align' => 'center', 'width' => 130]);
 
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
         try {
