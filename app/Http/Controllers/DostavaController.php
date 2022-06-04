@@ -688,6 +688,14 @@ class DostavaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Dostava::findOrFail($id)->delete();
+
+        return redirect()->route('cms.dostava.index');
+    }
+
+    public function proveraZaBrisanje($id)
+    {
+        $dostava = Dostava::find($id);
+        return $dostava->stavke->count();
     }
 }

@@ -18,9 +18,30 @@
             @if (!$dostava->status)
                 <a href="{{ route('cms.razduzi', $dostava) }}" id="razduzi" class="btn btn-success mb-2">Razduži</a>
             @endif
+            <button type="button" id="obrisi-spisak" class="btn btn-danger mb-2" data-toggle="modal" data-target="#deleteModal">Obriši</button>
         </div>
     </div>
 </form>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Brisanje spiska</h5>
+          <button type="button" class="close zatvori-modal-brisanje" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            Da li želite da obrišete spisak?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary zatvori-modal-brisanje" data-dismiss="modal">Zatvori</button>
+          <a href="{{ route('cms.dostava-brisanje', $dostava->id) }}" id="obrisi-spisak-confirm" class="btn btn-danger mb-2">Obriši</a>
+        </div>
+      </div>
+    </div>
+</div>
 @endsection
 
 @section('custom-js')
@@ -48,6 +69,36 @@ $(document).on('change', '#posiljke', function (e) {
             $('#posiljke-render').html(data);
         }
     })
+});
+
+let mozeDaSeObrise = true;
+
+$(document).on('click', '#obrisi-spisak', function(e) {
+    
+    $.ajax({
+        url: '{{ route('cms.dostava-brisanje-provera', $dostava->id) }}',
+        method: 'get',
+        success: function (data) {
+            if (data != 0) {
+                mozeDaSeObrise = false;
+            } else {
+                mozeDaSeObrise = true;
+            }
+        }
+    })
+
+    $('#deleteModal').modal('show');
+});
+
+$(document).on('click', '#obrisi-spisak-confirm', function(e) {
+    if (!mozeDaSeObrise) {
+        alert('Nije moguće obrisati spisak, prvo uklonite sve pošiljke!');
+        e.preventDefault();
+    }
+});
+
+$(document).on('click', '.zatvori-modal-brisanje', function(e) {
+    $('#deleteModal').modal('hide');
 });
 </script>
 @endsection

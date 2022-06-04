@@ -52,5 +52,8 @@ Route::group([
 
         Route::get('/posiljalac-izvestaj/{id}/{posiljalac_id}', 'DostavaController@spisakPoPosiljaocu')->name('posiljalac-izvestaj');
         Route::get('/posiljalac-izvestaj-spiskovi/{spiskovi}/{posiljalac_id}/{datum}', 'DostavaController@spiskoviPoPosiljaocu')->name('posiljalac-izvestaj-spiskovi');
+
+        Route::get('/dostava-brisanje-priprema/{id?}', 'DostavaController@proveraZaBrisanje')->name('dostava-brisanje-provera');
+        Route::get('/dostava-brisanje/{id?}', 'DostavaController@destroy')->name('dostava-brisanje');
     });
 });
