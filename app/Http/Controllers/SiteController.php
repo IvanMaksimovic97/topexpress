@@ -18,6 +18,6 @@ class SiteController extends Controller
 
     public function cenovnik()
     {
-        
+        return view('site.cenovnik');
     }
 }
