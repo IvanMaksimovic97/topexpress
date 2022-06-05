@@ -17,6 +17,11 @@ class DostavaStavka extends Model
         return $this->hasOne(Dostava::class, 'id', 'dostava_id');
     }
 
+    public function posiljka()
+    {
+        return $this->hasOne(Posiljka::class, 'id', 'posiljka_id');
+    }
+
     public static function mozeDaSeRazduzi($dostava_id)
     {
         $mozeDaSeRazduzi = self::where('dostava_id', $dostava_id)

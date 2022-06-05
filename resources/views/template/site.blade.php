@@ -73,7 +73,7 @@
                     <a href="{{ route('index') }}" class="nav-item nav-link">POČETNA</a>
                     <a href="about.html" class="nav-item nav-link">O NAMA</a>
                     {{-- <a href="service.html" class="nav-item nav-link">Service</a> --}}
-                    <a href="price.html" class="nav-item nav-link">CENOVNIK</a>
+                    <a href="{{ route('cenovnik') }}" class="nav-item nav-link">CENOVNIK</a>
                     {{-- <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
                         <div class="dropdown-menu rounded-0 m-0">
@@ -186,6 +186,8 @@
 
     <!-- Template Javascript -->
     <script src="{{ asset('logistics-company/js/main.js') }}"></script>
+
+    @yield('custom-js')
 </body>
 
 </html>

@@ -1,16 +1,19 @@
 @extends('template.site')
 @section('title', 'TOP EXPRESS')
 @section('content')
-{{-- <!-- Header Start -->
+<!-- Header Start -->
 <div class="jumbotron jumbotron-fluid mb-5">
 	<div class="container text-center py-5">
-		<h1 class="text-primary mb-4">Safe & Faster</h1>
-		<h1 class="text-white display-3 mb-5">Logistics Services</h1>
+		{{-- <h1 class="text-primary mb-4">Safe & Faster</h1> --}}
+		<h1 class="text-white display-3 mb-5">Praćenje pošiljke</h1>
 		<div class="mx-auto" style="width: 100%; max-width: 600px;">
 			<div class="input-group">
-				<input type="text" class="form-control border-light" style="padding: 30px;" placeholder="Tracking Id">
+				<input type="text" id="broj_posiljke" class="form-control border-light" style="padding: 30px;" placeholder="Unesite broj pošiljke">
 				<div class="input-group-append">
-					<button class="btn btn-primary px-3">Track & Trace</button>
+					<button class="btn btn-danger px-3" id="pretraga">Pretraga</button>
+				</div>
+				<div class="invalid-feedback">
+					Pogrešan format! Format pošiljke je: TEXXXXXXBG (X mora biti broj!)
 				</div>
 			</div>
 		</div>
@@ -20,7 +23,7 @@
 
 
 <!-- About Start -->
-<div class="container-fluid py-5">
+{{-- <div class="container-fluid py-5">
 	<div class="container">
 		<div class="row align-items-center">
 			<div class="col-lg-5 pb-4 pb-lg-0">
@@ -394,4 +397,122 @@
 	</div>
 </div>
 <!-- Testimonial End --> --}}
+
+<!-- Modal -->
+<div class="modal fade" id="posiljka-status-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="exampleModalLabel">Pretraga pošiljke</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="modal-body" id="posiljka-telo">
+			<div class="text-center">
+				<div class="spinner-border" role="status">
+				  	<span class="sr-only">Loading...</span>
+				</div>
+			</div>
+		</div>
+		{{-- <div class="modal-footer">
+		  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		  <button type="button" class="btn btn-danger">Save changes</button>
+		</div> --}}
+	  </div>
+	</div>
+</div>
+@endsection
+
+@section('custom-js')
+<script>
+const brojRegex = /^TE\d{6}BG$/;
+
+$(document).on('click', '#pretraga', function(e) {
+	$('#posiljka-telo').html(`
+	<div class="text-center">
+		<div class="spinner-border" role="status">
+			<span class="sr-only">Loading...</span>
+		</div>
+	</div>`);
+
+	const broj_posiljke_element = $('#broj_posiljke');
+
+	broj_posiljke_element.removeClass('is-invalid');
+
+	if (!brojRegex.test(broj_posiljke_element.val())) {
+		broj_posiljke_element.addClass('is-invalid');
+		return false;
+	}
+
+	$.ajax({
+		url: '{{ route('pretraga-posiljke') }}' + '/' + broj_posiljke_element.val(),
+		method: 'get',
+		success: function(data) {
+			renderData(data);
+		}
+	})
+	
+	$('#posiljka-status-modal').modal('show');
+});
+
+function renderData(data) {
+	let html = `
+	<table class="table table-bordered table-sm">
+		<thead>
+			<tr class="table-active">
+				<th scope="col">Broj</th>
+				<th scope="col">Datum</th>
+				<th scope="col">Pošiljalac</th>
+				<th scope="col">Primalac</th>
+				<th scope="col">Status</th>
+				<th scope="col">Napomena</th>
+			</tr>
+		</thead>
+		<tbody>`;
+	
+	data.forEach(element => {
+		let status = '';
+		let row_color = '';
+
+		switch(element.status) {
+			case 0: status = 'Primljena'; break;
+			case 1: status = 'Na dostavi'; break;
+			case 2: status = 'Uručena'; row_color = 'table-success'; break;
+			case 3: status = 'Vraćena'; row_color = 'table-danger'; break;
+			case 4: status = 'Za narednu dostavu'; row_color = 'table-info'; break;
+		}
+
+		html += 
+		`<tr ${row_color != '' ? 'class="' + row_color + '"' : '' }>
+			<td>${element.posiljka.broj_posiljke}</td>
+			<td>${dateParse(element.updated_at)}</td>
+			<td>${korisnikRender(element.posiljka.posiljalac)}</td>
+			<td>${korisnikRender(element.posiljka.primalac)}</td>
+			<td>${status}</td>
+			<td></td>
+		</tr>`;
+	});
+			
+	html += `</tbody></table>`;
+
+	if (data.length == 0) {
+		html = `<span class="text-center text-danger">Tražena pošiljka ne postoji!</span>`;
+	}
+
+	$('#posiljka-telo').html(html);
+}
+
+function dateParse(date)
+{
+	let datum = new Date(date);
+
+	return datum.getDate() + '.' + datum.getMonth() + '.' + datum.getFullYear() + '.' + ' ' + datum.getHours() + ':' + datum.getMinutes() + ':' + datum.getSeconds();
+}
+
+function korisnikRender(element)
+{
+	return `${element.naziv}<br>${element.ulica} ${element.broj}<br>${element.kontakt_telefon}`;
+}
+</script>
 @endsection

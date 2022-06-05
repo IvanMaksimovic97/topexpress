@@ -15,4 +15,9 @@ class SiteController extends Controller
     {
         return view('site.contact');
     }
+
+    public function cenovnik()
+    {
+        
+    }
 }

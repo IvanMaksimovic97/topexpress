@@ -14,9 +14,15 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/postarina/vrsta/{id_vrsta}/masa/{masa}/ugovor/{id_ugovor}', 'CenovnikController@dohvatiCenuPostarine')->name('cena-postarine');
 Route::get('/broj-posiljke-validacija/{broj?}', 'PosiljkaController@proveraBrojaPosiljke')->name('broj-posiljke-validacija');
+
+// Sajt
 Route::get('/', 'SiteController@index')->name('index');
 Route::get('/kontakt', 'SiteController@contact')->name('contact');
+Route::get('/cenovnik', 'SiteController@cenovnik')->name('cenovnik');
 
+Route::get('/pretraga-posiljke/{broj_posiljke?}', 'PosiljkaController@vratiStatuse')->name('pretraga-posiljke');
+
+// CMS
 Route::group([
     'middleware' => ['cmsAuth'],
     'as' => 'cms.',

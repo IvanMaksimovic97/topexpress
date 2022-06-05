@@ -406,4 +406,22 @@ class PosiljkaController extends Controller
     {
         //
     }
+
+    public function vratiStatuse($broj_posiljke)
+    {
+        $stavke = DostavaStavka::with([
+            'posiljka',
+            'posiljka.posiljalac',
+            'posiljka.primalac',
+            'posiljka.vrstaUsluge',
+            'posiljka.nacinPlacanja',
+            'posiljka.firma',
+            'dostava',
+        ])
+        ->whereHas('posiljka', function($q) use ($broj_posiljke) {
+            $q->where('posiljka.broj_posiljke', $broj_posiljke);
+        })->get();
+        
+        return response()->json($stavke);
+    }
 }
