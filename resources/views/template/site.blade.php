@@ -173,6 +173,10 @@
 
 
     <!-- JavaScript Libraries -->
+    <script>
+        const csrf_token = "{{ csrf_token() }}";
+        const contact_route = "{{ route('send-mail-contact') }}";
+    </script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('logistics-company/lib/easing/easing.min.js') }}"></script>

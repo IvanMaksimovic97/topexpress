@@ -22,6 +22,8 @@ Route::get('/cenovnik', 'SiteController@cenovnik')->name('cenovnik');
 
 Route::get('/pretraga-posiljke/{broj_posiljke?}', 'PosiljkaController@vratiStatuse')->name('pretraga-posiljke');
 
+Route::post('/send-email', 'SiteController@contactSendEmail')->name('send-mail-contact');
+
 // CMS
 Route::group([
     'middleware' => ['cmsAuth'],

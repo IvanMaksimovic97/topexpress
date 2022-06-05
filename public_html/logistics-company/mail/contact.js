@@ -8,6 +8,7 @@ $(function () {
             event.preventDefault();
             var name = $("input#name").val();
             var email = $("input#email").val();
+            var telefon = $("input#telefon").val();
             var subject = $("input#subject").val();
             var message = $("textarea#message").val();
 
@@ -15,11 +16,13 @@ $(function () {
             $this.prop("disabled", true);
 
             $.ajax({
-                url: "contact.php",
+                url: contact_route,
                 type: "POST",
                 data: {
+                    _token: csrf_token,
                     name: name,
                     email: email,
+                    telefon: telefon,
                     subject: subject,
                     message: message
                 },
@@ -29,7 +32,7 @@ $(function () {
                     $('#success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
                             .append("</button>");
                     $('#success > .alert-success')
-                            .append("<strong>Your message has been sent. </strong>");
+                            .append("<strong>Vaša poruka je poslata! </strong>");
                     $('#success > .alert-success')
                             .append('</div>');
                     $('#contactForm').trigger("reset");
@@ -38,7 +41,7 @@ $(function () {
                     $('#success').html("<div class='alert alert-danger'>");
                     $('#success > .alert-danger').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
                             .append("</button>");
-                    $('#success > .alert-danger').append($("<strong>").text("Sorry " + name + ", it seems that our mail server is not responding. Please try again later!"));
+                    $('#success > .alert-danger').append($("<strong>").text("Poruka nije poslata! Naš mejl server ne funkcioniše u ovom trenutku, pokušajte kasnije."));
                     $('#success > .alert-danger').append('</div>');
                     $('#contactForm').trigger("reset");
                 },

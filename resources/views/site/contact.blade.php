@@ -32,26 +32,32 @@
                 <h1 class="mb-4">Kontakt za bilo koja pitanja</h1>
                 <div class="contact-form bg-secondary" style="padding: 30px;">
                     <div id="success"></div>
-                    <form name="sentMessage" id="contactForm" novalidate="novalidate">
+                    <form name="sentMessage" action="{{ route('send-mail-contact') }}" method="POST" id="contactForm" novalidate="novalidate">
+                        @csrf
                         <div class="control-group">
-                            <input type="text" class="form-control border-0 p-4" id="name" placeholder="Ime"
-                                required="required" data-validation-required-message="Please enter your name" />
+                            <input type="text" class="form-control border-0 p-4" id="name" name="name" placeholder="Ime"
+                                required="required" data-validation-required-message="Unesite ime!" />
                             <p class="help-block text-danger"></p>
                         </div>
                         <div class="control-group">
-                            <input type="email" class="form-control border-0 p-4" id="email" placeholder="Email"
-                                required="required" data-validation-required-message="Please enter your email" />
+                            <input type="email" class="form-control border-0 p-4" id="email" name="email" placeholder="Email"
+                                required="required" data-validation-required-message="Unesite email!" />
                             <p class="help-block text-danger"></p>
                         </div>
                         <div class="control-group">
-                            <input type="text" class="form-control border-0 p-4" id="subject" placeholder="Naslov"
-                                required="required" data-validation-required-message="Please enter a subject" />
+                            <input type="text" class="form-control border-0 p-4" id="telefon" name="telefon" placeholder="Telefon"
+                                required="required" data-validation-required-message="Unesite telefon!" />
                             <p class="help-block text-danger"></p>
                         </div>
                         <div class="control-group">
-                            <textarea class="form-control border-0 py-3 px-4" rows="3" id="message" placeholder="Poruka"
+                            <input type="text" class="form-control border-0 p-4" id="subject" name="subject" placeholder="Naslov"
+                                required="required" data-validation-required-message="Unesite naslov!" />
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="control-group">
+                            <textarea class="form-control border-0 py-3 px-4" rows="3" id="message" name="message" placeholder="Poruka"
                                 required="required"
-                                data-validation-required-message="Please enter your message"></textarea>
+                                data-validation-required-message="Unesite poruku!"></textarea>
                             <p class="help-block text-danger"></p>
                         </div>
                         <div>
