@@ -88,12 +88,15 @@ class DostavaController extends Controller
                                 AND dostava.status = 0 
                                 AND dostava.deleted_at IS NULL
                             )
+                            AND dostava_stavka.deleted_at IS NULL
                         ) AS postoji_na_zaduzenom_spisku'))
                     ->addSelect(DB::raw(
                         '(
                             SELECT COUNT(*) 
                             FROM dostava_stavka
-                            WHERE dostava_stavka.posiljka_id = posiljka.id AND dostava_stavka.status = 2
+                            WHERE dostava_stavka.posiljka_id = posiljka.id 
+                            AND dostava_stavka.status = 2
+                            AND dostava_stavka.deleted_at IS NULL
                         ) AS urucen_status'
                     ))
                     ->having('postoji_na_zaduzenom_spisku', 0)
@@ -607,12 +610,15 @@ class DostavaController extends Controller
                     AND dostava.status = 0
                     AND dostava.deleted_at IS NULL
                 )
+                AND dostava_stavka.deleted_at IS NULL
             ) AS postoji_na_zaduzenom_spisku'))
         ->addSelect(DB::raw(
             '(
                 SELECT COUNT(*) 
                 FROM dostava_stavka
-                WHERE dostava_stavka.posiljka_id = posiljka.id AND dostava_stavka.status = 2
+                WHERE dostava_stavka.posiljka_id = posiljka.id 
+                AND dostava_stavka.status = 2
+                AND dostava_stavka.deleted_at IS NULL
             ) AS urucen_status'
         ))
         ->addSelect(DB::raw(
