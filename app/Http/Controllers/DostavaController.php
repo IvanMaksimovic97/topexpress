@@ -82,7 +82,11 @@ class DostavaController extends Controller
                             FROM dostava_stavka 
                             WHERE dostava_stavka.posiljka_id = posiljka.id AND 
                             (
-                                SELECT COUNT(*) FROM dostava WHERE dostava_stavka.dostava_id = dostava.id AND dostava.status = 0
+                                SELECT COUNT(*) 
+                                FROM dostava 
+                                WHERE dostava_stavka.dostava_id = dostava.id 
+                                AND dostava.status = 0 
+                                AND dostava.deleted_at IS NULL
                             )
                         ) AS postoji_na_zaduzenom_spisku'))
                     ->addSelect(DB::raw(
@@ -599,7 +603,9 @@ class DostavaController extends Controller
                 (
                     SELECT COUNT(*)
                     FROM dostava 
-                    WHERE dostava_stavka.dostava_id = dostava.id AND dostava.status = 0
+                    WHERE dostava_stavka.dostava_id = dostava.id 
+                    AND dostava.status = 0
+                    AND dostava.deleted_at IS NULL
                 )
             ) AS postoji_na_zaduzenom_spisku'))
         ->addSelect(DB::raw(
