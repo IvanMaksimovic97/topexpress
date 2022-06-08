@@ -490,7 +490,7 @@ class DostavaController extends Controller
         $header = array('size' => 16, 'bold' => true);
         $section->addText(htmlspecialchars('Pošiljalac: '.$posiljalac->naziv), $header);
         $section->addTextBreak(1);
-        $section->addText(htmlspecialchars('Brojevi spiskova: '.implode(',', $posiljke->pluck('broj_spiska')->unique()->sort()->toArray()).' Datum: '.date('d.m.Y.', strtotime($datum))), $header);
+        $section->addText(htmlspecialchars('ISPLATA URUČENIH POŠILJAKA Datum: '.date('d.m.Y.', strtotime($datum))), $header);
         $section->addTextBreak(1);
 
         $styleTable = array('borderSize' => 6, 'borderColor' => '000000', 'cellMargin' => 80);
@@ -503,7 +503,7 @@ class DostavaController extends Controller
         $table->addRow();
         $table->addCell(500, $styleCell)->addText(htmlspecialchars('R.B.'), $fontStyle);
         $table->addCell(3000, $styleCell)->addText(htmlspecialchars('PRIMALAC'), $fontStyle);
-        $table->addCell(3000, $styleCell)->addText(htmlspecialchars('RADNIK'), $fontStyle);
+        // $table->addCell(3000, $styleCell)->addText(htmlspecialchars('RADNIK'), $fontStyle);
         $table->addCell(2000, $styleCell)->addText(htmlspecialchars('BROJ POŠILJKE'), $fontStyle);
         $table->addCell(2000, $styleCell)->addText(htmlspecialchars('IZNOS'), $fontStyle);
         $table->addCell(2500, $styleCell)->addText(htmlspecialchars('NAPOMENA'), $fontStyle);
@@ -519,8 +519,8 @@ class DostavaController extends Controller
             $c2->addText(htmlspecialchars($stavka->primalac->naziv));
             //$c2->addText(htmlspecialchars($stavka->primalac->kontakt_telefon));
 
-            $cr = $table->addCell(3000);
-            $cr->addText(htmlspecialchars($stavka->radnik));
+            // $cr = $table->addCell(3000);
+            // $cr->addText(htmlspecialchars($stavka->radnik));
             
             $c3 = $table->addCell(2000);
             $c3->addText(htmlspecialchars($stavka->broj_posiljke));
@@ -543,8 +543,8 @@ class DostavaController extends Controller
         $c2->addText(htmlspecialchars(''));
         //$c2->addText(htmlspecialchars($stavka->primalac->kontakt_telefon));
 
-        $cr = $table->addCell(3000);
-        $cr->addText(htmlspecialchars(''));
+        // $cr = $table->addCell(3000);
+        // $cr->addText(htmlspecialchars(''));
         
         $c3 = $table->addCell(2000);
         $c3->addText(htmlspecialchars('UKUPNO'));
@@ -555,10 +555,10 @@ class DostavaController extends Controller
         $c5 = $table->addCell(2500);
         $c5->addText(htmlspecialchars(''));
 
-        // $section->addTextBreak(1);
-        // $section->addText(htmlspecialchars('POŠILJKE PREDAO: '.Korisnik::ulogovanKorisnik()->ime.' '.Korisnik::ulogovanKorisnik()->prezime));
-        // $section->addTextBreak(1);
-        // $section->addText(htmlspecialchars('POŠILJKE PRIMIO: '.$dostava->radnik));
+        $section->addTextBreak(1);
+        $section->addText(htmlspecialchars('POŠILJKE PREDAO: '.Korisnik::ulogovanKorisnik()->ime.' '.Korisnik::ulogovanKorisnik()->prezime));
+        $section->addTextBreak(1);
+        $section->addText(htmlspecialchars('POŠILJKE PRIMIO: '));
 
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
         try {
