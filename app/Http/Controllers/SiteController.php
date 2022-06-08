@@ -29,11 +29,11 @@ class SiteController extends Controller
         $poruka .= "Telefon: ".$request->telefon."<br>";
         $poruka .= "<br>".$request->message;
 
-        Mail::send([], [], function ($msg) use ($request, $poruka) {
-            $msg->from('info@topexpress.rs', 'Kontakt poruka - TOP EXPRESS 2022 d.o.o.');
-            $msg->to('office@topexpress.rs');
-            $msg->subject($request->subject);
-            $msg->setBody($poruka, 'text/html');
-        });
+        // Mail::send([], [], function ($msg) use ($request, $poruka) {
+        //     $msg->from('info@topexpress.rs', 'Kontakt poruka - TOP EXPRESS 2022 d.o.o.');
+        //     $msg->to('office@topexpress.rs');
+        //     $msg->subject($request->subject);
+        //     $msg->setBody($poruka, 'text/html');
+        // });
     }
 }

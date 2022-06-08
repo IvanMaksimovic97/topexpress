@@ -507,12 +507,12 @@ function dateParse(date)
 {
 	let datum = new Date(date);
 
-	return datum.getDate() + '.' + datum.getMonth() + '.' + datum.getFullYear() + '.' + ' ' + datum.getHours() + ':' + datum.getMinutes() + ':' + datum.getSeconds();
+	return datum.getDate() + '.' + (datum.getMonth() + 1) + '.' + datum.getFullYear() + '.' + ' ' + datum.getHours() + ':' + datum.getMinutes() + ':' + datum.getSeconds();
 }
 
 function korisnikRender(element)
 {
-	return `${element.naziv}<br>${element.ulica} ${element.broj}<br>${element.kontakt_telefon}`;
+	return `${element.naziv}`;
 }
 </script>
 @endsection
