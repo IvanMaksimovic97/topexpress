@@ -296,6 +296,21 @@ class DostavaController extends Controller
         $section->addText(htmlspecialchars('Dostavni spisak broj: '.$dostava->broj_spiska.' Datum: '.date('d.m.Y.', strtotime($dostava->za_datum))), $header);
         $section->addTextBreak(1);
 
+        $section->addText(htmlspecialchars('Legenda:'), $header);
+        $section->addTextBreak(1);
+
+        $header2 = array('size' => 9, 'bold' => false);
+        $headerNoBold = array('size' => 12, 'bold' => false);
+
+        $section->addText(htmlspecialchars('1 - OBAVEŠTEN'), $header2);
+        $section->addText(htmlspecialchars('2 - NAREDNA DOSTAVA'), $header2);
+        $section->addText(htmlspecialchars('3 - NEPOZNAT NA ADRESI'), $header2);
+        $section->addText(htmlspecialchars('4 - ODSELJEN'), $header2);
+        $section->addText(htmlspecialchars('5 - ODBIJA PRIJEM'), $header2);
+        $section->addText(htmlspecialchars('6 - IZGUBLJENA POŠILJKA'), $header2);
+            
+        $section->addTextBreak(1);
+
         $styleTable = array('borderSize' => 6, 'borderColor' => '000000', 'cellMargin' => 80);
         $styleFirstRow = array('borderBottomSize' => 18, 'borderBottomColor' => '000000');
         $styleCell = array('space' => array('line' => 1000));
