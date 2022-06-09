@@ -305,7 +305,7 @@
                 <input value="{{ $posiljka->broj_racuna }}" class="form-control {{ $posiljka->otkupnina_vrsta == 'Nalog za uplatu' ? '' : 'd-none' }}" name="broj_racuna" type="text" placeholder="Broj računa" id="broj_racuna" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                 <input type="hidden" id="racun_id" name="racun_id">
             </div>
-            <div class="form-group px-4">
+            <div class="form-group mb-0 px-4">
                 <div class="form-check">
                     <label class="form-check-label">
                       <input {{ $posiljka->otkupnina_vrsta == 'TOP EXPRESS uputnica' ? 'checked="checked"' : '' }} type="radio" {{ $posiljka->ima_otkupninu ? '' : 'disabled' }} class="form-check-input radio-uplata" name="otkupnina_vrsta" value="TOP EXPRESS uputnica" id="postanska-uputnica">
@@ -313,7 +313,8 @@
                     <i class="input-helper"></i></label>
                 </div>
             </div>
-            <div class="form-group mb-0">
+            <div class="form-group px-4 text-danger d-none" id="otkupnina-vrsta-upozorenje">Izaberite opciju iznad!</div>
+            <div class="form-group mt-4 mb-0">
                 <div class="form-check">
                     <label class="form-check-label">
                       <input {{ $posiljka->povratnica ? 'checked="checked"' : '' }} type="checkbox" value="povratnica" name="povratnica" class="form-check-input">

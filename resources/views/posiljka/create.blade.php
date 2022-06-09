@@ -282,9 +282,19 @@ $(document).on('click', '#rucni-unos', function (e) {
     }
 });
 
+$(document).on('click', "input:radio[name='otkupnina_vrsta']", function(e) {
+    if ($("input:radio[name='otkupnina_vrsta']").is(":checked")) {
+        $('#otkupnina-vrsta-upozorenje').addClass('d-none');
+    } else {
+        $('#otkupnina-vrsta-upozorenje').removeClass('d-none');
+    }
+});
+
 $(document).on('click', '#unesi', function(e) {
     $('#sadrzina').css('border-color', '#dee2e6');
     $('#otkupnina').removeClass('is-invalid');
+
+    $('#otkupnina-vrsta-upozorenje').addClass('d-none');
 
     let valid = true;
     let elements = [
@@ -342,6 +352,12 @@ $(document).on('click', '#unesi', function(e) {
     if (otkupnina_val > vrednost_val) {
         otkupnina.addClass('is-invalid');
         valid = false;
+    }
+
+    if ($('#ima_otkupninu').is(":checked")) {
+        if (!$("input:radio[name='otkupnina_vrsta']").is(":checked")) {
+            $('#otkupnina-vrsta-upozorenje').removeClass('d-none');
+        }
     }
 
     if (!valid) {
