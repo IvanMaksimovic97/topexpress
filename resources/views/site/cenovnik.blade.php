@@ -21,7 +21,7 @@
         <div class="row">
             <div class="col">
 
-                <h1 class="d-flex justify-content-center">TOP EXPRESS d.o.o. Beograd-Zemun</h1>
+                <h1 class="d-flex justify-content-center">TOP EXPRESS 2022 d.o.o. Beograd-Zemun</h1>
                 <h3 class="d-flex justify-content-center">Cenovnik poštanskih usluga u unutrašnjem poštanskom saobraćaju</h3>
                 <h3 class="d-flex justify-content-center">Cena za pošiljke standardnih dimenzija (maksimalno do 60x60x60cm)</h3>
 
@@ -139,7 +139,7 @@
                   <p><strong>* GLOMAZNA pošiljka</strong> je pošiljka van standardnih dimenzija čija najveća dimenzija prelazi 60x60x60cm, pri čemu je zbir dužine i obima pošiljke na najširem mestu poprečno maksimalno do 300 cm , s tim da najveća dimenzija pošiljke može biti do 150 cm, a ukupne mase od 10 kg do 100 kg. Takva pošiljka podleže naplati dopunske poštarine na cenu po masi za pošiljke standardnih dimenzija. Za ovu vrstu pošiljaka primenjuje se obračun poštarine tako što se na cenovni stav po masi za pošiljku standardnih dimenzija, iznos ukupne poštarine uvećava za 1250,00 dinara bez PDV-a, odnosno 1.500,00 dinara sa PDV-om.</p>
                   <p><strong>* Paletirana pošiljka</strong> je jedna ili više kutija složenih na ravnu standardnu euro paletu, od istog pošiljaoca za istog primaoca maksimalne težine do 600kg i visine do 1,85 m. Za ovu vrstu pošiljaka propisuje se cenovni stav od 10.000,00 dinara bez PDV-a, odnosno 12.000,00 dinara sa PDV-om.</p>
 
-                  <h3 class="d-flex justify-content-center mt-5 mb-5">Dodatna cena na cenu za pošiljke standardnih i van standardnih dimenzje za dopunske i dodatne usluge:</h3>
+                  <h3 class="d-flex justify-content-center mt-5 mb-5">Dodatna cena na cenu za pošiljke standardnih i van standardnih dimenzija za dopunske i dodatne usluge:</h3>
                   <p class="mb-1">* Vrednosna poštanska pošiljka naplaćuje se 1% od naznačene vrednosti, a minimalno 20,00 dinara sa PDV-om za vrednosti do 2000,00 dinara</p>
                   <p class="mb-1">* Pošiljka sa plaćenim odgovorom 120,00 dinara sa PDV-om</p>
                   <p class="mb-1">* Pošiljka sa zahtevom za vraćanje potpisane dokumentacije 120,00 dinara sa PDV-om</p>
