@@ -22,6 +22,13 @@ class IsLoggedIn
             return redirect()->route('cms.login-front')->withErrors(['Morate biti prijavljeni!']);
         }
 
+        //privremeno
+        $ulogovani = Korisnik::ulogovanKorisnik();
+        if ($ulogovani->uloga_id == 2) {
+            Korisnik::logout();
+            return redirect()->route('cms.login-front')->withErrors(['Niste vlasnik!']);
+        }
+
         return $next($request);
     }
 }

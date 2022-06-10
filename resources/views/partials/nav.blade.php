@@ -15,8 +15,8 @@
         </a>
         <div class="collapse" id="posiljke-meni">
           <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="{{ route('cms.posiljka.index') }}">Lista</a></li>
             <li class="nav-item"> <a class="nav-link" href="{{ route('cms.posiljka.create') }}">Nova</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ route('cms.posiljka.index') }}">Lista</a></li>
           </ul>
         </div>
       </li>
@@ -28,8 +28,8 @@
         </a>
         <div class="collapse" id="dostava-meni">
           <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="{{ route('cms.dostava.index') }}">Lista</a></li>
             <li class="nav-item"> <a class="nav-link" href="{{ route('cms.dostava.create') }}">Nova</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ route('cms.dostava.index') }}">Lista</a></li>
           </ul>
         </div>
       </li>
@@ -41,8 +41,8 @@
         </a>
         <div class="collapse" id="kompanija-meni">
           <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="{{ route('cms.kompanija.index') }}">Lista</a></li>
             <li class="nav-item"> <a class="nav-link" href="{{ route('cms.kompanija.create') }}">Nova</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ route('cms.kompanija.index') }}">Lista</a></li>
           </ul>
         </div>
       </li>
@@ -54,8 +54,21 @@
         </a>
         <div class="collapse" id="ugovor-meni">
           <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="{{ route('cms.ugovor.index') }}">Lista</a></li>
             <li class="nav-item"> <a class="nav-link" href="{{ route('cms.ugovor.create') }}">Novi</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ route('cms.ugovor.index') }}">Lista</a></li>
+          </ul>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="collapse" href="#radnici-meni" aria-expanded="false" aria-controls="ui-basic">
+          <i class="mdi mdi-worker menu-icon"></i>
+          <span class="menu-title">Radnici</span>
+          <i class="menu-arrow"></i> 
+        </a>
+        <div class="collapse" id="radnici-meni">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item"> <a class="nav-link" href="{{ route('cms.radnik.create') }}">Novi</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ route('cms.radnik.index') }}">Lista</a></li>
           </ul>
         </div>
       </li>

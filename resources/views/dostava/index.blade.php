@@ -42,7 +42,7 @@
       <div class="card-body">
         <h4 class="card-title">Lista dostavnih spiskova</h4>
         <div class="table-responsive pt-3">
-          <table class="table table-bordered">
+          <table class="table table-bordered table-sm">
             <thead>
               <tr>
                 <th>Štampaj</th>
@@ -106,7 +106,7 @@
       <h4 class="card-title mb-0">Izveštaj</h4>
       <div class="table-responsive pt-3">
           <div class="table-responsive">
-            <table class="table" style="white-space: nowrap!important; width: 1%!important;">
+            <table class="table table-sm" style="white-space: nowrap!important; width: 1%!important;">
               <thead>
                 
               </thead>
@@ -133,7 +133,7 @@
       <h4 class="card-title mb-0">Izveštaj po pošiljaocu</h4>
       <div class="table-responsive pt-3">
               <div class="table-responsive">
-                <table class="table table-bordered" style="white-space: nowrap!important; width: 1%!important;">
+                <table class="table table-bordered table-sm" style="white-space: nowrap!important; width: 1%!important;">
                   <thead>
                     <tr>
                       <th>Štampaj</th>

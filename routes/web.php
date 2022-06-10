@@ -45,7 +45,8 @@ Route::group([
             'posiljka' => 'PosiljkaController',
             'dostava' => 'DostavaController',
             'kompanija' => 'CompanyController',
-            'ugovor' => 'UgovorController'
+            'ugovor' => 'UgovorController',
+            'radnik' => 'RadnikController'
         ]);
 
         Route::get('/posiljke/{ids?}', 'DostavaController@posiljke')->name('posiljke');
