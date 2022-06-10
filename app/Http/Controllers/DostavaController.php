@@ -52,9 +52,17 @@ class DostavaController extends Controller
                     ->join('dostava', 'dostava_stavka.dostava_id', '=', 'dostava.id')
                     ->whereIn('dostava_stavka.dostava_id', $spisak->pluck('id')->toArray())
                     ->where('dostava_stavka.status', 2)
-                    ->select('posiljka.*', 'dostava.radnik', 'dostava.broj_spiska', 'dostava_stavka.status as status_po_spisku', 'dostava_stavka.dostava_id')
+                    ->select(
+                        'posiljka.*', 
+                        'dostava.radnik', 
+                        'dostava.broj_spiska', 
+                        'dostava_stavka.status as status_po_spisku', 
+                        'dostava_stavka.dostava_id', 
+                        'dostava_stavka.deleted_at as stavka_obrisana'
+                    )
                     // ->orderBy('posiljka.primalac_id', 'asc')
                     // ->orderBy('dostava.radnik', 'asc')
+                    ->havingRaw('stavka_obrisana IS NULL')
                     ->get();
 
         $izvestaj = new PosiljkaTabela($posiljke, $spisak);
@@ -387,6 +395,7 @@ class DostavaController extends Controller
         $dostava = Dostava::with([
             'stavke' => function($q) use ($posiljalac_id) {
                 $q->where('dostava_stavka.status', 2);
+                $q->whereNull('dostava_stavka.deleted_at');
                 $q->where('posiljka.posiljalac_id', $posiljalac_id);
             },
             'stavke.posiljalac',
@@ -493,9 +502,17 @@ class DostavaController extends Controller
             ->whereIn('dostava_stavka.dostava_id', explode(',', $spiskovi))
             ->where('posiljka.posiljalac_id', $posiljalac_id)
             ->where('dostava_stavka.status', 2)
-            ->select('posiljka.*', 'dostava.radnik', 'dostava.broj_spiska', 'dostava_stavka.status as status_po_spisku', 'dostava_stavka.dostava_id')
+            ->select(
+                'posiljka.*', 
+                'dostava.radnik', 
+                'dostava.broj_spiska', 
+                'dostava_stavka.status as status_po_spisku', 
+                'dostava_stavka.dostava_id',
+                'dostava_stavka.deleted_at as stavka_obrisana'
+            )
             // ->orderBy('posiljka.primalac_id', 'asc')
             // ->orderBy('dostava.radnik', 'asc')
+            ->havingRaw('stavka_obrisana IS NULL')
             ->get();
         
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
