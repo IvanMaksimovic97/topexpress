@@ -122,7 +122,7 @@
 	<div class="container">
 		<div class="row align-items-center">
 			<div class="col-lg-5">
-				<img class="img-fluid w-100" src="{{ asset('site/images/dostavljac2.jpg') }}" alt="">
+				<img class="img-fluid w-100" src="{{ asset('site/images/dostavljac2.jpg') }}" alt="dostavljac">
 			</div>
 			<div class="col-lg-7 py-5 py-lg-0">
 				{{-- <h6 class="text-danger text-uppercase font-weight-bold">Preuzimanje</h6> --}}
@@ -202,7 +202,7 @@
 				<a href="" class="btn btn-primary mt-3 py-2 px-4">Learn More</a> --}}
 			</div>
 			<div class="col-lg-5">
-				<img class="img-fluid w-100" src="{{ asset('site/images/dostavljac3.jpg') }}" alt="">
+				<img class="img-fluid w-100" src="{{ asset('site/images/dostavljac3.jpg') }}" alt="dostavljac">
 			</div>
 		</div>
 	</div>
@@ -374,7 +374,7 @@
 			<div class="position-relative bg-secondary p-4">
 				<i class="fa fa-3x fa-quote-right text-danger position-absolute" style="top: -6px; right: 0;"></i>
 				<div class="d-flex align-items-center mb-3">
-					<img class="img-fluid rounded-circle" src="{{ asset('logistics-company/img/testimonial-1.jpg') }}" style="width: 60px; height: 60px;" alt="">
+					<img class="img-fluid rounded-circle" src="{{ asset('logistics-company/img/testimonial-1.jpg') }}" style="width: 60px; height: 60px;" alt="klijent">
 					<div class="ml-3">
 						<h6 class="font-weight-semi-bold m-0">Igor Petrović</h6>
 						<small>- Ekonimsita</small>
@@ -385,7 +385,7 @@
 			<div class="position-relative bg-secondary p-4">
 				<i class="fa fa-3x fa-quote-right text-danger position-absolute" style="top: -6px; right: 0;"></i>
 				<div class="d-flex align-items-center mb-3">
-					<img class="img-fluid rounded-circle" src="{{ asset('logistics-company/img/testimonial-2.jpg') }}" style="width: 60px; height: 60px;" alt="">
+					<img class="img-fluid rounded-circle" src="{{ asset('logistics-company/img/testimonial-2.jpg') }}" style="width: 60px; height: 60px;" alt="klijent">
 					<div class="ml-3">
 						<h6 class="font-weight-semi-bold m-0">Marko Lazić</h6>
 						<small>- Advokat</small>
@@ -396,7 +396,7 @@
 			<div class="position-relative bg-secondary p-4">
 				<i class="fa fa-3x fa-quote-right text-danger position-absolute" style="top: -6px; right: 0;"></i>
 				<div class="d-flex align-items-center mb-3">
-					<img class="img-fluid rounded-circle" src="{{ asset('logistics-company/img/testimonial-3.jpg') }}" style="width: 60px; height: 60px;" alt="">
+					<img class="img-fluid rounded-circle" src="{{ asset('logistics-company/img/testimonial-3.jpg') }}" style="width: 60px; height: 60px;" alt="klijent">
 					<div class="ml-3">
 						<h6 class="font-weight-semi-bold m-0">Miroslav Stefanović</h6>
 						<small>- Profesor</small>
@@ -407,7 +407,7 @@
 			<div class="position-relative bg-secondary p-4">
 				<i class="fa fa-3x fa-quote-right text-danger position-absolute" style="top: -6px; right: 0;"></i>
 				<div class="d-flex align-items-center mb-3">
-					<img class="img-fluid rounded-circle" src="{{ asset('logistics-company/img/testimonial-4.jpg') }}" style="width: 60px; height: 60px;" alt="">
+					<img class="img-fluid rounded-circle" src="{{ asset('logistics-company/img/testimonial-4.jpg') }}" style="width: 60px; height: 60px;" alt="klijent">
 					<div class="ml-3">
 						<h6 class="font-weight-semi-bold m-0">Lazar Jovanović</h6>
 						<small>- Pravnik</small>
