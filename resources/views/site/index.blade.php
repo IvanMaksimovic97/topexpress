@@ -117,6 +117,28 @@
 </div> --}}
 <!-- Quote Request Start -->
 
+<!-- Features Start -->
+<div class="container-fluid bg-secondary my-5">
+	<div class="container">
+		<div class="row align-items-center">
+			<div class="col-lg-5">
+				<img class="img-fluid w-100" src="{{ asset('site/images/dostavljac2.jpg') }}" alt="">
+			</div>
+			<div class="col-lg-7 py-5 py-lg-0">
+				{{-- <h6 class="text-danger text-uppercase font-weight-bold">Preuzimanje</h6> --}}
+				<h1 class="mb-4">Preuzimanje</h1>
+				<p class="mb-4">Zakažite kurira u vreme kada Vam odgovara da pošaljete pošiljku</p>
+				{{-- <ul class="list-inline">
+					<li><h6><i class="far fa-dot-circle text-primary mr-3"></i>Best In Industry</h6>
+					<li><h6><i class="far fa-dot-circle text-primary mr-3"></i>Emergency Services</h6></li>
+					<li><h6><i class="far fa-dot-circle text-primary mr-3"></i>24/7 Customer Support</h6></li>
+				</ul>
+				<a href="" class="btn btn-primary mt-3 py-2 px-4">Learn More</a> --}}
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Features End -->
 
 <!-- Services Start -->
 <div class="container-fluid pt-5">
@@ -165,26 +187,26 @@
 
 
 <!-- Features Start -->
-{{-- <div class="container-fluid bg-secondary my-5">
+<div class="container-fluid bg-secondary my-5">
 	<div class="container">
 		<div class="row align-items-center">
-			<div class="col-lg-5">
-				<img class="img-fluid w-100" src="{{ asset('logistics-company/img/feature.jpg') }}" alt="">
-			</div>
 			<div class="col-lg-7 py-5 py-lg-0">
-				<h6 class="text-primary text-uppercase font-weight-bold">Why Choose Us</h6>
-				<h1 class="mb-4">Faster, Safe and Trusted Logistics Services</h1>
-				<p class="mb-4">Dolores lorem lorem ipsum sit et ipsum. Sadip sea amet diam dolore sed et. Sit rebum labore sit sit ut vero no sit. Et elitr stet dolor sed sit et sed ipsum et kasd ut. Erat duo eos et erat sed diam duo</p>
-				<ul class="list-inline">
+				{{-- <h6 class="text-danger text-uppercase font-weight-bold">Preuzimanje</h6> --}}
+				<h1 class="mb-4">Dostava</h1>
+				<p class="mb-4">Dostavljanje pošiljaka u dogovoreno vreme na mesto gde Vama odgovara!</p>
+				{{-- <ul class="list-inline">
 					<li><h6><i class="far fa-dot-circle text-primary mr-3"></i>Best In Industry</h6>
 					<li><h6><i class="far fa-dot-circle text-primary mr-3"></i>Emergency Services</h6></li>
 					<li><h6><i class="far fa-dot-circle text-primary mr-3"></i>24/7 Customer Support</h6></li>
 				</ul>
-				<a href="" class="btn btn-primary mt-3 py-2 px-4">Learn More</a>
+				<a href="" class="btn btn-primary mt-3 py-2 px-4">Learn More</a> --}}
+			</div>
+			<div class="col-lg-5">
+				<img class="img-fluid w-100" src="{{ asset('site/images/dostavljac3.jpg') }}" alt="">
 			</div>
 		</div>
 	</div>
-</div> --}}
+</div>
 <!-- Features End -->
 
 
