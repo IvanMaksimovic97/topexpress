@@ -65,6 +65,10 @@ class PosiljkaController extends Controller
         }
 
         $posiljke = $posiljke->get();
+
+        if (request()->stampajadresnice) {
+            return Posiljka::stampajAdresnice($posiljke);
+        }
         
         return view('posiljka.index', compact('posiljke'));
     }

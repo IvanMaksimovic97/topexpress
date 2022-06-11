@@ -39,14 +39,15 @@ class UpdateBarKodPosiljke extends Command
      */
     public function handle()
     {
-        $posiljke = Posiljka::where('broj_posiljke', 'TE000730BG')->get();
+        $posiljke = Posiljka::where('bar_kod', '')->get();
 
+        //dd($posiljke);
         if (count($posiljke) == 0) {
             die('Nema vise posiljki!');
         }
 
         DB::transaction(function () use ($posiljke) {
-            for ($i = 0; $i <= 14; $i++) {
+            for ($i = 0; $i <= 2; $i++) {
                 $posiljke[$i]->setBarCode();
                 $posiljke[$i]->save();
             }
