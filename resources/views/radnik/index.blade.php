@@ -13,7 +13,7 @@
                     <div class="row">
                         <div class="col">
                             <h4 class="card-title">Naziv</h4>
-                            <input type="text" class="form-control" value="{!! request()->search !!}" name="search" placeholder="Pretraga po nazivu firme">
+                            <input type="text" class="form-control" value="{!! request()->search !!}" name="search" placeholder="Pretraga radnika">
                         </div>
                     </div>
                 </div>

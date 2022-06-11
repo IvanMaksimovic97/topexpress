@@ -45,13 +45,13 @@
                 @if(Route::currentRouteName() == 'cms.radnik.edit')
                 <div class="row">
                     <div class="form-group">
-                        <label>Password</label>
+                        <label>Lozinka</label>
                         <input type="password" class="form-control" value="" name="password" id="password" />
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group">
-                        <label>Password confirm</label>
+                        <label>Potvrda lozinke</label>
                         <input type="password" class="form-control" value="" name="password_confirmation" id="password_confirmation"/>
                     </div>
                 </div>

@@ -65,4 +65,14 @@ class Posiljka extends Model
         $this->postarina = $this->nacin_placanja_id == '1' ? 0 : $postarina;
         //$this->status = 0;
     }
+
+    public function setBarCode()
+    {
+        @unlink($this->bar_kod);
+
+        $barcodeImage = file_get_contents('https://barcode.tec-it.com/barcode.ashx?data='.$this->broj_posiljke);
+        file_put_contents('storage/'.$this->broj_posiljke.'.jpg', $barcodeImage);
+
+        $this->bar_kod = $this->broj_posiljke.'.jpg';
+    }
 }

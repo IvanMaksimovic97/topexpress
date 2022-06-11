@@ -221,6 +221,7 @@ class PosiljkaController extends Controller
 
         $posiljka = new Posiljka;
         $posiljka->setValues($request->firma_id ?? -1, $posiljalac->id, $primalac->id, $cena_konacna);
+        $posiljka->setBarCode();
         $posiljka->save();
 
         if ($request->broj_racuna != null && $request->broj_racuna != '') {
