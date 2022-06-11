@@ -1,5 +1,5 @@
 @extends('template.site')
-@section('title', 'TOP EXPRESS')
+@section('title', 'TOP EXPRESS 2022 d.o.o.')
 @section('content')
 <!-- Header Start -->
 <div class="jumbotron jumbotron-fluid mb-5">

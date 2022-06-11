@@ -1,12 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sr">
 
 <head>
     <meta charset="utf-8">
     <title>@yield('title')</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Free HTML Templates" name="keywords">
-    <meta content="Free HTML Templates" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="TOP EXPRESS 2022 d.o.o. je firma koja se bavi pružanjem poštanskih usluga." />
+    <meta name="author" content="Ivan Maksimović" />
+    <meta name="keywords" content="kurirska služba, topexpress, top, express, pošta, slanje paketa, poštanske usluge, dostava" />
+    <meta name="classification" content="Prijem pošiljki, Dostava pošiljki">
+    <meta property="og:title" content="TOP EXPRESS 2022 d.o.o. - Beograd-Zemun">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://topexpress.rs">
+    <meta property="og:site_name" content="TOP EXPRESS 2022 d.o.o. - Beograd-Zemun">
+    <meta property="og:image" content="{{ asset('favicon.ico') }}">
+    <!--dodaj logo-->
+    <meta property="og:description" content="TOP EXPRESS 2022 d.o.o. je firma koja se bavi pružanjem poštanskih usluga.">
 
     <!-- Favicon -->
     <link href="{{ asset('favicon.ico') }}" rel="icon">
