@@ -25,7 +25,7 @@
                 <h3 class="d-flex justify-content-center">Cenovnik poštanskih usluga u unutrašnjem poštanskom saobraćaju</h3>
                 <h3 class="d-flex justify-content-center">Cena za pošiljke standardnih dimenzija (maksimalno do 60x60x60cm)</h3>
 
-                <h3 class="d-flex justify-content-center mt-5">Cenovnik usluge "Danas za sutra"</h3>
+                <h3 class="d-flex justify-content-center mt-5" id="danaszasutra">Cenovnik usluge "Danas za sutra"</h3>
                 <table class="table table-bordered table-striped">
                     <thead class="thead-dark">
                       <tr>
@@ -83,7 +83,7 @@
                     </tbody>
                   </table>
 
-                  <h3 class="d-flex justify-content-center mt-5">Cenovnik usluge "Danas za danas"</h3>
+                  <h3 class="d-flex justify-content-center mt-5" id="danaszadanas">Cenovnik usluge "Danas za danas"</h3>
                   <table class="table table-bordered table-striped">
                     <thead class="thead-dark">
                       <tr>
@@ -116,7 +116,7 @@
                     </tbody>
                   </table>
 
-                  <h3 class="d-flex justify-content-center mt-5">Cenovnik usluge "Danas za odmah"</h3>
+                  <h3 class="d-flex justify-content-center mt-5" id="danaszaodmah">Cenovnik usluge "Danas za odmah"</h3>
                   <table class="table table-bordered table-striped">
                     <thead class="thead-dark">
                       <tr>

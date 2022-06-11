@@ -62,12 +62,12 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> --}}
 <!-- About End -->
 
 
 <!--  Quote Request Start -->
-<div class="container-fluid bg-secondary my-5">
+{{-- <div class="container-fluid bg-secondary my-5">
 	<div class="container">
 		<div class="row align-items-center">
 			<div class="col-lg-7 py-5 py-lg-0">
@@ -114,7 +114,7 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> --}}
 <!-- Quote Request Start -->
 
 
@@ -122,42 +122,42 @@
 <div class="container-fluid pt-5">
 	<div class="container">
 		<div class="text-center pb-2">
-			<h6 class="text-primary text-uppercase font-weight-bold">Our Services</h6>
-			<h1 class="mb-4">Best Logistic Services</h1>
+			<h6 class="text-danger text-uppercase font-weight-bold">Naše usluge</h6>
+			<h1 class="mb-4">Naše najvažnije usluge</h1>
 		</div>
 		<div class="row pb-3">
-			<div class="col-lg-3 col-md-6 text-center mb-5">
-				<div class="d-flex align-items-center justify-content-center bg-primary mb-4 p-4">
-					<i class="fa fa-2x fa-plane text-dark pr-3"></i>
-					<h6 class="text-white font-weight-medium m-0">Air Freight</h6>
-				</div>
-				<p>Diam amet eos at no eos sit lorem, amet rebum ipsum clita stet diam sea est diam</p>
-				<a class="border-bottom text-decoration-none" href="">Read More</a>
-			</div>
-			<div class="col-lg-3 col-md-6 text-center mb-5">
-				<div class="d-flex align-items-center justify-content-center bg-primary mb-4 p-4">
-					<i class="fa fa-2x fa-ship text-dark pr-3"></i>
-					<h6 class="text-white font-weight-medium m-0">Ocean Freight</h6>
-				</div>
-				<p>Diam amet eos at no eos sit lorem, amet rebum ipsum clita stet diam sea est diam</p>
-				<a class="border-bottom text-decoration-none" href="">Read More</a>
-			</div>
-			<div class="col-lg-3 col-md-6 text-center mb-5">
-				<div class="d-flex align-items-center justify-content-center bg-primary mb-4 p-4">
+			<div class="col-lg-4 col-md-6 text-center mb-5">
+				<div class="d-flex align-items-center justify-content-center bg-danger mb-4 p-4">
 					<i class="fa fa-2x fa-truck text-dark pr-3"></i>
-					<h6 class="text-white font-weight-medium m-0">Land Transport</h6>
+					<h6 class="text-white font-weight-medium m-0">Danas za sutra</h6>
 				</div>
-				<p>Diam amet eos at no eos sit lorem, amet rebum ipsum clita stet diam sea est diam</p>
-				<a class="border-bottom text-decoration-none" href="">Read More</a>
+				<p>Pošaljite vi pošiljku ili naručite da vam odnesemo u toku dana ili odmah</p>
+				<a class="border-bottom text-decoration-none" href="{{ route('cenovnik') }}#danaszasutra">Cenovnik</a>
 			</div>
-			<div class="col-lg-3 col-md-6 text-center mb-5">
+			<div class="col-lg-4 col-md-6 text-center mb-5">
+				<div class="d-flex align-items-center justify-content-center bg-danger mb-4 p-4">
+					<i class="fa fa-2x fa fa-plane text-dark pr-3"></i>
+					<h6 class="text-white font-weight-medium m-0">Danas za danas</h6>
+				</div>
+				<p>Pošaljite vi pošiljku ili naručite da vam odnesemo u toku dana ili odmah</p>
+				<a class="border-bottom text-decoration-none" href="{{ route('cenovnik') }}#danaszadanas">Cenovnik</a>
+			</div>
+			<div class="col-lg-4 col-md-6 text-center mb-5">
+				<div class="d-flex align-items-center justify-content-center bg-danger mb-4 p-4">
+					<i class="fa fa-2x fa fa-rocket text-dark pr-3"></i>
+					<h6 class="text-white font-weight-medium m-0">Danas za odmah</h6>
+				</div>
+				<p>Pošaljite vi pošiljku ili naručite da vam odnesemo u toku dana ili odmah</p>
+				<a class="border-bottom text-decoration-none" href="{{ route('cenovnik') }}#danaszaodmah">Cenovnik</a>
+			</div>
+			{{-- <div class="col-lg-3 col-md-6 text-center mb-5">
 				<div class="d-flex align-items-center justify-content-center bg-primary mb-4 p-4">
 					<i class="fa fa-2x fa-store text-dark pr-3"></i>
 					<h6 class="text-white font-weight-medium m-0">Cargo Storage</h6>
 				</div>
 				<p>Diam amet eos at no eos sit lorem, amet rebum ipsum clita stet diam sea est diam</p>
 				<a class="border-bottom text-decoration-none" href="">Read More</a>
-			</div>
+			</div> --}}
 		</div>
 	</div>
 </div>
@@ -165,7 +165,7 @@
 
 
 <!-- Features Start -->
-<div class="container-fluid bg-secondary my-5">
+{{-- <div class="container-fluid bg-secondary my-5">
 	<div class="container">
 		<div class="row align-items-center">
 			<div class="col-lg-5">
@@ -184,12 +184,12 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> --}}
 <!-- Features End -->
 
 
 <!-- Pricing Plan Start -->
-<div class="container-fluid pt-5">
+{{-- <div class="container-fluid pt-5">
 	<div class="container">
 		<div class="text-center pb-2">
 			<h6 class="text-primary text-uppercase font-weight-bold">Pricing Plan</h6>
@@ -255,12 +255,12 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> --}}
 <!-- Pricing Plan End -->
 
 
 <!-- Team Start -->
-<div class="container-fluid pt-5">
+{{-- <div class="container-fluid pt-5">
 	<div class="container">
 		<div class="text-center pb-2">
 			<h6 class="text-primary text-uppercase font-weight-bold">Delivery Team</h6>
@@ -337,7 +337,7 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> --}}
 <!-- Team End -->
 
 
@@ -345,50 +345,50 @@
 <div class="container-fluid py-5">
 	<div class="container">
 		<div class="text-center pb-2">
-			<h6 class="text-primary text-uppercase font-weight-bold">Testimonial</h6>
-			<h1 class="mb-4">Our Clients Say</h1>
+			<h6 class="text-danger text-uppercase font-weight-bold">Recenzije</h6>
+			<h1 class="mb-4">Šta kažu naši klijenti</h1>
 		</div>
 		<div class="owl-carousel testimonial-carousel">
 			<div class="position-relative bg-secondary p-4">
-				<i class="fa fa-3x fa-quote-right text-primary position-absolute" style="top: -6px; right: 0;"></i>
+				<i class="fa fa-3x fa-quote-right text-danger position-absolute" style="top: -6px; right: 0;"></i>
 				<div class="d-flex align-items-center mb-3">
 					<img class="img-fluid rounded-circle" src="{{ asset('logistics-company/img/testimonial-1.jpg') }}" style="width: 60px; height: 60px;" alt="">
 					<div class="ml-3">
-						<h6 class="font-weight-semi-bold m-0">Client Name</h6>
-						<small>- Profession</small>
+						<h6 class="font-weight-semi-bold m-0">Igor Petrović</h6>
+						<small>- Ekonimsita</small>
 					</div>
 				</div>
 				<p class="m-0">Sed ea amet kasd elitr stet, stet rebum et ipsum est duo elitr clita lorem. Dolor ipsum sanct clita</p>
 			</div>
 			<div class="position-relative bg-secondary p-4">
-				<i class="fa fa-3x fa-quote-right text-primary position-absolute" style="top: -6px; right: 0;"></i>
+				<i class="fa fa-3x fa-quote-right text-danger position-absolute" style="top: -6px; right: 0;"></i>
 				<div class="d-flex align-items-center mb-3">
 					<img class="img-fluid rounded-circle" src="{{ asset('logistics-company/img/testimonial-2.jpg') }}" style="width: 60px; height: 60px;" alt="">
 					<div class="ml-3">
-						<h6 class="font-weight-semi-bold m-0">Client Name</h6>
-						<small>- Profession</small>
+						<h6 class="font-weight-semi-bold m-0">Marko Lazić</h6>
+						<small>- Advokat</small>
 					</div>
 				</div>
 				<p class="m-0">Sed ea amet kasd elitr stet, stet rebum et ipsum est duo elitr clita lorem. Dolor ipsum sanct clita</p>
 			</div>
 			<div class="position-relative bg-secondary p-4">
-				<i class="fa fa-3x fa-quote-right text-primary position-absolute" style="top: -6px; right: 0;"></i>
+				<i class="fa fa-3x fa-quote-right text-danger position-absolute" style="top: -6px; right: 0;"></i>
 				<div class="d-flex align-items-center mb-3">
 					<img class="img-fluid rounded-circle" src="{{ asset('logistics-company/img/testimonial-3.jpg') }}" style="width: 60px; height: 60px;" alt="">
 					<div class="ml-3">
-						<h6 class="font-weight-semi-bold m-0">Client Name</h6>
-						<small>- Profession</small>
+						<h6 class="font-weight-semi-bold m-0">Miroslav Stefanović</h6>
+						<small>- Profesor</small>
 					</div>
 				</div>
 				<p class="m-0">Sed ea amet kasd elitr stet, stet rebum et ipsum est duo elitr clita lorem. Dolor ipsum sanct clita</p>
 			</div>
 			<div class="position-relative bg-secondary p-4">
-				<i class="fa fa-3x fa-quote-right text-primary position-absolute" style="top: -6px; right: 0;"></i>
+				<i class="fa fa-3x fa-quote-right text-danger position-absolute" style="top: -6px; right: 0;"></i>
 				<div class="d-flex align-items-center mb-3">
 					<img class="img-fluid rounded-circle" src="{{ asset('logistics-company/img/testimonial-4.jpg') }}" style="width: 60px; height: 60px;" alt="">
 					<div class="ml-3">
-						<h6 class="font-weight-semi-bold m-0">Client Name</h6>
-						<small>- Profession</small>
+						<h6 class="font-weight-semi-bold m-0">Lazar Jovanović</h6>
+						<small>- Pravnik</small>
 					</div>
 				</div>
 				<p class="m-0">Sed ea amet kasd elitr stet, stet rebum et ipsum est duo elitr clita lorem. Dolor ipsum sanct clita</p>
@@ -396,7 +396,7 @@
 		</div>
 	</div>
 </div>
-<!-- Testimonial End --> --}}
+<!-- Testimonial End -->
 
 <!-- Modal -->
 <div class="modal fade" id="posiljka-status-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

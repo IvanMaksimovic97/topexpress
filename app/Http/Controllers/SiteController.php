@@ -22,6 +22,11 @@ class SiteController extends Controller
         return view('site.cenovnik');
     }
 
+    public function onama()
+    {
+        return view('site.about');
+    }
+
     public function contactSendEmail(Request $request)
     {
         $poruka = "Ime: ".$request->name."<br>";

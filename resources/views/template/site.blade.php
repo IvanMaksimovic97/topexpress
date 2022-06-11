@@ -71,7 +71,7 @@
             <div class="collapse navbar-collapse justify-content-between px-lg-3" id="navbarCollapse">
                 <div class="navbar-nav m-auto py-0">
                     <a href="{{ route('index') }}" class="nav-item nav-link">POČETNA</a>
-                    <a href="about.html" class="nav-item nav-link">O NAMA</a>
+                    <a href="{{ route('about') }}" class="nav-item nav-link">O NAMA</a>
                     {{-- <a href="service.html" class="nav-item nav-link">Service</a> --}}
                     <a href="{{ route('cenovnik') }}" class="nav-item nav-link">CENOVNIK</a>
                     {{-- <div class="nav-item dropdown">
@@ -117,7 +117,7 @@
                         <h3 class="text-danger mb-4">Linkovi</h3>
                         <div class="d-flex flex-column justify-content-start">
                             <a class="text-white mb-2" href="{{ route('index') }}"><i class="fa fa-angle-right mr-2"></i>Početna</a>
-                            <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>O nama</a>
+                            <a class="text-white mb-2" href="{{ route('about') }}"><i class="fa fa-angle-right mr-2"></i>O nama</a>
                             <a class="text-white mb-2" href="{{ route('cenovnik') }}"><i class="fa fa-angle-right mr-2"></i>Cenovnik</a>
                             <a class="text-white" href="{{ route('contact') }}"><i class="fa fa-angle-right mr-2"></i>Kontakt</a>
                         </div>
