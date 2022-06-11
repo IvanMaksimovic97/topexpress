@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="TOP EXPRESS 2022 d.o.o. je firma koja se bavi pružanjem poštanskih usluga." />
     <meta name="author" content="Ivan Maksimović" />
-    <meta name="keywords" content="kurirska služba, topexpress, top, express, pošta, slanje paketa, poštanske usluge, dostava" />
+    <meta name="keywords" content="top express 2022, topexpress, kurirska služba, top, express, pošta, slanje paketa, poštanske usluge, dostava" />
     <meta name="classification" content="Prijem pošiljki, Dostava pošiljki">
     <meta property="og:title" content="TOP EXPRESS 2022 d.o.o. - Beograd-Zemun">
     <meta property="og:type" content="website">
