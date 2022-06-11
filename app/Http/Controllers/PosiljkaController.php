@@ -441,4 +441,16 @@ class PosiljkaController extends Controller
             }
         });
     }
+
+    public function updateBarKodoviBezSlike()
+    {
+        $posiljke = Posiljka::all();
+
+        DB::transaction(function () use ($posiljke) {
+            foreach ($posiljke as $p) {
+                $p->setBarCodeWithoutImage();
+                $p->save();
+            }
+        });
+    }
 }

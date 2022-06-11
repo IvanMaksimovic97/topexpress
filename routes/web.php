@@ -65,6 +65,6 @@ Route::group([
         Route::get('/dostava-brisanje-priprema/{id?}', 'DostavaController@proveraZaBrisanje')->name('dostava-brisanje-provera');
         Route::get('/dostava-brisanje/{id?}', 'DostavaController@destroy')->name('dostava-brisanje');
 
-        //Route::get('/update-barkodovi', 'PosiljkaController@updateBarKodovi');
+        Route::get('/update-barkodovi', 'PosiljkaController@updateBarKodoviBezSlike');
     });
 });

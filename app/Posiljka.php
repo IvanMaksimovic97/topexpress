@@ -77,6 +77,11 @@ class Posiljka extends Model
         $this->bar_kod = $this->broj_posiljke.'.jpg';
     }
 
+    public function setBarCodeWithoutImage()
+    {
+        $this->bar_kod = $this->broj_posiljke.'.jpg';
+    }
+
     public static function stampajAdresnice(Collection $posiljke) 
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
