@@ -425,4 +425,16 @@ class PosiljkaController extends Controller
         
         return response()->json($stavke);
     }
+
+    public function updateBarKodovi()
+    {
+        $posiljke = Posiljka::all();
+
+        DB::transaction(function () use ($posiljke) {
+            foreach ($posiljke as $p) {
+                $p->setBarCode();
+                $p->save();
+            }
+        });
+    }
 }
