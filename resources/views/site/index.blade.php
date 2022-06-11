@@ -450,6 +450,36 @@
 <script>
 const brojRegex = /^TE\d{6}BG$/;
 
+$(document).on('keyup', '#broj_posiljke', function(e) {
+	if (e.key === 'Enter' || e.keyCode === 13) {
+		$('#posiljka-telo').html(`
+		<div class="text-center">
+			<div class="spinner-border" role="status">
+				<span class="sr-only">Loading...</span>
+			</div>
+		</div>`);
+
+		const broj_posiljke_element = $('#broj_posiljke');
+
+		broj_posiljke_element.removeClass('is-invalid');
+
+		if (!brojRegex.test(broj_posiljke_element.val())) {
+			broj_posiljke_element.addClass('is-invalid');
+			return false;
+		}
+
+		$.ajax({
+			url: '{{ route('pretraga-posiljke') }}' + '/' + broj_posiljke_element.val(),
+			method: 'get',
+			success: function(data) {
+				renderData(data);
+			}
+		})
+		
+		$('#posiljka-status-modal').modal('show');
+    }
+});
+
 $(document).on('click', '#pretraga', function(e) {
 	$('#posiljka-telo').html(`
 	<div class="text-center">
@@ -492,12 +522,24 @@ function renderData(data) {
 			</tr>
 		</thead>
 		<tbody>`;
+
+	if (data.posiljka) {
+	html += 
+		`<tr>
+			<td>${data.posiljka.broj_posiljke}</td>
+			<td>${dateParse(data.posiljka.created_at)}</td>
+			<td>${korisnikRender(data.posiljka.posiljalac)}</td>
+			<td>${korisnikRender(data.posiljka.primalac)}</td>
+			<td>Primljena</td>
+			<td></td>
+		</tr>`;
+	}
 	
-	data.forEach(element => {
+	data.stavke.forEach(element => {
 		let status = '';
 		let row_color = '';
 
-		switch(element.status) {
+		switch(parseInt(element.status)) {
 			case 0: status = 'Primljena'; break;
 			case 1: status = 'Na dostavi'; break;
 			case 2: status = 'Uručena'; row_color = 'table-success'; break;
@@ -518,7 +560,7 @@ function renderData(data) {
 			
 	html += `</tbody></table>`;
 
-	if (data.length == 0) {
+	if (data.length == 0 || data.posiljka == null) {
 		html = `<span class="text-center text-danger">Tražena pošiljka ne postoji!</span>`;
 	}
 

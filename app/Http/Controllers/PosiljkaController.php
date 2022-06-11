@@ -414,6 +414,14 @@ class PosiljkaController extends Controller
 
     public function vratiStatuse($broj_posiljke)
     {
+        $posiljka = Posiljka::with([
+            'posiljalac',
+            'primalac',
+            'vrstaUsluge',
+            'nacinPlacanja',
+            'firma'
+        ])->where('broj_posiljke', $broj_posiljke)->first();
+        
         $stavke = DostavaStavka::with([
             'posiljka',
             'posiljka.posiljalac',
@@ -423,11 +431,12 @@ class PosiljkaController extends Controller
             'posiljka.firma',
             'dostava',
         ])
+        ->whereNull('dostava_stavka.deleted_at')
         ->whereHas('posiljka', function($q) use ($broj_posiljke) {
             $q->where('posiljka.broj_posiljke', $broj_posiljke);
         })->get();
         
-        return response()->json($stavke);
+        return response()->json(['stavke' => $stavke, 'posiljka' => $posiljka]);
     }
 
     public function updateBarKodovi()
