@@ -122,11 +122,11 @@
 	<div class="container">
 		<div class="row align-items-center">
 			<div class="col-lg-5">
-				<img class="img-fluid w-100" src="{{ asset('site/images/dostavljac2.jpg') }}" alt="dostavljac">
+				<img class="img-fluid w-50" src="{{ asset('site/images/nemanja_dostavljac.jpg') }}" alt="dostavljac">
 			</div>
 			<div class="col-lg-7 py-5 py-lg-0">
 				{{-- <h6 class="text-danger text-uppercase font-weight-bold">Preuzimanje</h6> --}}
-				<h1 class="mb-4">Preuzimanje</h1>
+				<h1 class="mb-4">Preuzimanje pošiljaka</h1>
 				<p class="mb-4">Zakažite kurira u vreme kada Vam odgovara da pošaljete pošiljku</p>
 				{{-- <ul class="list-inline">
 					<li><h6><i class="far fa-dot-circle text-primary mr-3"></i>Best In Industry</h6>
@@ -145,31 +145,31 @@
 	<div class="container">
 		<div class="text-center pb-2">
 			<h6 class="text-danger text-uppercase font-weight-bold">Naše usluge</h6>
-			<h1 class="mb-4">Naše najvažnije usluge</h1>
+			<h1 class="mb-4">Sve usluge</h1>
 		</div>
 		<div class="row pb-3">
 			<div class="col-lg-4 col-md-6 text-center mb-5">
 				<div class="d-flex align-items-center justify-content-center bg-danger mb-4 p-4">
-					<i class="fa fa-2x fa-truck text-dark pr-3"></i>
+					{{-- <i class="fa fa-2x fa-truck text-dark pr-3"></i> --}}
 					<h6 class="text-white font-weight-medium m-0">Danas za sutra</h6>
 				</div>
-				<p>Pošaljite vi pošiljku ili naručite da vam odnesemo u toku dana ili odmah</p>
+				<p>Pošiljke koje pošaljete u toku dana, biće isporučene prvog narednog dana.</p>
 				<a class="border-bottom text-decoration-none" href="{{ route('cenovnik') }}#danaszasutra">Cenovnik</a>
 			</div>
 			<div class="col-lg-4 col-md-6 text-center mb-5">
 				<div class="d-flex align-items-center justify-content-center bg-danger mb-4 p-4">
-					<i class="fa fa-2x fa fa-plane text-dark pr-3"></i>
+					{{-- <i class="fa fa-2x fa fa-plane text-dark pr-3"></i> --}}
 					<h6 class="text-white font-weight-medium m-0">Danas za danas</h6>
 				</div>
-				<p>Pošaljite vi pošiljku ili naručite da vam odnesemo u toku dana ili odmah</p>
+				<p>Pošiljke koje koje pošaljete u toku dana, biče isporučene istog dana do 19:00h.</p>
 				<a class="border-bottom text-decoration-none" href="{{ route('cenovnik') }}#danaszadanas">Cenovnik</a>
 			</div>
 			<div class="col-lg-4 col-md-6 text-center mb-5">
 				<div class="d-flex align-items-center justify-content-center bg-danger mb-4 p-4">
-					<i class="fa fa-2x fa fa-rocket text-dark pr-3"></i>
+					{{-- <i class="fa fa-2x fa fa-rocket text-dark pr-3"></i> --}}
 					<h6 class="text-white font-weight-medium m-0">Danas za odmah</h6>
 				</div>
-				<p>Pošaljite vi pošiljku ili naručite da vam odnesemo u toku dana ili odmah</p>
+				<p>Pošiljke koje pošaljete u toku dana, biće isporučene u roku od tri sata od vašeg poziva.</p>
 				<a class="border-bottom text-decoration-none" href="{{ route('cenovnik') }}#danaszaodmah">Cenovnik</a>
 			</div>
 			{{-- <div class="col-lg-3 col-md-6 text-center mb-5">
@@ -192,7 +192,7 @@
 		<div class="row align-items-center">
 			<div class="col-lg-7 py-5 py-lg-0">
 				{{-- <h6 class="text-danger text-uppercase font-weight-bold">Preuzimanje</h6> --}}
-				<h1 class="mb-4">Dostava</h1>
+				<h1 class="mb-4">Dostava pošiljaka</h1>
 				<p class="mb-4">Dostavljanje pošiljaka u dogovoreno vreme na mesto gde Vama odgovara!</p>
 				{{-- <ul class="list-inline">
 					<li><h6><i class="far fa-dot-circle text-primary mr-3"></i>Best In Industry</h6>
@@ -364,7 +364,7 @@
 
 
 <!-- Testimonial Start -->
-<div class="container-fluid py-5">
+{{-- <div class="container-fluid py-5">
 	<div class="container">
 		<div class="text-center pb-2">
 			<h6 class="text-danger text-uppercase font-weight-bold">Recenzije</h6>
@@ -417,7 +417,7 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> --}}
 <!-- Testimonial End -->
 
 <!-- Modal -->
