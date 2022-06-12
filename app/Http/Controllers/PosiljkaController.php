@@ -56,6 +56,11 @@ class PosiljkaController extends Controller
                     $q->whereRaw('lower(posiljalac_primalac.naziv) LIKE ?', ['%'.strtolower(request()->search_pr.'%')]);
                 });
             }
+
+            if (request()->date) {
+                $posiljke = $posiljke->whereRaw('date(created_at) = ?', [Carbon::parse(request()->date)->format('Y-m-d')]);
+            }
+
         } else {
             if (request()->date) {
                 $posiljke = $posiljke->whereRaw('date(created_at) = ?', [Carbon::parse(request()->date)->format('Y-m-d')]);

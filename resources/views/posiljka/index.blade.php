@@ -25,17 +25,26 @@
                         </div>
                         <div class="col">
                             <h4 class="card-title">Datum</h4>
-                            <input type="date" class="form-control" value="{!! date('Y-m-d', strtotime(request()->date ?? now())) !!}" name="date" placeholder="datum">
+                            <input type="date" class="form-control" value="{!! request()->date ? date('Y-m-d', strtotime(request()->date)) : '' !!}" name="date" id="datum" placeholder="datum">
                         </div>
                     </div>
                 </div>
                 <div class="mt-3">
                     <button class="btn btn-sm btn-primary" type="submit">Pretraži</button>
                     <a href="{{ route('cms.posiljka.index') }}" class="btn btn-sm btn-primary">Resetuj</a>
+                    <button type="button" class="btn btn-sm btn-primary" id="ponisti-datum">Poništi datum</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 <x-posiljka-tabela :posiljke="$posiljke"></x-posiljka-tabela>
+@endsection
+
+@section('custom-js')
+<script>
+$(document).on('click', '#ponisti-datum', function(e) {
+    $('#datum').val('');
+});
+</script>
 @endsection
