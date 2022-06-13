@@ -128,7 +128,9 @@
                             <a class="text-white mb-2" href="{{ route('index') }}"><i class="fa fa-angle-right mr-2"></i>Početna</a>
                             <a class="text-white mb-2" href="{{ route('about') }}"><i class="fa fa-angle-right mr-2"></i>O nama</a>
                             <a class="text-white mb-2" href="{{ route('cenovnik') }}"><i class="fa fa-angle-right mr-2"></i>Cenovnik</a>
-                            <a class="text-white" href="{{ route('contact') }}"><i class="fa fa-angle-right mr-2"></i>Kontakt</a>
+                            <a class="text-white mb-2" href="{{ route('contact') }}"><i class="fa fa-angle-right mr-2"></i>Kontakt</a>
+                            <a class="text-white mb-2" href="{{ asset('site/tpe_opsti_uslovi.pdf') }}"><i class="fa fa-angle-right mr-2"></i>Opšti uslovi (PDF)</a>
+                            <a class="text-white mb-2" href="{{ asset('site/tpe_cenovnik.pdf') }}"><i class="fa fa-angle-right mr-2"></i>Cenovnik usluga (PDF)</a>
                         </div>
                     </div>
                 </div>
