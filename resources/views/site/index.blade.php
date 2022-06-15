@@ -3177,7 +3177,7 @@ $(document).on('click', '#pretraga', function(e) {
 
 function renderData(data) {
 	let html = `
-	<table class="table table-bordered table-sm">
+	<table class="table table-bordered table-sm table-responsive w-100">
 		<thead>
 			<tr class="table-active">
 				<th scope="col">Broj</th>
@@ -3238,7 +3238,7 @@ function dateParse(date)
 {
 	let datum = new Date(date);
 
-	return datum.getDate() + '.' + (datum.getMonth() + 1) + '.' + datum.getFullYear() + '.' + ' ' + datum.getHours() + ':' + datum.getMinutes() + ':' + datum.getSeconds();
+	return datum.getDate() + '.' + (datum.getMonth() + 1) + '.' + datum.getFullYear() + '.';
 }
 
 function korisnikRender(element)
