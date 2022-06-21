@@ -7,6 +7,7 @@
 @endsection
 @section('content')
 <form action="{{ route('cms.posiljka.update', $posiljka) }}" method="POST">
+    @method('PUT')
     @csrf
     <div class="row">
         @include('posiljka._form')
@@ -96,7 +97,7 @@
         </div>
         <div class="col-md-4">
             
-            {{-- <button type="submit" id="unesi" class="btn btn-primary mb-2">Izmeni</button> --}}
+            <button type="submit" id="unesi" class="btn btn-primary mb-2">Izmeni</button>
         </div>
     </div>
 </form>
@@ -169,6 +170,7 @@ var naselja = JSON.parse('{!! $naselja !!}');
 var primalacPosiljalac = JSON.parse('{!! $primalacPosiljalac !!}');
 var racuni = JSON.parse('{!! $racuni !!}');
 var ugovori = JSON.parse('{!! $ugovori !!}');
+const posiljka_id = {!! $posiljka->id !!};
 
 $(function () {
     var vrsta_usluge_select2 = $("#vrsta-usluge").select2();
@@ -228,7 +230,7 @@ $(document).on('input', '#otkupnina', function (e) {
 });
 
 const brojRegex = /^TE\d{6}BG$/;
-var brojJeValidan = false;
+var brojJeValidan = true;
 var brojNevalidanPoruka = '';
 
 function validacijaBrojaPosiljke(element)
@@ -243,12 +245,16 @@ function validacijaBrojaPosiljke(element)
             url: '{{ route('broj-posiljke-validacija') }}' + '/' + element.val(),
             method: 'get',
             success: function (data) {
-                if (data == '1') {
-                    $('#broj_posiljke-invalid-text').html('Pošiljka sa unetim brojem već postoji!');
-                    $(element).addClass('is-invalid');
+                if (data) {
+                    if (data.id != posiljka_id) {
+                        $('#broj_posiljke-invalid-text').html('Pošiljka sa unetim brojem već postoji!');
+                        $(element).addClass('is-invalid');
 
-                    brojNevalidanPoruka = 'Pošiljka sa unetim brojem već postoji!';
-                    brojJeValidan = false;
+                        brojNevalidanPoruka = 'Pošiljka sa unetim brojem već postoji!';
+                        brojJeValidan = false;
+                    } else {
+                        brojJeValidan = true;
+                    }
                 } else {
                     brojJeValidan = true;
                 }
