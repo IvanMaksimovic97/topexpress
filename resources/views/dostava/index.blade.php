@@ -131,6 +131,13 @@
   <div class="card">
     <div class="card-body">
       <h4 class="card-title mb-0">Izveštaj po pošiljaocu</h4>
+      <form action="{{ route('cms.posiljalac-izvestaj-spiskovi-svi') }}" method="POST">
+        @csrf
+        <input type="hidden" name="datum" value="{{ request()->date ?? date('Y-m-d') }}">
+        <input type="hidden" name="posiljaoci" value="{{ implode(',', array_keys($izvestaj->posiljaociIzvestaj)) }}">
+        <input type="hidden" name="spiskovi" value="{{ implode(',', $spisak->pluck('id')->toArray()) }}">
+        <button type="submit" class="btn btn-sm btn-primary mt-3">Štampaj sve <i class="ti-printer btn-icon-append"></i></button>
+      </form>
       <div class="table-responsive pt-3">
               <div class="table-responsive">
                 <table class="table table-bordered table-sm" style="white-space: nowrap!important; width: 1%!important;">
