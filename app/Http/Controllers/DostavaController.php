@@ -592,7 +592,7 @@ class DostavaController extends Controller
         $section->addTextBreak(1);
         $section->addText(htmlspecialchars('Datum isplate: '.date('d.m.Y.', strtotime($datum))));
         $section->addTextBreak(1);
-        $section->addText(htmlspecialchars('Pošiljke primio: '));
+        $section->addText(htmlspecialchars('Potpis korisnika: '));
 
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
         try {
@@ -706,7 +706,7 @@ class DostavaController extends Controller
             $section->addTextBreak(1);
             $section->addText(htmlspecialchars('Datum isplate: '.date('d.m.Y.', strtotime($request->datum))));
             $section->addTextBreak(1);
-            $section->addText(htmlspecialchars('Pošiljke primio: '));
+            $section->addText(htmlspecialchars('Potpis korisnika: '));
 
             if ($key != ($posiljaoci->count() -1 )) {
                 $section->addPageBreak();
