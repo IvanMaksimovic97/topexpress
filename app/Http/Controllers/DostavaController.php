@@ -542,28 +542,30 @@ class DostavaController extends Controller
 
         $rb = 1;
         foreach ($posiljke as $stavka) {
-            $table->addRow();
+            if ((float) $stavka->vrednost > 0) {
+                $table->addRow();
 
-            $c1 = $table->addCell(500);
-            $c1->addText(htmlspecialchars($rb));
+                $c1 = $table->addCell(500);
+                $c1->addText(htmlspecialchars($rb));
+    
+                $c2 = $table->addCell(3000);
+                $c2->addText(htmlspecialchars($stavka->primalac->naziv));
+                //$c2->addText(htmlspecialchars($stavka->primalac->kontakt_telefon));
+    
+                // $cr = $table->addCell(3000);
+                // $cr->addText(htmlspecialchars($stavka->radnik));
+                
+                $c3 = $table->addCell(2000);
+                $c3->addText(htmlspecialchars($stavka->broj_posiljke));
+    
+                $c4 = $table->addCell(2000);
+                $c4->addText(htmlspecialchars(number_format($stavka->vrednost, 2)));
+                
+                $c5 = $table->addCell(2500);
+                $c5->addText(htmlspecialchars(''));
 
-            $c2 = $table->addCell(3000);
-            $c2->addText(htmlspecialchars($stavka->primalac->naziv));
-            //$c2->addText(htmlspecialchars($stavka->primalac->kontakt_telefon));
-
-            // $cr = $table->addCell(3000);
-            // $cr->addText(htmlspecialchars($stavka->radnik));
-            
-            $c3 = $table->addCell(2000);
-            $c3->addText(htmlspecialchars($stavka->broj_posiljke));
-
-            $c4 = $table->addCell(2000);
-            $c4->addText(htmlspecialchars(number_format($stavka->vrednost, 2)));
-            
-            $c5 = $table->addCell(2500);
-            $c5->addText(htmlspecialchars(''));
-
-            $rb++;
+                $rb++;
+            }
         }
 
         $table->addRow();
@@ -588,9 +590,9 @@ class DostavaController extends Controller
         $c5->addText(htmlspecialchars(''));
 
         $section->addTextBreak(1);
-        $section->addText(htmlspecialchars('POŠILJKE PREDAO: '.Korisnik::ulogovanKorisnik()->ime.' '.Korisnik::ulogovanKorisnik()->prezime));
+        $section->addText(htmlspecialchars('Datum isplate: '.date('d.m.Y.', strtotime($datum))));
         $section->addTextBreak(1);
-        $section->addText(htmlspecialchars('POŠILJKE PRIMIO: '));
+        $section->addText(htmlspecialchars('Pošiljke primio: '));
 
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
         try {
@@ -702,9 +704,9 @@ class DostavaController extends Controller
             $c5->addText(htmlspecialchars(''));
     
             $section->addTextBreak(1);
-            $section->addText(htmlspecialchars('POŠILJKE PREDAO: '.Korisnik::ulogovanKorisnik()->ime.' '.Korisnik::ulogovanKorisnik()->prezime));
+            $section->addText(htmlspecialchars('Datum isplate: '.date('d.m.Y.', strtotime($request->datum))));
             $section->addTextBreak(1);
-            $section->addText(htmlspecialchars('POŠILJKE PRIMIO: '));
+            $section->addText(htmlspecialchars('Pošiljke primio: '));
 
             if ($key != ($posiljaoci->count() -1 )) {
                 $section->addPageBreak();
