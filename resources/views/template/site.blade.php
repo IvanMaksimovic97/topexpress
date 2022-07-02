@@ -32,6 +32,8 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{{ asset('logistics-company/css/style.css') }}" rel="stylesheet">
+    
+    @yield('custom-css')
 </head>
 
 <body>
@@ -81,7 +83,6 @@
                 <div class="navbar-nav m-auto py-0">
                     <a href="{{ route('index') }}" class="nav-item nav-link">POČETNA</a>
                     <a href="{{ route('about') }}" class="nav-item nav-link">O NAMA</a>
-                    {{-- <a href="service.html" class="nav-item nav-link">Service</a> --}}
                     <a href="{{ route('cenovnik') }}" class="nav-item nav-link">CENOVNIK</a>
                     {{-- <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
@@ -91,6 +92,7 @@
                         </div>
                     </div> --}}
                     <a href="{{ route('contact') }}" class="nav-item nav-link">KONTAKT</a>
+                    <a href="{{ route('registracija') }}" class="nav-item nav-link">REGISTRACIJA</a>
                 </div>
                 {{-- <a href="" class="btn btn-primary py-2 px-4 d-none d-lg-block">Get A Quote</a> --}}
             </div>

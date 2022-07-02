@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Naselje;
+use App\Ulica;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class SiteController extends Controller
@@ -25,6 +28,19 @@ class SiteController extends Controller
     public function onama()
     {
         return view('site.about');
+    }
+
+    public function registracija()
+    {
+        $ulice = Ulica::select('id', 'naziv')->groupBy(DB::raw('LOWER(naziv)'))->distinct()->get();
+        $naselja = Naselje::select('id', 'naziv')->groupBy(DB::raw('LOWER(naziv)'))->distinct()->get();
+        
+        return view('site.registracija', compact('ulice', 'naselja'));
+    }
+
+    public function prijava()
+    {
+
     }
 
     public function contactSendEmail(Request $request)
