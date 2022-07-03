@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegistracijaRequest;
 use App\Naselje;
+use App\Rules\GoogleRecaptchaRule;
 use App\Ulica;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -36,6 +38,11 @@ class SiteController extends Controller
         $naselja = Naselje::select('id', 'naziv')->groupBy(DB::raw('LOWER(naziv)'))->distinct()->get();
         
         return view('site.registracija', compact('ulice', 'naselja'));
+    }
+
+    public function registracijaPost(RegistracijaRequest $request)
+    {
+        
     }
 
     public function prijava()

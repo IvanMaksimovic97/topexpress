@@ -2,6 +2,7 @@
 @section('title', 'TOP EXPRESS 2022 d.o.o.')
 
 @section('custom-css')
+<script src="https://www.google.com/recaptcha/api.js?hl=sr" async defer></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.18/dist/css/bootstrap-select.min.css">
 <style>
     .register{
@@ -128,42 +129,69 @@
         <div class="col-md-9 register-right">
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                    <h3  class="register-heading">Registruj se</h3>
-                    <form action="" method="POST">
+                    <h3  class="register-heading">Registracija</h3>
+                    <form action="{{ route('registracijaPost') }}" method="POST">
+                        @csrf
                         <div class="row register-form">
                             <div class="col-md-6">
                                 <h4 class="text-center">Korisnik</h4>
                                 <div class="form-group">
-                                    <input type="text" name="naziv" required class="form-control" placeholder="Ime *" value="" />
+                                    <input type="text" name="ime" required class="form-control" placeholder="Ime *" value="{{ old('ime') }}" />
+                                    @if ($errors->has('ime'))
+                                        <span class="text-danger">{{ $errors->first('ime') }}</span>
+                                    @endif
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="prezime" required class="form-control" placeholder="Prezime *" value="" />
+                                    <input type="text" name="prezime" required class="form-control" placeholder="Prezime *" value="{{ old('prezime') }}" />
+                                    @if ($errors->has('prezime'))
+                                        <span class="text-danger">{{ $errors->first('prezime') }}</span>
+                                    @endif
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" name="email" required class="form-control" placeholder="Email *" value="" />
+                                    <input type="email" name="email" required class="form-control" placeholder="Email *" value="{{ old('email') }}" />
+                                    @if ($errors->has('email'))
+                                        <span class="text-danger">{{ $errors->first('email') }}</span>
+                                    @endif
                                 </div>
                                 <div class="form-group">
-                                    <select class="selectpicker form-control border" data-live-search="true">
-                                        <option selected disabled>Izaberi naselje *</option>
+                                    <input type="text" name="telefon" required class="form-control" placeholder="Telefon *" value="{{ old('telefon') }}" />
+                                    @if ($errors->has('telefon'))
+                                        <span class="text-danger">{{ $errors->first('telefon') }}</span>
+                                    @endif
+                                </div>
+                                <div class="form-group">
+                                    <select class="selectpicker form-control border" data-live-search="true" name="naselje_id" required>
+                                        <option selected disabled value="-1">Izaberi naselje *</option>
                                         @foreach ($naselja as $n)
-                                        <option value="{{ $n->id }}">{{ strtoupper($n->naziv) }}</option>
+                                        <option @if($n->id == old('naselje_id')) selected @endif value="{{ $n->id }}">{{ strtoupper($n->naziv) }}</option>
                                         @endforeach
                                     </select>
+                                    @if ($errors->has('naselje_id'))
+                                        <span class="text-danger">{{ $errors->first('naselje_id') }}</span>
+                                    @endif
                                 </div>
                                 <div class="form-group">
-                                    <select class="selectpicker form-control border" data-live-search="true">
-                                        <option selected disabled>Izaberi ulicu *</option>
+                                    <select class="selectpicker form-control border" data-live-search="true" name="ulica_id" required>
+                                        <option selected disabled value="-1">Izaberi ulicu *</option>
                                         @foreach ($ulice as $u)
-                                        <option value="{{ $u->id }}">{{ strtoupper($u->naziv) }}</option>
+                                            <option @if($u->id == old('ulica_id')) selected @endif value="{{ $u->id }}">{{ strtoupper($u->naziv) }}</option>
                                         @endforeach
                                     </select>
+                                    @if ($errors->has('ulica_id'))
+                                        <span class="text-danger">{{ $errors->first('ulica_id') }}</span>
+                                    @endif
                                 </div>
                                 <div class="form-group">
                                    <div class="row">
-                                    <div class="col"><input type="text" name="broj" required class="form-control" placeholder="Broj *" value="" /></div>
-                                    <div class="col"><input type="text" name="podbroj" class="form-control" placeholder="Pod broj" value="" /></div>
-                                    <div class="col"><input type="text" name="sprat" class="form-control" placeholder="Sprat" value="" /></div>
-                                    <div class="col"><input type="text" name="stan" class="form-control" placeholder="Stan" value="" /></div>
+                                    <div class="col">
+                                        <input type="text" name="broj" required class="form-control" placeholder="Broj *" value="{{ old('broj') }}" />
+                                        @if ($errors->has('broj'))
+                                        <span class="text-danger">{{ $errors->first('broj') }}</span>
+                                        @endif
+                                    </div>
+                                    <div class="col"><input type="text" name="podbroj" class="form-control" placeholder="Pod broj" value="{{ old('podbroj') }}" /></div>
+                                    <div class="col"><input type="text" name="sprat" class="form-control" placeholder="Sprat" value="{{ old('sprat') }}" /></div>
+                                    <div class="col"><input type="text" name="stan" class="form-control" placeholder="Stan" value="{{ old('stan') }}" /></div>
                                    </div>
                                 </div>
                                 <div class="form-group">
@@ -171,28 +199,35 @@
                                 </div>
                                 <div class="form-group">
                                     <input type="password" name="password_confirmation" required class="form-control" placeholder="Potvrdi lozinku *" value="" />
+                                    @if ($errors->has('password'))
+                                    <span class="text-danger">{{ $errors->first('password') }}</span>
+                                    @endif
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <h4 class="text-center">Firma</h4>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="naziv_firme" name="naziv_firme" disabled placeholder="Naziv firme *" value="" />
+                                    <input type="text" class="form-control" id="naziv_firme" name="naziv_firme" disabled placeholder="Naziv firme *" value="{{ old('naziv_firme') }}" />
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="adresa" name="adresa" disabled placeholder="Adresa *" value="" />
+                                    <input type="text" class="form-control" id="adresa" name="adresa" disabled placeholder="Adresa *" value="{{ old('adresa') }}" />
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="pib" name="pib" disabled placeholder="PIB *" value="" />
+                                    <input type="text" class="form-control" id="pib" name="pib" disabled placeholder="PIB *" value="{{ old('pib') }}" />
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="mbr" name="mbr" disabled placeholder="Matični broj *" value="" />
+                                    <input type="text" class="form-control" id="mbr" name="mbr" disabled placeholder="Matični broj *" value="{{ old('mbr') }}" />
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="telefon" name="telefon" disabled placeholder="Telefon *" value="" />
+                                    <input type="text" class="form-control" id="telefon_firma" name="telefon_firma" disabled placeholder="Telefon *" value="{{ old('telefon_firma') }}" />
                                 </div>
                                 <div class="form-group">
-                                    <input type="checkbox" id="reg_firma" name="reg_firma" value="1" /> Registruj firmu
+                                    <input type="checkbox" id="reg_firma" name="reg_firma" value="1" /> Registruj se kao firma
                                 </div>
+                                <div class="g-recaptcha" data-sitekey="6LcyDr4gAAAAAEfXMbu2l52oH3jWAGDXahfWdK-U"></div>
+                                @if ($errors->has('g-recaptcha-response'))
+                                    <span class="text-danger">{{ $errors->first('g-recaptcha-response') }}</span>
+                                @endif
                                 <input type="submit" class="btnRegister"  value="Registruj se"/>
                             </div>
                         </div>
@@ -218,8 +253,8 @@
             $('#pib').attr('required', 'required');
             $('#mbr').removeAttr('disabled');
             $('#mbr').attr('required', 'required');
-            $('#telefon').removeAttr('disabled');
-            $('#telefon').attr('required', 'required');
+            $('#telefon_firma').removeAttr('disabled');
+            $('#telefon_firma').attr('required', 'required');
         } else {
             $('#naziv_firme').attr('disabled', 'disabled');
             $('#naziv_firme').removeAttr('required');
@@ -229,8 +264,8 @@
             $('#pib').removeAttr('required');
             $('#mbr').attr('disabled', 'disabled');
             $('#mbr').removeAttr('required');
-            $('#telefon').attr('disabled', 'disabled');
-            $('#telefon').removeAttr('required');
+            $('#telefon_firma').attr('disabled', 'disabled');
+            $('#telefon_firma').removeAttr('required');
         }
     });
 </script>

@@ -21,6 +21,7 @@ Route::get('/kontakt', 'SiteController@contact')->name('contact');
 Route::get('/cenovnik', 'SiteController@cenovnik')->name('cenovnik');
 Route::get('/onama', 'SiteController@onama')->name('about');
 Route::get('/registracija', 'SiteController@registracija')->name('registracija');
+Route::post('/registracija', 'SiteController@registracijaPost')->name('registracijaPost');
 
 Route::get('/pretraga-posiljke/{broj_posiljke?}', 'PosiljkaController@vratiStatuse')->name('pretraga-posiljke');
 
