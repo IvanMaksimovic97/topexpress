@@ -148,7 +148,8 @@
                                     @endif
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" name="email" required class="form-control" placeholder="Email *" value="{{ old('email') }}" />
+                                    <input type="email" id="email" name="email" required class="form-control" placeholder="Email *" value="{{ old('email') }}" />
+                                    <span class="text-danger d-none" id="email-validation">Korisnik sa unetim email-om već postoji</span>
                                     @if ($errors->has('email'))
                                         <span class="text-danger">{{ $errors->first('email') }}</span>
                                     @endif
@@ -243,6 +244,20 @@
 @section('custom-js')
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.18/dist/js/bootstrap-select.min.js"></script>
 <script>
+    const validateEmail = function(email) {
+        emailErrorField = $('#email-validation');
+        emailErrorField.addClass('d-none');
+
+        $.ajax({
+            url: '{{ route('validate-email') }}' + '/' + email,
+            success: function(data) {
+                if (data.postoji) {
+                    emailErrorField.removeClass('d-none');
+                }
+            }
+        })
+    }
+
     $(document).on('click', '#reg_firma', function(e) {
         if ($(this).is(':checked')) {
             $('#naziv_firme').removeAttr('disabled');
@@ -268,5 +283,25 @@
             $('#telefon_firma').removeAttr('required');
         }
     });
+
+    // This is JS Code for debounce function
+    const debounce = (fn,delay ) => {
+        let timeoutID; // Initially undefined
+        
+        return function(...args){
+            // cancel previously unexecuted timeouts
+            if(timeoutID){
+                clearTimeout(timeoutID);
+            }
+            
+            timeoutID = setTimeout( () => {
+                fn(...args);
+            }, delay)
+        }
+    }
+
+    document.getElementById('email').addEventListener('input', debounce(e => {
+        validateEmail(document.getElementById('email').value.trim());
+    }, 500))
 </script>
 @endsection

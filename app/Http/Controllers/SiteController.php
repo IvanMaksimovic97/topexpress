@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RegistracijaRequest;
+use App\Korisnik;
 use App\Naselje;
 use App\Rules\GoogleRecaptchaRule;
 use App\Ulica;
@@ -38,6 +39,12 @@ class SiteController extends Controller
         $naselja = Naselje::select('id', 'naziv')->groupBy(DB::raw('LOWER(naziv)'))->distinct()->get();
         
         return view('site.registracija', compact('ulice', 'naselja'));
+    }
+
+    public function validateEmail($email = '')
+    {
+        $korisnik = Korisnik::where('email', $email)->first();
+        return response()->json(['postoji' => $korisnik ? true : false]);
     }
 
     public function registracijaPost(RegistracijaRequest $request)
