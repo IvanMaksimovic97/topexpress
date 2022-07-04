@@ -116,6 +116,11 @@
 </div>
 <!-- Header End -->
 
+@if(session()->has('success'))
+    <div class="alert alert-success m-0 text-center">
+        {{ session()->get('success') }}
+    </div>
+@endif
 
 <!-- Contact Start -->
 <div class="container-fluid register">
@@ -124,12 +129,24 @@
             <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>
             <h3>Prijava na sistem</h3>
             <p>Prijavite se na sistem, kako biste mogli da unesete pošiljke</p>
-            <input type="submit" name="" value="Prijavi se"/><br/>
+            <form action="{{ route('prijava-login') }}" method="POST">
+                @csrf
+                <input type="email" required class="form-control mx-auto my-2" name="email_login" placeholder="Email">
+                <input type="password" required class="form-control mx-auto my-2" name="password_login" placeholder="Lozinka">
+                <input type="submit" name="" class="mt-4" value="Prijavi se"/><br/>
+                @if ($errors->any())
+                    <div class="alert alert-danger mt-3" role="alert">
+                        @foreach ($errors->all() as $error)
+                            {{ $error }} <br>
+                        @endforeach
+                    </div>
+                @endif
+            </form>
         </div>
         <div class="col-md-9 register-right">
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                    <h3  class="register-heading">Registracija</h3>
+                    <h3 class="register-heading">Registracija</h3>
                     <form action="{{ route('registracijaPost') }}" method="POST">
                         @csrf
                         <div class="row register-form">

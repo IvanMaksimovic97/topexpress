@@ -66,6 +66,8 @@ class Kernel extends HttpKernel
         'isLoggedIn' => \App\Http\Middleware\IsLoggedIn::class,
         'notLoggedIn' => \App\Http\Middleware\NotLoggedIn::class,
         'cmsAuth' => \App\Http\Middleware\CMSAuth::class,
-        'cors' => \App\Http\Middleware\Cors::class
+        'cors' => \App\Http\Middleware\Cors::class,
+        'isLoggedInSite' => \App\Http\Middleware\isLoggedInSite::class,
+        'notLoggedInSite' => \App\Http\Middleware\notLoggedInSite::class,
     ];
 }

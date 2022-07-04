@@ -14,19 +14,31 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/postarina/vrsta/{id_vrsta}/masa/{masa}/ugovor/{id_ugovor}', 'CenovnikController@dohvatiCenuPostarine')->name('cena-postarine');
 Route::get('/broj-posiljke-validacija/{broj?}', 'PosiljkaController@proveraBrojaPosiljke')->name('broj-posiljke-validacija');
+Route::get('/aktivacija-naloga/{hash}', 'SiteController@aktivacijaNaloga')->name('aktivacija-naloga');
 
 // Sajt
 Route::get('/', 'SiteController@index')->name('index');
 Route::get('/kontakt', 'SiteController@contact')->name('contact');
 Route::get('/cenovnik', 'SiteController@cenovnik')->name('cenovnik');
 Route::get('/onama', 'SiteController@onama')->name('about');
-Route::get('/registracija', 'SiteController@registracija')->name('registracija');
-Route::post('/registracija', 'SiteController@registracijaPost')->name('registracijaPost');
-Route::get('/validate-email/{email?}', 'SiteController@validateEmail')->name('validate-email');
 
 Route::get('/pretraga-posiljke/{broj_posiljke?}', 'PosiljkaController@vratiStatuse')->name('pretraga-posiljke');
 
 Route::post('/send-email', 'SiteController@contactSendEmail')->name('send-mail-contact');
+
+Route::group(['middleware' => ['notLoggedInSite']], function () {
+    /// ovde rute ako nije je ulogovan
+    Route::get('/registracija', 'SiteController@registracija')->name('registracija');
+    Route::post('/registracija', 'SiteController@registracijaPost')->name('registracijaPost');
+    Route::get('/validate-email/{email?}', 'SiteController@validateEmail')->name('validate-email');
+    Route::post('/prijava', 'SiteController@prijava')->name('prijava-login');
+});
+
+Route::group(['middleware' => ['isLoggedInSite']], function () {
+    /// ovde rute ako je ulogovan
+    Route::get('/logout-site', 'SiteController@logoutSite')->name('logout');
+    Route::get('/dashboard-site', 'SiteController@dashboardSite')->name('dashboard-site');
+});
 
 // CMS
 Route::group([
