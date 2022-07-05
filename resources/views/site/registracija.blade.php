@@ -242,7 +242,7 @@
                                 <div class="form-group">
                                     <input type="checkbox" id="reg_firma" name="reg_firma" value="1" /> Registruj se kao firma
                                 </div>
-                                <div class="g-recaptcha" data-sitekey="6LcyDr4gAAAAAEfXMbu2l52oH3jWAGDXahfWdK-U"></div>
+                                <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
                                 @if ($errors->has('g-recaptcha-response'))
                                     <span class="text-danger">{{ $errors->first('g-recaptcha-response') }}</span>
                                 @endif
