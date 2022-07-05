@@ -38,6 +38,9 @@ Route::group(['middleware' => ['isLoggedInSite']], function () {
     /// ovde rute ako je ulogovan
     Route::get('/logout-site', 'SiteController@logoutSite')->name('logout');
     Route::get('/dashboard-site', 'SiteController@dashboardSite')->name('dashboard-site');
+    Route::get('/posiljke-site', 'SiteCMSController@posiljke')->name('posiljke-site');
+    Route::get('/posiljke-nova-site', 'SiteCMSController@posiljkaNova')->name('posiljke-nova-site');
+    Route::post('/posiljke-nova-site', 'SiteCMSController@posiljkaNovaStore')->name('posiljke-nova-store-site');
 });
 
 // CMS

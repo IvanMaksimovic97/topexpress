@@ -8,14 +8,16 @@
         <div class="col-lg-3">
             <div class="list-group">
                 <a href="{{ route('dashboard-site') }}" class="list-group-item list-group-item-action active"><i class="fa fa-home"></i> <span>Dashboard</span></a>
-                <a href="#" class="list-group-item list-group-item-action"><i class="fa fa-envelope"></i> <span>Moje pošiljke</span></a>
+                <a href="{{ route('posiljke-site') }}" class="list-group-item list-group-item-action"><i class="fa fa-envelope"></i> <span>Moje pošiljke</span></a>
                 <a href="#" class="list-group-item list-group-item-action"><i class="fa fa-building"></i> <span>Moja firma</span></a>
                 <a href="#" class="list-group-item list-group-item-action"><i class="fa fa-comments"></i> <span>Moje poruke</span></a>
                 <a href="#" class="list-group-item list-group-item-action"><i class="fa fa-user"></i> <span>Moj profil</span></a>
                 <a href="{{ route('logout') }}" class="list-group-item list-group-item-action"><i class="fa fa-power-off"></i> <span>Odjavi se</span></a>
             </div>
         </div>
-        <div class="col-lg-9"></div>
+        <div class="col-lg-9">
+            <span class="h4">Dobro došli <strong>{{ App\Korisnik::ulogovanKorisnikSite()->ime . ' ' . App\Korisnik::ulogovanKorisnikSite()->prezime }}</strong></span>
+        </div>
     </div>
 </div>
 <!-- Contact End -->

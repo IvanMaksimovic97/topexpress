@@ -45,6 +45,7 @@ class Posiljka extends Model
 
     public function setValues($firma_id, $posiljalac_id, $primalac_id, $postarina)
     {
+        $this->id_korisnik = request()->route()->getName() == 'posiljke-nova-store-site' ? Korisnik::ulogovanKorisnikSite()->id : Korisnik::ulogovanKorisnik()->id;
         $this->vrsta_usluge_id = request()->vrsta_usluge_id;
         $this->nacin_placanja_id = request()->nacin_placanja_id;
         $this->firma_id = $firma_id;
