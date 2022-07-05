@@ -317,8 +317,8 @@
         }
     }
 
-    document.getElementById('email').addEventListener('input', debounce(e => {
-        validateEmail(document.getElementById('email').value.trim());
-    }, 500))
+    // document.getElementById('email').addEventListener('input', debounce(e => {
+    //     validateEmail(document.getElementById('email').value.trim());
+    // }, 500))
 </script>
 @endsection
