@@ -22,7 +22,8 @@ class LoginController extends Controller
 
         $korisnik = Korisnik::where([
             ['email', $request->email],
-            ['status', 1]
+            ['status', 1],
+            ['pristup', 1]
         ])->first();
 
         if (!$korisnik || !Hash::check($request->password, $korisnik->password)) {
