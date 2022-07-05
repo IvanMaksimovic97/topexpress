@@ -48,8 +48,16 @@
                 </div>
             </div>
             <div class="col-lg-6 text-center text-lg-right">
-                {{-- <div class="d-inline-flex align-items-center">
-                    <a class="text-white px-2" href="">
+                <div class="d-inline-flex align-items-center">
+                    @if (App\Korisnik::ulogovanKorisnikSite())
+                    <a class="text-white px-2" href="#">
+                        <i class="fa fa-user"></i> {{ App\Korisnik::ulogovanKorisnikSite()->ime . ' ' . App\Korisnik::ulogovanKorisnikSite()->prezime }}
+                    </a>
+                    <a class="text-white px-2" href="{{ route('logout') }}">
+                        <i class="fa fa-power-off"></i> Odjavi se
+                    </a>
+                    @endif
+                    {{-- <a class="text-white px-2" href="">
                         <i class="fab fa-facebook-f"></i>
                     </a>
                     <a class="text-white px-2" href="">
@@ -63,8 +71,8 @@
                     </a>
                     <a class="text-white pl-2" href="">
                         <i class="fab fa-youtube"></i>
-                    </a>
-                </div> --}}
+                    </a> --}}
+                </div>
             </div>
         </div>
     </div>
@@ -92,7 +100,11 @@
                         </div>
                     </div> --}}
                     <a href="{{ route('contact') }}" class="nav-item nav-link">KONTAKT</a>
-                    <a href="{{ route('registracija') }}" class="nav-item nav-link">REGISTRACIJA</a>
+                    @if (App\Korisnik::ulogovanKorisnikSite())
+                    <a href="{{ route('dashboard-site') }}" class="nav-item nav-link">DASHBOARD</a>
+                    @else
+                    <a href="{{ route('registracija') }}" class="nav-item nav-link">PRIJAVI SE</a>
+                    @endif
                 </div>
                 {{-- <a href="" class="btn btn-primary py-2 px-4 d-none d-lg-block">Get A Quote</a> --}}
             </div>

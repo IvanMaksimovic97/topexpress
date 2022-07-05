@@ -155,7 +155,7 @@ class SiteController extends Controller
 
     public function dashboardSite()
     {
-        return 'Ulogovani ste';
+        return view('site.authorized.dashboard');
     }
 
     public function logoutSite()
