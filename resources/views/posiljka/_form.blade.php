@@ -40,7 +40,7 @@
                                 @endif 
                             @else
                                 @if($nacin_placanja->id == '3') 
-                                    selected="selected" 
+                                    {{-- selected="selected"  --}}
                                 @endif 
                             @endif
 
