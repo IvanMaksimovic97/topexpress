@@ -24,15 +24,15 @@
                     <th>Primalac</th>
                     <th>Adresa</th>
                     <th>Masa</th>
-                    <th>Ima vrednost</th>
+                    {{-- <th>Ima vrednost</th> --}}
                     <th>Vrednost</th>
-                    <th>Ima otkupninu</th>
+                    {{-- <th>Ima otkupninu</th> --}}
                     <th>Otkupnina</th>
                     <th>Otkupnina vrsta</th>
                     <th>Poštarina</th>
-                    <th>Povratnica</th>
-                    <th>Lično preuzimanje</th>
-                    <th>Firma</th>
+                    {{-- <th>Povratnica</th> --}}
+                    {{-- <th>Lično preuzimanje</th> --}}
+                    {{-- <th>Firma</th> --}}
                     <th>#</th>
                   </tr>
                 </thead>
@@ -135,15 +135,15 @@
                             <td>{!! $posiljka->primalac->naziv !!}</td>
                             <td>{!! $posiljka->primalac->ulica.' br. '.$posiljka->primalac->broj !!}{!! $posiljka->primalac->stan ? '/'.$posiljka->primalac->stan : '' !!}</td>
                             <td>{!! $posiljka->masa_kg !!} kg</td>
-                            <td>{!! $posiljka->ima_vrednost ? 'Da' : 'Ne' !!}</td>
+                            {{-- <td>{!! $posiljka->ima_vrednost ? 'Da' : 'Ne' !!}</td> --}}
                             <td>{!! $posiljka->vrednost !!}</td>
-                            <td>{!! $posiljka->ima_otkupninu ? 'Da' : 'Ne' !!}</td>
+                            {{-- <td>{!! $posiljka->ima_otkupninu ? 'Da' : 'Ne' !!}</td> --}}
                             <td>{!! $posiljka->otkupnina !!}</td>
                             <td>{!! $posiljka->otkupnina_vrsta !!}</td>
                             <td>{!! $posiljka->postarina !!}</td>
-                            <td>{!! $posiljka->povratnica ? 'Da' : 'Ne' !!}</td>
-                            <td>{!! $posiljka->licno_preuzimanje ? 'Da' : 'Ne' !!}</td>
-                            <td>{!! $posiljka->firma ? $posiljka->firma->naziv : '' !!}</td>
+                            {{-- <td>{!! $posiljka->povratnica ? 'Da' : 'Ne' !!}</td> --}}
+                            {{-- <td>{!! $posiljka->licno_preuzimanje ? 'Da' : 'Ne' !!}</td> --}}
+                            {{-- <td>{!! $posiljka->firma ? $posiljka->firma->naziv : '' !!}</td> --}}
                             <td>{!! $posiljka->id !!}</td>
                         </tr>
                     @endforeach
