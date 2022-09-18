@@ -351,6 +351,7 @@ class DostavaController extends Controller
             $c3->addText(htmlspecialchars($stavka->primalac->kontakt_telefon));
 
             $c4 = $table->addCell(3000);
+            $c4->addText(htmlspecialchars($stavka->primalac->naselje));
 
             $adresa = $stavka->primalac->ulica.' '.$stavka->primalac->broj.''.($stavka->primalac->podbroj != '' ? '('.$stavka->primalac->podbroj.')' : '');
             if ($stavka->primalac->stan != '') {
@@ -362,8 +363,6 @@ class DostavaController extends Controller
             if ($stavka->primalac->sprat) {
                 $c4->addText(htmlspecialchars('Sprat: '.$stavka->primalac->sprat));
             }
-
-            $c4->addText(htmlspecialchars($stavka->primalac->naselje));
 
             $c5 = $table->addCell(1500);
             $c5->addText(htmlspecialchars(number_format($stavka->vrednost + $stavka->postarina, 2, ',', '.')));
