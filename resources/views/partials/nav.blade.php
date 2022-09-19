@@ -16,6 +16,7 @@
         <div class="collapse" id="posiljke-meni">
           <ul class="nav flex-column sub-menu">
             <li class="nav-item"> <a class="nav-link" href="{{ route('cms.posiljka.create') }}">Nova</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ route('cms.posiljka.create') }}?prethodna">Nova (prethodna)</a></li>
             <li class="nav-item"> <a class="nav-link" href="{{ route('cms.posiljka.index') }}">Lista</a></li>
           </ul>
         </div>

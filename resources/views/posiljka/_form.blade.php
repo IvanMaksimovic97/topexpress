@@ -54,10 +54,16 @@
                 <div class="row">
                     <div class="form-group">
                         <label>Broj pošiljke</label>
-                        <input value="{{ $posiljka->broj_posiljke }}" type="text" class="form-control" name="broj_posiljke" id="broj_posiljke" required />
+                        <input value="{{ $posiljka->broj_posiljke }}" type="text" class="form-control {{ session()->has('errMsg') ? 'is-invalid' : '' }}" name="broj_posiljke" id="broj_posiljke" required />
+                        @if(session()->has('errMsg'))
+                        <div class="invalid-feedback" id="broj_posiljke-invalid-text">
+                           {{ session()->get('errMsg') }}
+                        </div>
+                        @else
                         <div class="invalid-feedback" id="broj_posiljke-invalid-text">
                             Unesite broj pošiljke!
                         </div>
+                        @endif
                     </div>
                 </div>
                 <div class="row">

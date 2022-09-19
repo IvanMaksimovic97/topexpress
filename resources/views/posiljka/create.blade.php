@@ -128,6 +128,8 @@ $(document).on('input', '#pr_ulica', function (e) {
 });
 
 $(document).on('input', '#otkupnina', function (e) {
+    $('#vrednost').val($(this).val());
+    
     let vrednost_val = parseFloat($('#vrednost').val());
     let otkupnina = $(this);
 

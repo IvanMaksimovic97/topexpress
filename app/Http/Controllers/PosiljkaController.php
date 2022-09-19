@@ -153,6 +153,10 @@ class PosiljkaController extends Controller
         });
 
         $posiljka = new Posiljka;
+        
+        if (request()->has('prethodna')) {
+            $posiljka = Posiljka::orderBy('id', 'desc')->first();
+        }
 
         return view('posiljka.create', compact(
             'posiljka',
@@ -176,6 +180,11 @@ class PosiljkaController extends Controller
      */
     public function store(Request $request)
     {
+        $postojiPosiljka = Posiljka::where('broj_posiljke', $request->broj_posiljke)->first();
+        if ($postojiPosiljka) {
+            return redirect()->back()->with('errMsg', 'Pošiljka sa zadatim brojem već postoji!');
+        }
+
         $po_naselje = $request->po_naselje_id ? Naselje::find($request->po_naselje_id) : new Naselje;
         if (!$request->po_naselje_id) {
             $po_naselje->setValues($request->po_naselje);

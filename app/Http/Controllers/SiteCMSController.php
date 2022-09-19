@@ -91,6 +91,10 @@ class SiteCMSController extends Controller
 
         $posiljka = new Posiljka;
 
+        if (request()->has('prethodna')) {
+            $posiljka = Posiljka::orderBy('id', 'desc')->first();
+        }
+
         return view('site.authorized.nova_posiljka', compact(
             'posiljka',
             'vrste_usluga', 
@@ -107,6 +111,11 @@ class SiteCMSController extends Controller
 
     public function posiljkaNovaStore(Request $request)
     {
+        $postojiPosiljka = Posiljka::where('broj_posiljke', $request->broj_posiljke)->first();
+        if ($postojiPosiljka) {
+            return redirect()->back()->with('errMsg', 'Pošiljka sa zadatim brojem već postoji!');
+        }
+
         $pr_naselje = $request->pr_naselje_id ? Naselje::find($request->pr_naselje_id) : new Naselje;
         if (!$request->pr_naselje_id) {
             $pr_naselje->setValues($request->pr_naselje);
