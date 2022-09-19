@@ -182,7 +182,7 @@ class PosiljkaController extends Controller
     {
         $postojiPosiljka = Posiljka::where('broj_posiljke', $request->broj_posiljke)->first();
         if ($postojiPosiljka) {
-            return redirect()->route('cms.posiljka.create')->with('errMsg', 'Pošiljka sa zadatim brojem već postoji!');
+            return redirect()->route('cms.posiljka.create', ['prethodna'])->with('errMsg', 'Pošiljka sa zadatim brojem već postoji!');
         }
 
         $po_naselje = $request->po_naselje_id ? Naselje::find($request->po_naselje_id) : new Naselje;
