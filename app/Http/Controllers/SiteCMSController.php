@@ -113,7 +113,7 @@ class SiteCMSController extends Controller
     {
         $postojiPosiljka = Posiljka::where('broj_posiljke', $request->broj_posiljke)->first();
         if ($postojiPosiljka) {
-            return redirect()->back()->with('errMsg', 'Pošiljka sa zadatim brojem već postoji!');
+            return redirect()->route('posiljke-nova-site', ['prethodna'])->with('errMsg', 'Pošiljka sa zadatim brojem već postoji!');
         }
 
         $pr_naselje = $request->pr_naselje_id ? Naselje::find($request->pr_naselje_id) : new Naselje;
