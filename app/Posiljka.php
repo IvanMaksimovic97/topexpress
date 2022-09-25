@@ -185,4 +185,94 @@ class Posiljka extends Model
 
         return response()->download(storage_path('adresnice.docx'))->deleteFileAfterSend(true);
     }
+
+    public static function stampajSpisak(Collection $posiljke, $posiljalac = null)
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord->setDefaultParagraphStyle(array('align' => 'both', 'spaceAfter' => \PhpOffice\PhpWord\Shared\Converter::pointToTwip(0), 'spacing' => 0));
+        $section = $phpWord->addSection(array('orientation' => 'landscape'));
+        
+        if ($posiljalac) {
+            $header = array('size' => 16, 'bold' => true);
+            $section->addText(htmlspecialchars('Pošiljalac: ' . $posiljalac->ime . ' ' . $posiljalac->prezime), $header);
+            $section->addTextBreak(1);
+    
+            // $section->addText(htmlspecialchars('adresa i broj telefona :'), $header);
+            // $section->addTextBreak(1);
+        }
+        
+        $styleTable = array('borderSize' => 6, 'borderColor' => '000000', 'cellMargin' => 80);
+        $styleFirstRow = array('borderBottomSize' => 18, 'borderBottomColor' => '000000');
+        $styleCell = array('space' => array('line' => 1000));
+        $fontStyle = array('bold' => true, 'align' => 'center');
+        $phpWord->addTableStyle('Fancy Table', $styleTable, $styleFirstRow);
+        $table = $section->addTable('Fancy Table');
+
+        $table->addRow();
+        $table->addCell(500, $styleCell)->addText(htmlspecialchars('R.B.'), $fontStyle);
+        $table->addCell(1500, $styleCell)->addText(htmlspecialchars('BROJ POŠILJKE'), $fontStyle);
+        $table->addCell(3000, $styleCell)->addText(htmlspecialchars('PRIMALAC'), $fontStyle);
+        $table->addCell(3500, $styleCell)->addText(htmlspecialchars('MESTO PRIMAOCA'), $fontStyle);
+        $table->addCell(3500, $styleCell)->addText(htmlspecialchars('ADRESA PRIMAOCA'), $fontStyle);
+        $table->addCell(1500, $styleCell)->addText(htmlspecialchars('BROJ TEL. PRIMAOCA'), $fontStyle);
+        $table->addCell(1000, $styleCell)->addText(htmlspecialchars('MASA (kg)'), $fontStyle);
+        $table->addCell(1000, $styleCell)->addText(htmlspecialchars('OTKUPNINA'), $fontStyle);
+        $table->addCell(2000, $styleCell)->addText(htmlspecialchars('NAPOMENA'), $fontStyle);
+
+        $rb = 1;
+        foreach ($posiljke as $stavka) {
+            $table->addRow();
+
+            $c1 = $table->addCell(1500);
+            $c1->addText(htmlspecialchars($rb));
+            
+            $c2 = $table->addCell(1500);
+            $c2->addText(htmlspecialchars($stavka->broj_posiljke));
+
+            $c3 = $table->addCell(3000);
+            $c3->addText(htmlspecialchars($stavka->primalac->naziv));
+
+            $c4 = $table->addCell(3500);
+            $c4->addText(htmlspecialchars(trim($stavka->primalac->naselje)));
+
+            $adresa = trim($stavka->primalac->ulica).' '.trim($stavka->primalac->broj).''.($stavka->primalac->podbroj != '' ? '('.$stavka->primalac->podbroj.')' : '');
+            if ($stavka->primalac->stan != '') {
+                $adresa .= '/'.$stavka->primalac->stan;
+            }
+
+            $c5 = $table->addCell(3500);
+            $c5->addText(htmlspecialchars(trim($adresa)));
+
+            if ($stavka->primalac->sprat) {
+                $c5->addText(htmlspecialchars('Sprat: '.$stavka->primalac->sprat));
+            }
+
+            $c6 = $table->addCell(1500);
+            $c6->addText(htmlspecialchars($stavka->primalac->kontakt_telefon));
+
+            $c7 = $table->addCell(1000);
+            $c7->addText(htmlspecialchars($stavka->masa_kg));
+
+            $c7 = $table->addCell(1000);
+            $c7->addText(htmlspecialchars(number_format($stavka->otkupnina, 2,',', '.')));
+
+            $c8 = $table->addCell(2000)->addText(htmlspecialchars(''));
+
+            $rb++;
+        }
+        
+        // $section->addTextBreak(1);
+        // $section->addText(htmlspecialchars('POŠILJKE PREDAO: '.Korisnik::ulogovanKorisnik()->ime.' '.Korisnik::ulogovanKorisnik()->prezime));
+        // $section->addTextBreak(1);
+        // $section->addText(htmlspecialchars('POŠILJKE PRIMIO: '.$dostava->radnik));
+
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        try {
+            $objWriter->save(storage_path(time().'.docx'));
+        } catch (\Exception $e) {
+            dd($e);
+        }
+
+        return response()->download(storage_path(time().'.docx'))->deleteFileAfterSend(true);
+    }
 }

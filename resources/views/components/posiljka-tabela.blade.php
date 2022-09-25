@@ -4,7 +4,10 @@
           <div class="card-body">
             <h4 class="card-title">Lista pošiljaka</h4>
             @if(Route::currentRouteName() == 'cms.posiljka.index')
-              <a href="{{ request()->fullUrlWithQuery(['stampajadresnice' => '1']) }}" class="btn btn-sm btn-primary">Štampaj sve  <i class="ti-printer btn-icon-append"></i></a>
+              <a href="{{ request()->fullUrlWithQuery(['stampajadresnice' => '1']) }}" class="btn btn-sm btn-primary">Štampaj sve adresnice  <i class="ti-printer btn-icon-append"></i></a>
+            @endif
+            @if(Route::currentRouteName() == 'cms.posiljka.index')
+              <a href="{{ request()->fullUrlWithQuery(['stampajspisak' => '1']) }}" class="btn btn-sm btn-primary">Štampaj spisak  <i class="ti-printer btn-icon-append"></i></a>
             @endif
             <div class="table-responsive pt-3">
               <table class="table table-bordered table-sm">

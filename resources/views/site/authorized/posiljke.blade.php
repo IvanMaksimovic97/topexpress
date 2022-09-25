@@ -54,6 +54,9 @@
                   @if(Route::currentRouteName() == 'posiljke-site')
                     <a href="{{ request()->fullUrlWithQuery(['stampajadresnice' => '1']) }}" class="btn btn-sm btn-danger">Štampaj sve adresnice <i class="ti-printer btn-icon-append"></i></a>
                   @endif
+                  @if(Route::currentRouteName() == 'posiljke-site')
+                    <a href="{{ request()->fullUrlWithQuery(['stampajspisak' => '1']) }}" class="btn btn-sm btn-danger">Štampaj spisak <i class="ti-printer btn-icon-append"></i></a>
+                  @endif
                   <div class="table-responsive pt-3">
                     <table class="table table-bordered table-sm">
                       <thead>
