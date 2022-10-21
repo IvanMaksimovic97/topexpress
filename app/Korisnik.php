@@ -12,6 +12,11 @@ class Korisnik extends Model
     protected $table = 'korisnik';
     protected $guarded = [];
 
+    public function kompanija()
+    {
+        return $this->hasOne(Kompanija::class, 'id_korisnik', 'id');
+    }
+
     public static function login($korisnik)
     {
         session()->put('korisnik', $korisnik);

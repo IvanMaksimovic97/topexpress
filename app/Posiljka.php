@@ -13,6 +13,8 @@ class Posiljka extends Model
     protected $table = 'posiljka';
     protected $guarded = [];
 
+    public static $stampaj_kao_firma = false;
+
     public function posiljalac()
     {
         return $this->hasOne(PosiljalacPrimalac::class, 'id', 'posiljalac_id');
@@ -85,6 +87,8 @@ class Posiljka extends Model
 
     public static function stampajAdresnice(Collection $posiljke) 
     {
+        //\PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(true);
+
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $phpWord->setDefaultParagraphStyle(
             array(
@@ -107,16 +111,34 @@ class Posiljka extends Model
         $fontStyle->setSize(11);
 
         foreach ($posiljke as $key => $posiljka) {
+            $posiljalac_naziv = $posiljka->posiljalac->naziv;
+            $posiljalac_adresa = $posiljka->posiljalac->ulica." ".$posiljka->posiljalac->broj.($posiljka->posiljalac->podbroj != '' ? '('.$posiljka->posiljalac->podbroj.')' : '')."".($posiljka->posiljalac->stan != '' ? '/'.$posiljka->posiljalac->stan : '');
+            $posiljalac_naselje = $posiljka->posiljalac->naselje;
+            $posiljalac_telefon = $posiljka->posiljalac->kontakt_telefon;
+
+            if (self::$stampaj_kao_firma && Korisnik::ulogovanKorisnikSite()->kompanija) {
+                $kompanija = Korisnik::ulogovanKorisnikSite()->kompanija;
+                $posiljalac_naziv = $kompanija->naziv_pun;
+                $posiljalac_adresa = $kompanija->adresa;
+                $posiljalac_telefon = $kompanija->telefon;
+                $posiljalac_naselje = '';
+            }
+
+            $posiljalac_naziv = str_replace('&', '', $posiljalac_naziv);
+            $posiljalac_adresa = str_replace('&', '', $posiljalac_adresa);
+            $posiljalac_naselje = str_replace('&', '', $posiljalac_naselje);
+            $posiljalac_telefon = str_replace('&', '', $posiljalac_telefon);
+
             $description = "<w:r>
             <w:t><w:rPr><w:b w:val='true'/></w:rPr>".mb_strtoupper('POŠILJALAC:', 'UTF-8')."<w:rPr><w:b w:val='false'/></w:rPr></w:t>
             <w:br/>
-            <w:t>".mb_strtoupper($posiljka->posiljalac->naziv, 'UTF-8')."</w:t>
+            <w:t>".mb_strtoupper($posiljalac_naziv, 'UTF-8')."</w:t>
             <w:br/>
-            <w:t>".mb_strtoupper($posiljka->posiljalac->ulica." ".$posiljka->posiljalac->broj.($posiljka->posiljalac->podbroj != '' ? '('.$posiljka->posiljalac->podbroj.')' : '')."".($posiljka->posiljalac->stan != '' ? '/'.$posiljka->posiljalac->stan : ''), 'UTF-8')."</w:t>
+            <w:t>".mb_strtoupper($posiljalac_adresa, 'UTF-8')."</w:t>
             <w:br/>
-            <w:t>".mb_strtoupper($posiljka->posiljalac->naselje, 'UTF-8')."</w:t>
+            <w:t>".mb_strtoupper($posiljalac_naselje, 'UTF-8')."</w:t>
             <w:br/>
-            <w:t>".mb_strtoupper($posiljka->posiljalac->kontakt_telefon, 'UTF-8')."</w:t>
+            <w:t>".mb_strtoupper($posiljalac_telefon, 'UTF-8')."</w:t>
             <w:br/>
             <w:t>".mb_strtoupper($posiljka->posiljalac->napomena, 'UTF-8')."</w:t>
             <w:br/>
@@ -143,7 +165,6 @@ class Posiljka extends Model
             <w:br/>
             <w:t>".((float) $posiljka->postarina > 0 ? "<w:rPr><w:b w:val='true'/></w:rPr>".mb_strtoupper('POŠTARINA: ', 'UTF-8')."<w:rPr><w:b w:val='false'/></w:rPr>".mb_strtoupper($posiljka->postarina, 'UTF-8') : '')."</w:t>
             <w:br/>
-            <w:br/>
             <w:t><w:rPr><w:b w:val='true'/></w:rPr>".mb_strtoupper('POŠTARINU PLAĆA:', 'UTF-8')."<w:rPr><w:b w:val='false'/></w:rPr></w:t>
             <w:br/>
             <w:t>".mb_strtoupper($posiljka->nacinPlacanja->naziv, 'UTF-8')."</w:t>
@@ -161,15 +182,19 @@ class Posiljka extends Model
     
             $footer = "<w:r>
             <w:t>".date('d.m.Y.')."</w:t>
+            <w:br/>
+            <w:t>www.topexpress.rs</w:t>
+            <w:br/>
+            <w:t>+381668150900</w:t>
             </w:r>";
     
-            $section->addImage('storage/'.$posiljka->bar_kod, array('align' => 'center', 'width' => 130));
+            $section->addImage('storage/'.$posiljka->bar_kod, array('align' => 'center', 'width' => 130, 'space' => array('before' => 0, 'after' => 0)));
             // $section->addText($posiljka->broj_posiljke, null, array('align' => 'center', 'bold' => true, 'size' => 11));
-            $font = $section->addText($description);
-            $section->addText($footer, null, array('align' => 'center', 'size' => 11));
+            $font = $section->addText($description, null, array('marginTop' => 0, 'marginBottom' => 0, 'space' => array('before' => 0, 'after' => 0)));
+            $section->addText($footer, null, array('align' => 'center', 'size' => 11, 'marginTop' => 0, 'marginBottom' => 0, 'space' => array('before' => 0, 'after' => 0)));
             $font->setFontStyle($fontStyle);
     
-            $section->addImage('site/images/adresnica.jpg', ['align' => 'center', 'width' => 130]);
+            $section->addImage('site/images/adresnica.jpg', ['align' => 'center', 'width' => 130, 'marginTop' => 0, 'marginBottom' => 0, 'space' => array('before' => 0, 'after' => 0)]);
     
             if ($key != ($posiljke->count() -1 )) {
                 $section->addPageBreak();

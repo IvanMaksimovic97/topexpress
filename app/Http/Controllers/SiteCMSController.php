@@ -66,12 +66,15 @@ class SiteCMSController extends Controller
         $posiljke = $posiljke->get();
 
         if (request()->stampajadresnice) {
+            Posiljka::$stampaj_kao_firma = true;
             return Posiljka::stampajAdresnice($posiljke);
         }
 
         if (request()->stampajspisak) {
             return Posiljka::stampajSpisak($posiljke, Korisnik::ulogovanKorisnikSite());
         }
+
+        //dd(Korisnik::ulogovanKorisnikSite()->kompanija);
         
         return view('site.authorized.posiljke', compact('posiljke'));
     }
