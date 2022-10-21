@@ -57,14 +57,34 @@ class PosiljkaController extends Controller
                 });
             }
 
-            if (request()->date) {
-                $posiljke = $posiljke->whereRaw('date(created_at) = ?', [Carbon::parse(request()->date)->format('Y-m-d')]);
+            $izabran_bar_jedan_datum = false;
+            if (request()->date_from) {
+                $posiljke = $posiljke->whereRaw('date(created_at) >= ?', [Carbon::parse(request()->date_from)->format('Y-m-d')]);
+                $izabran_bar_jedan_datum = true;
+            }
+
+            if (request()->date_to) {
+                $posiljke = $posiljke->whereRaw('date(created_at) <= ?', [Carbon::parse(request()->date_to)->format('Y-m-d')]);
+                $izabran_bar_jedan_datum = true;
+            }
+
+            if (!$izabran_bar_jedan_datum) {
+                $posiljke = $posiljke->whereRaw('date(created_at) = ?', [Carbon::now()->format('Y-m-d')]);
             }
 
         } else {
-            if (request()->date) {
-                $posiljke = $posiljke->whereRaw('date(created_at) = ?', [Carbon::parse(request()->date)->format('Y-m-d')]);
-            } else {
+            $izabran_bar_jedan_datum = false;
+            if (request()->date_from) {
+                $posiljke = $posiljke->whereRaw('date(created_at) >= ?', [Carbon::parse(request()->date_from)->format('Y-m-d')]);
+                $izabran_bar_jedan_datum = true;
+            }
+
+            if (request()->date_to) {
+                $posiljke = $posiljke->whereRaw('date(created_at) <= ?', [Carbon::parse(request()->date_to)->format('Y-m-d')]);
+                $izabran_bar_jedan_datum = true;
+            }
+
+            if (!$izabran_bar_jedan_datum) {
                 $posiljke = $posiljke->whereRaw('date(created_at) = ?', [Carbon::now()->format('Y-m-d')]);
             }
         }
