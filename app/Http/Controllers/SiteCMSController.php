@@ -73,8 +73,6 @@ class SiteCMSController extends Controller
         if (request()->stampajspisak) {
             return Posiljka::stampajSpisak($posiljke, Korisnik::ulogovanKorisnikSite());
         }
-
-        //dd(Korisnik::ulogovanKorisnikSite()->kompanija);
         
         return view('site.authorized.posiljke', compact('posiljke'));
     }

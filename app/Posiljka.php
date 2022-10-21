@@ -219,7 +219,11 @@ class Posiljka extends Model
         
         if ($posiljalac) {
             $header = array('size' => 16, 'bold' => true);
-            $section->addText(htmlspecialchars('Pošiljalac: ' . $posiljalac->ime . ' ' . $posiljalac->prezime), $header);
+            $posiljalac_str = 'Pošiljalac: ' . $posiljalac->ime . ' ' . $posiljalac->prezime;
+            if ($posiljalac->kompanija) {
+                $posiljalac_str = 'Pošiljalac: ' . $posiljalac->kompanija->naziv_pun;
+            }
+            $section->addText(htmlspecialchars($posiljalac_str), $header);
             $section->addTextBreak(1);
     
             // $section->addText(htmlspecialchars('adresa i broj telefona :'), $header);
@@ -255,10 +259,10 @@ class Posiljka extends Model
             $c2->addText(htmlspecialchars($stavka->broj_posiljke));
 
             $c3 = $table->addCell(3000);
-            $c3->addText(htmlspecialchars($stavka->primalac->naziv));
+            $c3->addText(htmlspecialchars(strtoupper($stavka->primalac->naziv)));
 
             $c4 = $table->addCell(3500);
-            $c4->addText(htmlspecialchars(trim($stavka->primalac->naselje)));
+            $c4->addText(htmlspecialchars(strtoupper(trim($stavka->primalac->naselje))));
 
             $adresa = trim($stavka->primalac->ulica).' '.trim($stavka->primalac->broj).''.($stavka->primalac->podbroj != '' ? '('.$stavka->primalac->podbroj.')' : '');
             if ($stavka->primalac->stan != '') {
@@ -266,7 +270,7 @@ class Posiljka extends Model
             }
 
             $c5 = $table->addCell(3500);
-            $c5->addText(htmlspecialchars(trim($adresa)));
+            $c5->addText(htmlspecialchars(strtoupper(trim($adresa))));
 
             if ($stavka->primalac->sprat) {
                 $c5->addText(htmlspecialchars('Sprat: '.$stavka->primalac->sprat));
