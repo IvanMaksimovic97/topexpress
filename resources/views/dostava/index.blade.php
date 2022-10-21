@@ -24,9 +24,13 @@
                     <input type="text" class="form-control" value="{!! request()->search_radnik !!}" name="search_radnik" placeholder="Pretraga radniku">
                   </div>
                   <div class="col">
-                      <h4 class="card-title">Datum</h4>
-                      <input type="date" class="form-control" value="{!! date('Y-m-d', strtotime(request()->date ?? now())) !!}" name="date" placeholder="datum">
+                      <h4 class="card-title">Datum od</h4>
+                      <input type="date" class="form-control" value="{!! date('Y-m-d', strtotime(request()->date_from ?? now())) !!}" name="date_from" placeholder="datum od">
                   </div>
+                  <div class="col">
+                    <h4 class="card-title">Datum do</h4>
+                    <input type="date" class="form-control" value="{!! date('Y-m-d', strtotime(request()->date_to ?? now())) !!}" name="date_to" placeholder="datum do">
+                </div>
               </div>
           </div>
           <div class="mt-3">

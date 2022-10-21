@@ -40,11 +40,26 @@ class DostavaController extends Controller
             $spisak = $spisak->whereRaw('lower(radnik) LIKE ?', ['%'.strtolower(request()->search_radnik.'%')]);
         }
 
-        if (request()->date) {
-            $spisak = $spisak->whereRaw('date(created_at) = ?', [Carbon::parse(request()->date)->format('Y-m-d')]);
-        } else {
-            $spisak = $spisak->whereRaw('date(created_at) = ?', [Carbon::now()->format('Y-m-d')]);
+        $izabran_bar_jedan_datum = false;
+        if (request()->date_from) {
+            $spisak = $spisak->whereRaw('date(za_datum) >= ?', [Carbon::parse(request()->date_from)->format('Y-m-d')]);
+            $izabran_bar_jedan_datum = true;
         }
+
+        if (request()->date_to) {
+            $spisak = $spisak->whereRaw('date(za_datum) <= ?', [Carbon::parse(request()->date_to)->format('Y-m-d')]);
+            $izabran_bar_jedan_datum = true;
+        }
+
+        if (!$izabran_bar_jedan_datum) {
+            $spisak = $spisak->whereRaw('date(za_datum) = ?', [Carbon::now()->format('Y-m-d')]);
+        }
+
+        // if (request()->date) {
+        //     $spisak = $spisak->whereRaw('date(created_at) = ?', [Carbon::parse(request()->date)->format('Y-m-d')]);
+        // } else {
+        //     $spisak = $spisak->whereRaw('date(created_at) = ?', [Carbon::now()->format('Y-m-d')]);
+        // }
 
         $spisak = $spisak->get();
 
