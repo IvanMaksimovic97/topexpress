@@ -54,7 +54,7 @@
                 <div class="row">
                     <div class="form-group">
                         <label>Broj pošiljke</label>
-                        <input value="{{ $posiljka->broj_posiljke }}" type="text" class="form-control {{ session()->has('errMsg') ? 'is-invalid' : '' }}" name="broj_posiljke" id="broj_posiljke" required />
+                        <input @if(!$moze_da_izmeni_broj) disabled="disabled" @endif value="{{ preg_replace('/[^0-9.]+/', '', $posiljka->broj_posiljke) }}" type="text" class="form-control {{ session()->has('errMsg') ? 'is-invalid' : '' }}" name="broj_posiljke" id="broj_posiljke" required />
                         @if(session()->has('errMsg'))
                         <div class="invalid-feedback" id="broj_posiljke-invalid-text">
                            {{ session()->get('errMsg') }}

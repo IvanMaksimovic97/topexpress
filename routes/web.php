@@ -41,6 +41,8 @@ Route::group(['middleware' => ['isLoggedInSite']], function () {
     Route::get('/posiljke-site', 'SiteCMSController@posiljke')->name('posiljke-site');
     Route::get('/posiljke-nova-site', 'SiteCMSController@posiljkaNova')->name('posiljke-nova-site');
     Route::post('/posiljke-nova-site', 'SiteCMSController@posiljkaNovaStore')->name('posiljke-nova-store-site');
+    Route::get('/posiljka-izmena-site/{id}', 'SiteCMSController@posiljkaIzmena')->name('posiljka-izmena-site');
+    Route::post('/posiljka-update-site/{id}', 'SiteCMSController@posiljkaIzmenaUpdate')->name('posiljka-update-site');
 });
 
 // CMS

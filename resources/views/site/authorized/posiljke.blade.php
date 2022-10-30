@@ -62,7 +62,7 @@
                       <thead>
                         <tr>
                           {{-- <th>Štampaj</th> --}}
-                          {{-- <th>Izmeni</th> --}}
+                          <th>Izmeni</th>
                           <th>Broj pošiljke</th>
                           <th>Datum prijema</th>
                           <th>Vrsta usluge</th>
@@ -122,7 +122,7 @@
                             @endphp
                               <tr @if($rowColor != '') class="{{ $rowColor }}" @endif>
                                   {{-- <td><a href="{{ route('cms.posiljka.show', $posiljka) }}" class="btn btn-sm btn-danger">Štampaj  <i class="ti-printer btn-icon-append"></i></a></td> --}}
-                                  {{-- <td><a href="{{ route('cms.posiljka.edit', $posiljka) }}" class="btn btn-sm btn-danger">Izmeni  <i class="mdi mdi-lead-pencil"></i></a></td> --}}
+                                  <td><a href="{{ route('posiljka-izmena-site', $posiljka->id) }}" class="btn btn-sm btn-danger">Izmeni  <i class="mdi mdi-lead-pencil"></i></a></td>
                                   <td>{!! $posiljka->broj_posiljke !!}</td>
                                   <td>{!! date('d.m.Y. H:i:s', strtotime($posiljka->created_at)) !!}</td>
                                   <td>{!! $posiljka->vrstaUsluge->naziv !!}</td>

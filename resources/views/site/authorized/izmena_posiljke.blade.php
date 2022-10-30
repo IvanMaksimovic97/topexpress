@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="col-lg-9 grid-margin stretch-card">
-            <form action="{{ route('posiljke-nova-store-site') }}" method="POST">
+            <form action="{{ route('posiljka-update-site', $posiljka->id) }}" method="POST">
                 @csrf
                 <div class="row">
                     @include('site.authorized._form_nova_posiljka')
@@ -105,6 +105,7 @@ var naselja = JSON.parse('{!! $naselja !!}');
 var primalacPosiljalac = JSON.parse('{!! $primalacPosiljalac !!}');
 var racuni = JSON.parse('{!! $racuni !!}');
 var ugovori = JSON.parse('{!! $ugovori !!}');
+const posiljka_id = {!! $posiljka->id !!};
 
 $(function () {
     var vrsta_usluge_select2 = $("#vrsta-usluge").select2();
@@ -149,6 +150,8 @@ $(document).on('input', '#pr_ulica', function (e) {
 });
 
 $(document).on('input', '#otkupnina', function (e) {
+    $('#vrednost').val($(this).val());
+
     let vrednost_val = parseFloat($('#vrednost').val());
     let otkupnina = $(this);
 
@@ -164,7 +167,7 @@ $(document).on('input', '#otkupnina', function (e) {
 });
 
 const brojRegex = /^\d{6}$/;
-var brojJeValidan = false;
+var brojJeValidan = true;
 var brojNevalidanPoruka = '';
 
 function validacijaBrojaPosiljke(element)
@@ -179,12 +182,16 @@ function validacijaBrojaPosiljke(element)
             url: '{{ route('broj-posiljke-validacija') }}' + '/' + element.val(),
             method: 'get',
             success: function (data) {
-                if (data == '1') {
-                    $('#broj_posiljke-invalid-text').html('Pošiljka sa unetim brojem već postoji!');
-                    $(element).addClass('is-invalid');
+                if (data) {
+                    if (data.id != posiljka_id) {
+                        $('#broj_posiljke-invalid-text').html('Pošiljka sa unetim brojem već postoji!');
+                        $(element).addClass('is-invalid');
 
-                    brojNevalidanPoruka = 'Pošiljka sa unetim brojem već postoji!';
-                    brojJeValidan = false;
+                        brojNevalidanPoruka = 'Pošiljka sa unetim brojem već postoji!';
+                        brojJeValidan = false;
+                    } else {
+                        brojJeValidan = true;
+                    }
                 } else {
                     brojJeValidan = true;
                 }
@@ -274,7 +281,7 @@ $(document).on('click', '#postarina-izracunaj', function(e) {
     let route = '{{ route('cena-postarine', ["#vrsta#", "#masa#", "#ugovor#"]) }}';
     let masa = parseFloat($('#masa').val());
     let id_vrsta = $('#vrsta-usluge').val();
-    let id_ugovor = -1; //$('#firma_id').val() != '' ? $('#firma_id').val() : -1;
+    let id_ugovor = $('#firma_id').val() != '' ? $('#firma_id').val() : -1;
 
     route = route.replace('#vrsta#', id_vrsta);
     route = route.replace('#masa#', masa);
@@ -303,19 +310,9 @@ $(document).on('click', '#rucni-unos', function (e) {
     }
 });
 
-$(document).on('click', "input:radio[name='otkupnina_vrsta']", function(e) {
-    if ($("input:radio[name='otkupnina_vrsta']").is(":checked")) {
-        $('#otkupnina-vrsta-upozorenje').addClass('d-none');
-    } else {
-        $('#otkupnina-vrsta-upozorenje').removeClass('d-none');
-    }
-});
-
 $(document).on('click', '#unesi', function(e) {
     $('#sadrzina').css('border-color', '#dee2e6');
     $('#otkupnina').removeClass('is-invalid');
-
-    $('#otkupnina-vrsta-upozorenje').addClass('d-none');
 
     let valid = true;
     let elements = [
@@ -375,51 +372,9 @@ $(document).on('click', '#unesi', function(e) {
         valid = false;
     }
 
-    if ($('#ima_otkupninu').is(":checked")) {
-        if (!$("input:radio[name='otkupnina_vrsta']").is(":checked")) {
-            $('#otkupnina-vrsta-upozorenje').removeClass('d-none');
-        }
-    }
-
     if (!valid) {
         e.preventDefault();
     }
-});
-
-$(document).on('click', '#reset-posiljalac', function (e) {
-    const p_type = 'po';
-    $(`#posiljalac_id`).val('');
-    $(`#${p_type}_naziv`).val('');
-    $(`#${p_type}_naselje`).val('');
-    $(`#${p_type}_naselje_id`).val('');
-    $(`#${p_type}_ulica`).val('');
-    $(`#${p_type}_ulica_id`).val('');
-    $(`#${p_type}_broj`).val('');
-    $(`#${p_type}_podbroj`).val('');
-    $(`#${p_type}_sprat`).val('');
-    $(`#${p_type}_stan`).val('');
-    $(`#${p_type}_napomena`).val('');
-    $(`#${p_type}_kontakt_osoba`).val('');
-    $(`#${p_type}_kontakt_telefon`).val('');
-    $(`#${p_type}_email`).val('');
-});
-
-$(document).on('click', '#reset-primalac', function (e) {
-    const p_type = 'pr';
-    $(`#primalac_id`).val('');
-    $(`#${p_type}_naziv`).val('');
-    $(`#${p_type}_naselje`).val('');
-    $(`#${p_type}_naselje_id`).val('');
-    $(`#${p_type}_ulica`).val('');
-    $(`#${p_type}_ulica_id`).val('');
-    $(`#${p_type}_broj`).val('');
-    $(`#${p_type}_podbroj`).val('');
-    $(`#${p_type}_sprat`).val('');
-    $(`#${p_type}_stan`).val('');
-    $(`#${p_type}_napomena`).val('');
-    $(`#${p_type}_kontakt_osoba`).val('');
-    $(`#${p_type}_kontakt_telefon`).val('');
-    $(`#${p_type}_email`).val('');
 });
 </script>
 @endsection

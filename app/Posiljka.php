@@ -45,15 +45,21 @@ class Posiljka extends Model
         return $this->belongsToMany(Dostava::class, 'dostava_stavka');
     }
 
-    public function setValues($firma_id, $posiljalac_id, $primalac_id, $postarina)
+    public function setValues($firma_id, $posiljalac_id, $primalac_id, $postarina, $broj_p = null)
     {
-        $this->id_korisnik = request()->route()->getName() == 'posiljke-nova-store-site' ? Korisnik::ulogovanKorisnikSite()->id : Korisnik::ulogovanKorisnik()->id;
+        //$this->id_korisnik = request()->route()->getName() == 'posiljke-nova-store-site' ? Korisnik::ulogovanKorisnikSite()->id : Korisnik::ulogovanKorisnik()->id;
         $this->vrsta_usluge_id = request()->vrsta_usluge_id;
         $this->nacin_placanja_id = request()->nacin_placanja_id;
         $this->firma_id = $firma_id;
         $this->posiljalac_id = $posiljalac_id;
         $this->primalac_id = $primalac_id;
-        $this->broj_posiljke = request()->broj_posiljke ?? '';
+        
+        if ($broj_p) {
+            $this->broj_posiljke = $broj_p;
+        } else {
+            $this->broj_posiljke = 'TE'.(request()->broj_posiljke ?? '').'BG';
+        }
+        
         $this->broj_dolaznice = request()->broj_dolaznice ?? '';
         $this->broj_racuna = request()->broj_racuna ?? '';
         $this->ugovor = request()->ugovor ?? '';

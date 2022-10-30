@@ -144,7 +144,7 @@ $(document).on('input', '#otkupnina', function (e) {
     }
 });
 
-const brojRegex = /^TE\d{6}BG$/;
+const brojRegex = /^\d{6}$/;
 var brojJeValidan = false;
 var brojNevalidanPoruka = '';
 
@@ -362,6 +362,7 @@ $(document).on('click', '#unesi', function(e) {
         }
     }
 
+    console.log(valid);
     if (!valid) {
         e.preventDefault();
     }

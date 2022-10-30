@@ -6,6 +6,7 @@ use App\Cenovnik;
 use App\Dostava;
 use App\DostavaStavka;
 use App\Kompanija;
+use App\Korisnik;
 use App\NacinPlacanja;
 use App\Naselje;
 use App\PosiljalacPrimalac;
@@ -151,7 +152,7 @@ class PosiljkaController extends Controller
 
     public function proveraBrojaPosiljke($broj)
     {
-        return Posiljka::where('broj_posiljke', $broj)->first();
+        return Posiljka::where('broj_posiljke', 'TE'.$broj.'BG')->first();
     }
 
     /**
@@ -195,6 +196,8 @@ class PosiljkaController extends Controller
             $posiljka->licno_preuzimanje = null;
         }
 
+        $moze_da_izmeni_broj = true;
+
         return view('posiljka.create', compact(
             'posiljka',
             'vrste_usluga', 
@@ -205,7 +208,8 @@ class PosiljkaController extends Controller
             'ulice',
             //'posiljkaBroj',
             'racuni',
-            'ugovori'
+            'ugovori',
+            'moze_da_izmeni_broj'
         ));
     }
 
@@ -217,7 +221,7 @@ class PosiljkaController extends Controller
      */
     public function store(Request $request)
     {
-        $postojiPosiljka = Posiljka::where('broj_posiljke', $request->broj_posiljke)->first();
+        $postojiPosiljka = Posiljka::where('broj_posiljke', 'TE'.$request->broj_posiljke.'BG')->first();
         if ($postojiPosiljka) {
             return redirect()->route('cms.posiljka.create', ['prethodna'])->with('errMsg', 'Pošiljka sa zadatim brojem već postoji!');
         }
@@ -273,6 +277,7 @@ class PosiljkaController extends Controller
         }
 
         $posiljka = new Posiljka;
+        $posiljka->id_korisnik = Korisnik::ulogovanKorisnik()->id;
         $posiljka->setValues($request->firma_id ?? -1, $posiljalac->id, $primalac->id, $cena_konacna);
         $posiljka->setBarCode();
         $posiljka->save();
@@ -423,6 +428,8 @@ class PosiljkaController extends Controller
 
         $spisak = DostavaStavka::with(['dostava'])->where('posiljka_id', $posiljka->id)->get();
 
+        $moze_da_izmeni_broj = false;
+
         return view('posiljka.edit', compact(
             'posiljka',
             'vrste_usluga', 
@@ -434,7 +441,8 @@ class PosiljkaController extends Controller
             //'posiljkaBroj',
             'racuni',
             'spisak',
-            'ugovori'
+            'ugovori',
+            'moze_da_izmeni_broj'
         ));
     }
 
@@ -498,7 +506,7 @@ class PosiljkaController extends Controller
         }
 
         //$posiljka = new Posiljka;
-        $posiljka->setValues($request->firma_id ?? -1, $posiljalac->id, $primalac->id, $cena_konacna);
+        $posiljka->setValues($request->firma_id ?? -1, $posiljalac->id, $primalac->id, $cena_konacna, $posiljka->broj_posiljke);
         $posiljka->setBarCode();
         $posiljka->save();
 
@@ -535,7 +543,7 @@ class PosiljkaController extends Controller
             'vrstaUsluge',
             'nacinPlacanja',
             'firma'
-        ])->where('broj_posiljke', $broj_posiljke)->first();
+        ])->where('broj_posiljke', 'TE'.$broj_posiljke.'BG')->first();
         
         $stavke = DostavaStavka::with([
             'posiljka',

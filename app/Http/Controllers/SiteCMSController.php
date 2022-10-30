@@ -100,6 +100,8 @@ class SiteCMSController extends Controller
             $posiljka = Posiljka::orderBy('id', 'desc')->first();
         }
 
+        $moze_da_izmeni_broj = true;
+
         return view('site.authorized.nova_posiljka', compact(
             'posiljka',
             'vrste_usluga', 
@@ -110,13 +112,51 @@ class SiteCMSController extends Controller
             'ulice',
             //'posiljkaBroj',
             'racuni',
-            'ugovori'
+            'ugovori',
+            'moze_da_izmeni_broj'
+        ));
+    }
+
+    public function posiljkaIzmena($id)
+    {
+        $posiljka = Posiljka::where('id', $id)->where('id_korisnik', Korisnik::ulogovanKorisnikSite()->id)->firstOrFail();
+
+        $vrste_usluga = VrstaUsluge::all(['id', 'naziv']);
+        $nacini_placanja = NacinPlacanja::all(['id', 'naziv']);
+        $kompanije = Kompanija::all(['id', 'naziv', 'naziv_pun']);
+        $primalacPosiljalac = PosiljalacPrimalac::groupBy('naziv')->get();
+        $naselja = Naselje::groupBy('naziv')->get();
+        $ulice = Ulica::groupBy('naziv')->get();
+        $racuni = Racun::all(['id', 'broj_racuna']);
+        $ugovori = Ugovor::with(['kompanija'])->get();
+
+        $ugovori->transform(function ($item) {
+            $item->naslov = $item->kompanija->naziv . ' - ' . $item->broj_ugovora;
+            return $item;
+        });
+
+        //$spisak = DostavaStavka::with(['dostava'])->where('posiljka_id', $posiljka->id)->get();
+
+        $moze_da_izmeni_broj = false;
+
+        return view('site.authorized.izmena_posiljke', compact(
+            'posiljka',
+            'vrste_usluga', 
+            'nacini_placanja', 
+            'kompanije', 
+            'primalacPosiljalac', 
+            'naselja', 
+            'ulice',
+            //'posiljkaBroj',
+            'racuni',
+            'ugovori',
+            'moze_da_izmeni_broj'
         ));
     }
 
     public function posiljkaNovaStore(Request $request)
     {
-        $postojiPosiljka = Posiljka::where('broj_posiljke', $request->broj_posiljke)->first();
+        $postojiPosiljka = Posiljka::where('broj_posiljke', 'TE'.$request->broj_posiljke.'BG')->first();
         if ($postojiPosiljka) {
             return redirect()->route('posiljke-nova-site', ['prethodna'])->with('errMsg', 'Pošiljka sa zadatim brojem već postoji!');
         }
@@ -158,6 +198,7 @@ class SiteCMSController extends Controller
         $posiljalac = PosiljalacPrimalac::where('email', Korisnik::ulogovanKorisnikSite()->email)->first();
 
         $posiljka = new Posiljka;
+        $posiljka->id_korisnik = Korisnik::ulogovanKorisnikSite()->id;
         $posiljka->setValues($request->firma_id ?? -1, $posiljalac->id, $primalac->id, $cena_konacna);
         $posiljka->setBarCode();
         $posiljka->save();
@@ -174,5 +215,64 @@ class SiteCMSController extends Controller
         }
         
         return redirect()->route('posiljke-site');
+    }
+
+    public function posiljkaIzmenaUpdate(Request $request, $id)
+    {
+        $posiljka = Posiljka::where('id', $id)->where('id_korisnik', Korisnik::ulogovanKorisnikSite()->id)->firstOrFail();
+        
+        $pr_naselje = $request->pr_naselje_id ? Naselje::find($request->pr_naselje_id) : new Naselje;
+        if (!$request->pr_naselje_id) {
+            $pr_naselje->setValues($request->pr_naselje);
+            $pr_naselje->save();
+        }
+        
+        $pr_ulica = $request->pr_ulica_id ? Ulica::find($request->pr_ulica_id) : new Ulica;
+        if (!$request->pr_ulica_id) {
+            $pr_ulica->setValues($request->pr_ulica);
+            $pr_ulica->save();
+        }
+
+        $primalac = $request->primalac_id ? PosiljalacPrimalac::find($request->primalac_id) : new PosiljalacPrimalac;
+        $primalac->primalacSetValues($pr_naselje->id, $pr_ulica->id);
+        $primalac->save();
+
+        $masa = floatval($request->masa_kg);
+        $cena = Cenovnik::where([
+            ['vrsta_usluge_id', $request->vrsta_usluge_id],
+            ['ugovor_id', $request->firma_id ?? -1],
+            ['min_kg', '<', $masa],
+            ['max_kg', '>=', $masa]
+        ])->first();
+
+        $cena_konacna = 0;
+
+        if ($cena) {
+            $cena_konacna = $cena->cena_sa_pdv;
+        }
+
+        if ($request->has('rucni_unos')) {
+            $cena_konacna = floatval($request->postarina);
+        }
+
+        $posiljalac = PosiljalacPrimalac::where('email', Korisnik::ulogovanKorisnikSite()->email)->first();
+
+        //$posiljka = new Posiljka;
+        $posiljka->setValues($request->firma_id ?? -1, $posiljalac->id, $primalac->id, $cena_konacna, $posiljka->broj_posiljke);
+        $posiljka->setBarCode();
+        $posiljka->save();
+
+        if ($request->broj_racuna != null && $request->broj_racuna != '') {
+            $racunPostoji = Racun::where('broj_racuna', $request->broj_racuna)->first();
+
+            if (!$racunPostoji) {
+                Racun::insert([
+                    'broj_racuna' => $request->broj_racuna,
+                    'created_at' => Carbon::now()
+                ]);
+            }
+        }
+        
+        return redirect()->route('posiljka-izmena-site', $posiljka);
     }
 }
