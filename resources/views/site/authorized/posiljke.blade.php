@@ -65,19 +65,20 @@
                           <th>Izmeni</th>
                           <th>Broj pošiljke</th>
                           <th>Datum prijema</th>
-                          <th>Vrsta usluge</th>
-                          <th>Način plaćanja</th>
                           <th>Primalac</th>
+                          <th>Mesto</th>
                           <th>Adresa</th>
                           <th>Masa</th>
-                          <th>Vrednost</th>
+                          {{-- <th>Vrednost</th> --}}
                           <th>Otkupnina</th>
-                          <th>Otkupnina vrsta</th>
                           <th>Poštarina</th>
+                          <th>Vrsta usluge</th>
+                          <th>Način plaćanja</th>
                           <th>Povratnica</th>
                           <th>Lično preuzimanje</th>
-                          <th>Firma</th>
-                          <th>#</th>
+                          {{-- <th>Firma</th>
+                          <th>#</th> --}}
+                          <th>Otkupnina vrsta</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -125,19 +126,20 @@
                                   <td><a href="{{ route('posiljka-izmena-site', $posiljka->id) }}" class="btn btn-sm btn-danger">Izmeni  <i class="mdi mdi-lead-pencil"></i></a></td>
                                   <td>{!! $posiljka->broj_posiljke !!}</td>
                                   <td>{!! date('d.m.Y. H:i:s', strtotime($posiljka->created_at)) !!}</td>
-                                  <td>{!! $posiljka->vrstaUsluge->naziv !!}</td>
-                                  <td>{!! $posiljka->nacinPlacanja->naziv !!}</td>
                                   <td>{!! $posiljka->primalac->naziv !!}</td>
+                                  <td>{!! $posiljka->primalac->naselje !!}</td>
                                   <td>{!! $posiljka->primalac->ulica.' br. '.$posiljka->primalac->broj !!}{!! $posiljka->primalac->stan ? '/'.$posiljka->primalac->stan : '' !!}</td>
                                   <td>{!! $posiljka->masa_kg !!} kg</td>
-                                  <td>{!! $posiljka->vrednost !!}</td>
+                                  {{-- <td>{!! $posiljka->vrednost !!}</td> --}}
                                   <td>{!! $posiljka->otkupnina !!}</td>
-                                  <td>{!! $posiljka->otkupnina_vrsta !!}</td>
                                   <td>{!! $posiljka->postarina !!}</td>
+                                  <td>{!! $posiljka->vrstaUsluge->naziv !!}</td>
+                                  <td>{!! $posiljka->nacinPlacanja->naziv !!}</td>
                                   <td>{!! $posiljka->povratnica ? 'Da' : 'Ne' !!}</td>
                                   <td>{!! $posiljka->licno_preuzimanje ? 'Da' : 'Ne' !!}</td>
-                                  <td>{!! $posiljka->firma ? $posiljka->firma->naziv : '' !!}</td>
-                                  <td>{!! $posiljka->id !!}</td>
+                                  {{-- <td>{!! $posiljka->firma ? $posiljka->firma->naziv : '' !!}</td>
+                                  <td>{!! $posiljka->id !!}</td> --}}
+                                  <td>{!! $posiljka->otkupnina_vrsta !!}</td>
                               </tr>
                           @endforeach
                       </tbody>

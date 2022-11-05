@@ -219,12 +219,38 @@ class Posiljka extends Model
 
     public static function stampajSpisak(Collection $posiljke, $posiljalac = null)
     {
+        //dd($posiljke);
+        $sum_posiljka = new Posiljka;
+        $sum_posiljka->primalac = (object) [
+            'naziv' => '',
+            'naselje' => '',
+            'ulica' => '',
+            'broj' => '',
+            'podbroj' => '',
+            'stan' => '',
+            'sprat' => null,
+            'kontakt_telefon' => ''
+        ];
+        $sum_posiljka->naziv = '';
+        $sum_posiljka->masa_kg = 'UKUPNO';
+        $sum_posiljka->otkupnina = 0;
+        
+        foreach ($posiljke as $p) {
+            $sum_posiljka->otkupnina += (float) $p->otkupnina;
+        }
+
+        $posiljke->push($sum_posiljka);
+
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $phpWord->setDefaultParagraphStyle(array('align' => 'both', 'spaceAfter' => \PhpOffice\PhpWord\Shared\Converter::pointToTwip(0), 'spacing' => 0));
         $section = $phpWord->addSection(array('orientation' => 'landscape'));
         
         if ($posiljalac) {
             $header = array('size' => 16, 'bold' => true);
+
+            $section->addText(htmlspecialchars('Datum: '.date('d.m.Y.')), $header);
+            $section->addTextBreak(1);
+
             $posiljalac_str = 'Pošiljalac: ' . $posiljalac->ime . ' ' . $posiljalac->prezime;
             if ($posiljalac->kompanija) {
                 $posiljalac_str = 'Pošiljalac: ' . $posiljalac->kompanija->naziv_pun;
