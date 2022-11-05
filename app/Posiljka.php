@@ -245,12 +245,11 @@ class Posiljka extends Model
         $phpWord->setDefaultParagraphStyle(array('align' => 'both', 'spaceAfter' => \PhpOffice\PhpWord\Shared\Converter::pointToTwip(0), 'spacing' => 0));
         $section = $phpWord->addSection(array('orientation' => 'landscape'));
         
+        $header = array('size' => 16, 'bold' => true);
+        $section->addText(htmlspecialchars('Datum: '.date('d.m.Y.')), $header);
+        $section->addTextBreak(1);
+
         if ($posiljalac) {
-            $header = array('size' => 16, 'bold' => true);
-
-            $section->addText(htmlspecialchars('Datum: '.date('d.m.Y.')), $header);
-            $section->addTextBreak(1);
-
             $posiljalac_str = 'Pošiljalac: ' . $posiljalac->ime . ' ' . $posiljalac->prezime;
             if ($posiljalac->kompanija) {
                 $posiljalac_str = 'Pošiljalac: ' . $posiljalac->kompanija->naziv_pun;

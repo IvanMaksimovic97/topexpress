@@ -370,27 +370,21 @@ class PosiljkaController extends Controller
         <w:t>".mb_strtoupper($posiljka->nacinPlacanja->naziv, 'UTF-8')."</w:t>
         </w:r>";
 
-        // $footer = "<w:r>
-        // <w:t>TOPEXPRESS 2022 DOO</w:t>
-        // <w:br/>
-        // <w:t>WWW.TOPEXPRESS.RS</w:t>
-        // <w:br/>
-        // <w:t>+381 11 77777 33</w:t>
-        // <w:br/>
-        // <w:t>+381 66 815 0 900</w:t>
-        // </w:r>";
-
         $footer = "<w:r>
         <w:t>".date('d.m.Y.')."</w:t>
+        <w:br/>
+        <w:t>www.topexpress.rs</w:t>
+        <w:br/>
+        <w:t>+381668150900</w:t>
         </w:r>";
 
-        $section->addImage($posiljka->broj_posiljke.'.jpg', array('align' => 'center', 'width' => 130));
+        $section->addImage('storage/'.$posiljka->bar_kod, array('align' => 'center', 'width' => 130, 'space' => array('before' => 0, 'after' => 0)));
         // $section->addText($posiljka->broj_posiljke, null, array('align' => 'center', 'bold' => true, 'size' => 11));
-        $font = $section->addText($description);
-        $section->addText($footer, null, array('align' => 'center', 'size' => 11));
+        $font = $section->addText($description, null, array('marginTop' => 0, 'marginBottom' => 0, 'space' => array('before' => 0, 'after' => 0)));
+        $section->addText($footer, null, array('align' => 'center', 'size' => 11, 'marginTop' => 0, 'marginBottom' => 0, 'space' => array('before' => 0, 'after' => 0)));
         $font->setFontStyle($fontStyle);
 
-        $section->addImage('site/images/adresnica.jpg', ['align' => 'center', 'width' => 130]);
+        $section->addImage('site/images/adresnica.jpg', ['align' => 'center', 'width' => 130, 'marginTop' => 0, 'marginBottom' => 0, 'space' => array('before' => 0, 'after' => 0)]);
 
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
         try {
