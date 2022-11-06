@@ -74,7 +74,7 @@
                           <th>Poštarina</th>
                           <th>Vrsta usluge</th>
                           <th>Način plaćanja</th>
-                          <th>Povratnica</th>
+                          <th>Opis sadržine</th>
                           <th>Lično preuzimanje</th>
                           {{-- <th>Firma</th>
                           <th>#</th> --}}
@@ -135,7 +135,7 @@
                                   <td>{!! $posiljka->postarina !!}</td>
                                   <td>{!! $posiljka->vrstaUsluge->naziv !!}</td>
                                   <td>{!! $posiljka->nacinPlacanja->naziv !!}</td>
-                                  <td>{!! $posiljka->povratnica ? 'Da' : 'Ne' !!}</td>
+                                  <td>{!! $posiljka->sadrzina !!}</td>
                                   <td>{!! $posiljka->licno_preuzimanje ? 'Da' : 'Ne' !!}</td>
                                   {{-- <td>{!! $posiljka->firma ? $posiljka->firma->naziv : '' !!}</td>
                                   <td>{!! $posiljka->id !!}</td> --}}

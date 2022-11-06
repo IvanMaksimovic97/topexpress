@@ -152,7 +152,7 @@ class PosiljkaController extends Controller
 
     public function proveraBrojaPosiljke($broj)
     {
-        return Posiljka::where('broj_posiljke', 'TE'.$broj.'BG')->first();
+        return Posiljka::where('broj_posiljke', 'TE'.$broj.'BG')->first() ? '1' : '0';
     }
 
     /**
