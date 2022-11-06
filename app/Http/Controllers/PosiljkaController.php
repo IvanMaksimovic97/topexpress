@@ -537,7 +537,7 @@ class PosiljkaController extends Controller
             'vrstaUsluge',
             'nacinPlacanja',
             'firma'
-        ])->where('broj_posiljke', 'TE'.$broj_posiljke.'BG')->first();
+        ])->where('broj_posiljke', $broj_posiljke)->first();
         
         $stavke = DostavaStavka::with([
             'posiljka',
