@@ -142,6 +142,22 @@
                                   <td>{!! $posiljka->otkupnina_vrsta !!}</td>
                               </tr>
                           @endforeach
+                          <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>UKUPNO</td>
+                            <td>{{ number_format((float) $sum_posiljka->otkupnina, 2) }}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                          </tr>
                       </tbody>
                     </table>
                   </div>

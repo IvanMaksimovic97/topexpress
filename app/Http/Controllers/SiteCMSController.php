@@ -65,6 +65,27 @@ class SiteCMSController extends Controller
 
         $posiljke = $posiljke->get();
 
+        $sum_posiljka = new Posiljka;
+        $sum_posiljka->primalac = (object) [
+            'naziv' => '',
+            'naselje' => '',
+            'ulica' => '',
+            'broj' => '',
+            'podbroj' => '',
+            'stan' => '',
+            'sprat' => null,
+            'kontakt_telefon' => ''
+        ];
+        $sum_posiljka->naziv = '';
+        $sum_posiljka->masa_kg = 'UKUPNO';
+        $sum_posiljka->otkupnina = 0;
+        
+        foreach ($posiljke as $p) {
+            $sum_posiljka->otkupnina += (float) $p->otkupnina;
+        }
+
+        //$posiljke->push($sum_posiljka);
+
         if (request()->stampajadresnice) {
             Posiljka::$stampaj_kao_firma = true;
             return Posiljka::stampajAdresnice($posiljke);
@@ -74,7 +95,7 @@ class SiteCMSController extends Controller
             return Posiljka::stampajSpisak($posiljke, Korisnik::ulogovanKorisnikSite());
         }
         
-        return view('site.authorized.posiljke', compact('posiljke'));
+        return view('site.authorized.posiljke', compact('posiljke', 'sum_posiljka'));
     }
 
     public function posiljkaNova()

@@ -219,7 +219,6 @@ class Posiljka extends Model
 
     public static function stampajSpisak(Collection $posiljke, $posiljalac = null)
     {
-        //dd($posiljke);
         $sum_posiljka = new Posiljka;
         $sum_posiljka->primalac = (object) [
             'naziv' => '',
@@ -277,7 +276,7 @@ class Posiljka extends Model
         $table->addCell(1500, $styleCell)->addText(htmlspecialchars('BROJ TEL. PRIMAOCA'), $fontStyle);
         $table->addCell(1000, $styleCell)->addText(htmlspecialchars('MASA (kg)'), $fontStyle);
         $table->addCell(1000, $styleCell)->addText(htmlspecialchars('OTKUPNINA'), $fontStyle);
-        $table->addCell(2000, $styleCell)->addText(htmlspecialchars('NAPOMENA'), $fontStyle);
+        $table->addCell(2000, $styleCell)->addText(htmlspecialchars('OPIS SADRŽINE'), $fontStyle);
 
         $rb = 1;
         foreach ($posiljke as $stavka) {
@@ -316,7 +315,7 @@ class Posiljka extends Model
             $c7 = $table->addCell(1000);
             $c7->addText(htmlspecialchars(number_format($stavka->otkupnina, 2,',', '.')));
 
-            $c8 = $table->addCell(2000)->addText(htmlspecialchars(''));
+            $c8 = $table->addCell(2000)->addText(htmlspecialchars($stavka->sadrzina));
 
             $rb++;
         }
