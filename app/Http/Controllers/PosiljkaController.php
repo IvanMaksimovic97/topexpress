@@ -38,7 +38,8 @@ class PosiljkaController extends Controller
             'primalac.naselje',
             'vrstaUsluge',
             'nacinPlacanja',
-            'firma'
+            'firma',
+            'statusi'
         ]);
 
         if (request()->search || request()->search_po || request()->search_pr) {
@@ -90,6 +91,10 @@ class PosiljkaController extends Controller
             }
         }
 
+        if (request()->nacin_placanja_id && request()->nacin_placanja_id != '-1') {
+            $posiljke = $posiljke->where('nacin_placanja_id', request()->nacin_placanja_id);
+        }
+
         $posiljke = $posiljke->get();
 
         if (request()->stampajadresnice) {
@@ -99,8 +104,16 @@ class PosiljkaController extends Controller
         if (request()->stampajspisak) {
             return Posiljka::stampajSpisak($posiljke);
         }
+
+        $nacini_placanja = NacinPlacanja::all(['id', 'naziv']);
+
+        $posiljke = $posiljke->map(function ($posiljka, $key) {
+            $status = $posiljka->statusi->first();
+            $posiljka->status_po_spisku = $status ? $status->status : '0';
+            return $posiljka;
+        });
         
-        return view('posiljka.index', compact('posiljke'));
+        return view('posiljka.index', compact('posiljke', 'nacini_placanja'));
     }
 
     public function updateStatus($id_posiljka, $id_spisak, $status)

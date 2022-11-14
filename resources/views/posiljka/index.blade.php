@@ -13,23 +13,32 @@
                     <div class="row">
                         <div class="col">
                             <h4 class="card-title">Broj</h4>
-                            <input type="text" class="form-control" value="{!! request()->search !!}" name="search" placeholder="Pretraga po broju pošiljke">
+                            <input type="text" class="form-control form-control-sm" value="{!! request()->search !!}" name="search" placeholder="Pretraga po broju pošiljke">
                         </div>
                         <div class="col">
                             <h4 class="card-title">Pošiljalac</h4>
-                            <input type="text" class="form-control" value="{!! request()->search_po !!}" name="search_po" placeholder="Pretraga po broju pošiljaocu">
+                            <input type="text" class="form-control form-control-sm" value="{!! request()->search_po !!}" name="search_po" placeholder="Pretraga po broju pošiljaocu">
                         </div>
                         <div class="col">
                             <h4 class="card-title">Primalac</h4>
-                            <input type="text" class="form-control" value="{!! request()->search_pr !!}" name="search_pr" placeholder="Pretraga po broju primaocu">
+                            <input type="text" class="form-control form-control-sm" value="{!! request()->search_pr !!}" name="search_pr" placeholder="Pretraga po broju primaocu">
                         </div>
                         <div class="col">
                             <h4 class="card-title">Datum od</h4>
-                            <input type="date" class="form-control" value="{!! request()->date_from ? date('Y-m-d', strtotime(request()->date_from)) : '' !!}" name="date_from" id="date_from" placeholder="datum od">
+                            <input type="date" class="form-control form-control-sm" value="{!! date('Y-m-d', strtotime(request()->date_from ?? now())) !!}" name="date_from" id="date_from" placeholder="datum od">
                         </div>
                         <div class="col">
                             <h4 class="card-title">Datum do</h4>
-                            <input type="date" class="form-control" value="{!! request()->date_to ? date('Y-m-d', strtotime(request()->date_to)) : '' !!}" name="date_to" id="date_to" placeholder="datum do">
+                            <input type="date" class="form-control form-control-sm" value="{!! date('Y-m-d', strtotime(request()->date_to ?? now())) !!}" name="date_to" id="date_to" placeholder="datum do">
+                        </div>
+                        <div class="col">
+                            <h4 class="card-title">Način plaćanja</h4>
+                            <select class="form-control form-control-sm" name="nacin_placanja_id" id="nacin_placanja_id">
+                                <option value="-1">Izaberi</option>
+                                @foreach ($nacini_placanja as $item)
+                                    <option value="{{ $item->id }}" @if($item->id == request()->nacin_placanja_id) selected @endif>{{ $item->naziv }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                 </div>

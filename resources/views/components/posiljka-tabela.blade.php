@@ -3,6 +3,7 @@
         <div class="card">
           <div class="card-body">
             <h4 class="card-title">Lista pošiljaka</h4>
+            <h4 class="card-title">Ukupno pošiljaka: {{ $posiljke->count() }}</h4>
             @if(Route::currentRouteName() == 'cms.posiljka.index')
               <a href="{{ request()->fullUrlWithQuery(['stampajadresnice' => '1']) }}" class="btn btn-sm btn-primary">Štampaj sve adresnice  <i class="ti-printer btn-icon-append"></i></a>
             @endif
@@ -15,8 +16,8 @@
                   <tr>
                     <th>Štampaj</th>
                     <th>Izmeni</th>
+                    <th>Status pošiljke</th>
                     @if(Route::currentRouteName() != 'cms.posiljka.index')
-                      <th>Status pošiljke</th>
                       <th>Vraćena</th>
                     @endif
                     <th>Broj pošiljke</th>
@@ -128,6 +129,14 @@
                                   <i class="input-helper"></i>
                                 </label>
                               </div>
+                            </td>
+                            @else
+                            <td>
+                              @if($posiljka->status_po_spisku == 0) Primljena @endif
+                              @if($posiljka->status_po_spisku == 1) Na dostavi @endif
+                              @if($posiljka->status_po_spisku == 2) Uručena @endif
+                              @if($posiljka->status_po_spisku == 3) Vraćena @endif
+                              @if($posiljka->status_po_spisku == 4) Za narednu dostavu @endif
                             </td>
                             @endif
                             <td>{!! $posiljka->broj_posiljke !!}</td>

@@ -45,6 +45,11 @@ class Posiljka extends Model
         return $this->belongsToMany(Dostava::class, 'dostava_stavka');
     }
 
+    public function statusi()
+    {
+        return $this->hasMany(DostavaStavka::class, 'posiljka_id', 'id')->orderBy('id', 'desc');
+    }
+
     public function setValues($firma_id, $posiljalac_id, $primalac_id, $postarina, $broj_p = null)
     {
         //$this->id_korisnik = request()->route()->getName() == 'posiljke-nova-store-site' ? Korisnik::ulogovanKorisnikSite()->id : Korisnik::ulogovanKorisnik()->id;
@@ -245,7 +250,7 @@ class Posiljka extends Model
         $section = $phpWord->addSection(array('orientation' => 'landscape'));
         
         $header = array('size' => 16, 'bold' => true);
-        $section->addText(htmlspecialchars('Datum: '.date('d.m.Y.')), $header);
+        $section->addText(htmlspecialchars('Datum od: '.date('d.m.Y.', strtotime(request()->date_from ?? now())).' - Datum do: '.date('d.m.Y.', strtotime(request()->date_to ?? now()))), $header);
         $section->addTextBreak(1);
 
         if ($posiljalac) {
