@@ -122,7 +122,7 @@
 	<div class="container">
 		<div class="row align-items-center">
 			<div class="col-lg-5">
-				<img class="img-fluid w-50" src="{{ asset('site/images/nemanja_dostavljac.jpg') }}" alt="dostavljac">
+				<img class="img-fluid w-50" src="{{ asset('site/images/dostavljac.jpg') }}" alt="dostavljac">
 			</div>
 			<div class="col-lg-7 py-5 py-lg-0">
 				{{-- <h6 class="text-danger text-uppercase font-weight-bold">Preuzimanje</h6> --}}
