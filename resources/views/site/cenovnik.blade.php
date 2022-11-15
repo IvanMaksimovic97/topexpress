@@ -37,43 +37,43 @@
                     <tbody>
                       <tr>
                         <td>do 1.0</td>
-                        <td>208.33</td>
-                        <td>250.00</td>
+                        <td>258.33</td>
+                        <td>310.00</td>
                       </tr>
                       <tr>
                         <td>1.01 do 3</td>
-                        <td>241.67</td>
-                        <td>290.00</td>
+                        <td>291.67</td>
+                        <td>350.00</td>
                       </tr>
                       <tr>
                         <td>3.01 do 5</td>
-                        <td>308.33</td>
-                        <td>370.00</td>
+                        <td>358.33</td>
+                        <td>430.00</td>
                       </tr>
                       <tr>
                         <td>5.01 do 10</td>
-                        <td>400.00</td>
-                        <td>480.00</td>
+                        <td>450.00</td>
+                        <td>540.00</td>
                       </tr>
                       <tr>
                         <td>10.01 do 15</td>
-                        <td>491.65</td>
-                        <td>590.00</td>
+                        <td>541.67</td>
+                        <td>650.00</td>
                       </tr>
                       <tr>
                         <td>15.01 do 20</td>
-                        <td>558.33</td>
-                        <td>670.00</td>
+                        <td>608.33</td>
+                        <td>730.00</td>
                       </tr>
                       <tr>
                         <td>20.01 do 30</td>
-                        <td>916.67</td>
-                        <td>1100.00</td>
+                        <td>966.67</td>
+                        <td>1160.00</td>
                       </tr>
                       <tr>
                         <td>30.01 do 50</td>
-                        <td>1241.67</td>
-                        <td>1490.00</td>
+                        <td>1291.67</td>
+                        <td>1550.00</td>
                       </tr>
                       <tr>
                         <td>Nakon 50 kg svaki naredni kilogram <span class="text-danger">do 100 kg</span></td>
@@ -95,23 +95,23 @@
                     <tbody>
                       <tr>
                         <td>do 2.0</td>
-                        <td>400.00</td>
-                        <td>480.00</td>
+                        <td>450.00</td>
+                        <td>540.00</td>
                       </tr>
                       <tr>
                         <td>2.01 do 5</td>
-                        <td>558.33</td>
-                        <td>670.00</td>
+                        <td>608.33</td>
+                        <td>730.00</td>
                       </tr>
                       <tr>
                         <td>5.01 do 10</td>
-                        <td>650.00</td>
-                        <td>780.00</td>
+                        <td>700.00</td>
+                        <td>840.00</td>
                       </tr>
                       <tr>
                         <td>10.01 do 20</td>
-                        <td>716.58</td>
-                        <td>860.00</td>
+                        <td>766.67</td>
+                        <td>920.00</td>
                       </tr>
                     </tbody>
                   </table>
@@ -128,8 +128,8 @@
                     <tbody>
                       <tr>
                         <td>do 20 kg (područje Beograda)</td>
-                        <td>750.00</td>
-                        <td>900.00</td>
+                        <td>800.00</td>
+                        <td>960.00</td>
                       </tr>
                     </tbody>
                   </table>

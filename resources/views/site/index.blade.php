@@ -425,7 +425,7 @@
 		<div class="row align-items-center">
 			<div class="col">
 				<h4>Na mapi su označene opštine crvenom bojom na kojima vršimo usluge</h4>
-				<ul>
+				{{-- <ul>
 					<li>Beograd</li>
 					<li>Novi Sad</li>
 					<li>Smederevo</li>
@@ -436,7 +436,7 @@
 					<li>Zrenjanin</li>
 					<li>Smederevska Palanka</li>
 					<li>Požarevac</li>
-				</ul>
+				</ul> --}}
 			</div>
 		</div>
 	</div>
