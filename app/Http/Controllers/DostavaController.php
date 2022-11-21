@@ -506,7 +506,7 @@ class DostavaController extends Controller
         return response()->download(storage_path($dostava->broj_spiska.'_'.$posiljalac->naziv.'.docx'))->deleteFileAfterSend(true);
     }
 
-    public function spiskoviPoPosiljaocu($spiskovi, $posiljalac_id, $datum)
+    public function spiskoviPoPosiljaocu($spiskovi, $posiljalac_id, $datum_od = null, $datum_do = null)
     {
         $posiljalac = PosiljalacPrimalac::findOrFail($posiljalac_id);
 
@@ -536,7 +536,7 @@ class DostavaController extends Controller
         $header = array('size' => 16, 'bold' => true);
         $section->addText(htmlspecialchars('Pošiljalac: '.$posiljalac->naziv), $header);
         $section->addTextBreak(1);
-        $section->addText(htmlspecialchars('ISPLATA URUČENIH POŠILJAKA Datum: '.date('d.m.Y.', strtotime($datum))), $header);
+        $section->addText(htmlspecialchars('ISPLATA URUČENIH POŠILJAKA - Datum od '.date('d.m.Y.', strtotime($datum_od ?? now())) .' do ' .date('d.m.Y.', strtotime($datum_do ?? now()))), $header);
         $section->addTextBreak(1);
 
         $styleTable = array('borderSize' => 6, 'borderColor' => '000000', 'cellMargin' => 80);
@@ -604,18 +604,18 @@ class DostavaController extends Controller
         $c5->addText(htmlspecialchars(''));
 
         $section->addTextBreak(1);
-        $section->addText(htmlspecialchars('Datum isplate: '.date('d.m.Y.', strtotime($datum))));
+        $section->addText(htmlspecialchars('Datum isplate: '.date('d.m.Y.')));
         $section->addTextBreak(1);
         $section->addText(htmlspecialchars('Potpis korisnika: '));
 
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
         try {
-            $objWriter->save(storage_path($datum.'_'.$posiljalac->naziv.'.docx'));
+            $objWriter->save(storage_path(date('Y-m-d').'_'.$posiljalac->naziv.'.docx'));
         } catch (\Exception $e) {
             dd($e);
         }
 
-        return response()->download(storage_path($datum.'_'.$posiljalac->naziv.'.docx'))->deleteFileAfterSend(true);
+        return response()->download(storage_path(date('Y-m-d').'_'.$posiljalac->naziv.'.docx'))->deleteFileAfterSend(true);
     }
 
     public function spiskoviPoPosiljaocuSvi(Request $request)
@@ -650,7 +650,7 @@ class DostavaController extends Controller
             $header = array('size' => 16, 'bold' => true);
             $section->addText(htmlspecialchars('Pošiljalac: '.$po->naziv), $header);
             $section->addTextBreak(1);
-            $section->addText(htmlspecialchars('ISPLATA URUČENIH POŠILJAKA Datum: '.date('d.m.Y.', strtotime($request->datum))), $header);
+            $section->addText(htmlspecialchars('ISPLATA URUČENIH POŠILJAKA - Datum od '.date('d.m.Y.', strtotime(request()->date_from ?? now())) .' do ' .date('d.m.Y.', strtotime(request()->date_to ?? now()))), $header);
             $section->addTextBreak(1);
     
             $styleTable = array('borderSize' => 6, 'borderColor' => '000000', 'cellMargin' => 80);

@@ -81,7 +81,7 @@ Route::group([
         Route::get('/posiljka-status-vracena/{id_posiljka?}/{id_spisak?}/{status?}', 'PosiljkaController@updateStatusVracena')->name('posiljka-status-vracena');
 
         Route::get('/posiljalac-izvestaj/{id}/{posiljalac_id}', 'DostavaController@spisakPoPosiljaocu')->name('posiljalac-izvestaj');
-        Route::get('/posiljalac-izvestaj-spiskovi/{spiskovi}/{posiljalac_id}/{datum}', 'DostavaController@spiskoviPoPosiljaocu')->name('posiljalac-izvestaj-spiskovi');
+        Route::get('/posiljalac-izvestaj-spiskovi/{spiskovi}/{posiljalac_id}/{datum_od}/{datum_do}', 'DostavaController@spiskoviPoPosiljaocu')->name('posiljalac-izvestaj-spiskovi');
         Route::post('/posiljalac-izvestaj-spiskovi-svi', 'DostavaController@spiskoviPoPosiljaocuSvi')->name('posiljalac-izvestaj-spiskovi-svi');
 
         Route::get('/dostava-brisanje-priprema/{id?}', 'DostavaController@proveraZaBrisanje')->name('dostava-brisanje-provera');

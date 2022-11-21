@@ -140,6 +140,8 @@
         <input type="hidden" name="datum" value="{{ request()->date ?? date('Y-m-d') }}">
         <input type="hidden" name="posiljaoci" value="{{ implode(',', array_keys($izvestaj->posiljaociIzvestaj)) }}">
         <input type="hidden" name="spiskovi" value="{{ implode(',', $spisak->pluck('id')->toArray()) }}">
+        <input type="hidden" name="date_from" value="{{ request()->date_from ?? date('Y-m-d') }}">
+        <input type="hidden" name="date_to" value="{{ request()->date_to ?? date('Y-m-d') }}">
         <button type="submit" class="btn btn-sm btn-primary mt-3">Štampaj sve <i class="ti-printer btn-icon-append"></i></button>
       </form>
       <div class="table-responsive pt-3">
@@ -164,7 +166,7 @@
                       @foreach ($posiljaocItem['urucene_posiljke'] as $urucena_posiljka)
                         <tr>
                           @if ($subIterations == 0)
-                            <td rowspan="{{ count($posiljaocItem['urucene_posiljke']) }}"><a href="{{ route('cms.posiljalac-izvestaj-spiskovi', [implode(',', $spisak->pluck('id')->toArray()), $p_id, date('Y-m-d', strtotime(request()->date ?? now()))]) }}" class="btn btn-sm btn-primary">Štampaj  <i class="ti-printer btn-icon-append"></i></a></td>
+                            <td rowspan="{{ count($posiljaocItem['urucene_posiljke']) }}"><a href="{{ route('cms.posiljalac-izvestaj-spiskovi', [implode(',', $spisak->pluck('id')->toArray()), $p_id, date('Y-m-d', strtotime(request()->date_from ?? now())), date('Y-m-d', strtotime(request()->date_to ?? now()))]) }}" class="btn btn-sm btn-primary">Štampaj  <i class="ti-printer btn-icon-append"></i></a></td>
                             <td rowspan="{{ count($posiljaocItem['urucene_posiljke']) }}">{{ $posiljaocItem['naziv'] }}</td>
                           @endif
                           <td>{{ $urucena_posiljka->primalac->naziv }}</td>
