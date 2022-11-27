@@ -345,6 +345,7 @@ class DostavaController extends Controller
         $table->addCell(500, $styleCell)->addText(htmlspecialchars('R.B.'), $fontStyle);
         $table->addCell(2000, $styleCell)->addText(htmlspecialchars('BROJ POŠILJKE'), $fontStyle);
         $table->addCell(2500, $styleCell)->addText(htmlspecialchars('PRIMALAC'), $fontStyle);
+        $table->addCell(2500, $styleCell)->addText(htmlspecialchars('MESTO'), $fontStyle);
         $table->addCell(3000, $styleCell)->addText(htmlspecialchars('ADRESA'), $fontStyle);
         $table->addCell(1500, $styleCell)->addText(htmlspecialchars('ZA NAPLATU'), $fontStyle);
         $table->addCell(2000, $styleCell)->addText(htmlspecialchars('POTPIS'), $fontStyle);
@@ -373,18 +374,19 @@ class DostavaController extends Controller
                 $adresa .= '/'.$stavka->primalac->stan;
             }
 
-            $c4->addText(htmlspecialchars($adresa));
+            $c5 = $table->addCell(2500);
+            $c5->addText(htmlspecialchars($adresa));
 
             if ($stavka->primalac->sprat) {
-                $c4->addText(htmlspecialchars('Sprat: '.$stavka->primalac->sprat));
+                $c5->addText(htmlspecialchars('Sprat: '.$stavka->primalac->sprat));
             }
 
-            $c5 = $table->addCell(1500);
-            $c5->addText(htmlspecialchars(number_format($stavka->vrednost + $stavka->postarina, 2, ',', '.')));
+            $c6 = $table->addCell(1500);
+            $c6->addText(htmlspecialchars(number_format($stavka->vrednost + $stavka->postarina, 2, ',', '.')));
 
-            $c6 = $table->addCell(2000)->addText(htmlspecialchars(''));
-            $c7 = $table->addCell(1000)->addText(htmlspecialchars(''));
-            $c8 = $table->addCell(2000)->addText(htmlspecialchars(''));
+            $c7 = $table->addCell(2000)->addText(htmlspecialchars(''));
+            $c8 = $table->addCell(1000)->addText(htmlspecialchars(''));
+            $c9 = $table->addCell(2000)->addText(htmlspecialchars(''));
 
             $rb++;
         }
