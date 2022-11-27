@@ -38,6 +38,7 @@
                     {{-- <th>Povratnica</th> --}}
                     {{-- <th>Lično preuzimanje</th> --}}
                     {{-- <th>Firma</th> --}}
+                    <th>Uneo</th>
                     <th>#</th>
                   </tr>
                 </thead>
@@ -158,6 +159,7 @@
                             {{-- <td>{!! $posiljka->povratnica ? 'Da' : 'Ne' !!}</td> --}}
                             {{-- <td>{!! $posiljka->licno_preuzimanje ? 'Da' : 'Ne' !!}</td> --}}
                             {{-- <td>{!! $posiljka->firma ? $posiljka->firma->naziv : '' !!}</td> --}}
+                            <td>{!! $posiljka->vlasnik ? $posiljka->vlasnik->ime.' '.$posiljka->vlasnik->prezime : '' !!}</td>
                             <td>{!! $posiljka->id !!}</td>
                         </tr>
                     @endforeach

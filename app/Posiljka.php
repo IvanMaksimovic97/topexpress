@@ -40,6 +40,11 @@ class Posiljka extends Model
         return $this->hasOne(Kompanija::class, 'id', 'firma_id');
     }
 
+    public function vlasnik()
+    {
+        return $this->hasOne(Korisnik::class, 'id', 'id_korisnik');
+    }
+
     public function dostave()
     {
         return $this->belongsToMany(Dostava::class, 'dostava_stavka');
