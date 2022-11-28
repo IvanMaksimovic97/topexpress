@@ -40,6 +40,17 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="col">
+                            <h4 class="card-title">Status</h4>
+                            <select class="form-control form-control-sm" name="status_posiljke" id="status_posiljke">
+                                <option value="-1">Izaberi</option>
+                                <option value="0" @if(request()->status_posiljke == '0') selected @endif>Primljena</option>
+                                <option value="1" @if(request()->status_posiljke == '1') selected @endif>Na dostavi</option>
+                                <option value="2" @if(request()->status_posiljke == '2') selected @endif>Uručena</option>
+                                <option value="3" @if(request()->status_posiljke == '3') selected @endif>Vraćena</option>
+                                <option value="4" @if(request()->status_posiljke == '4') selected @endif>Za narednu dostavu</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="mt-3">

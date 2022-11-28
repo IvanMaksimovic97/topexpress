@@ -112,6 +112,10 @@ class PosiljkaController extends Controller
             $posiljka->status_po_spisku = $status ? $status->status : '0';
             return $posiljka;
         });
+
+        if (request()->status_posiljke && request()->status_posiljke != '-1') {
+            $posiljke = $posiljke->where('status_po_spisku', request()->status_posiljke);
+        }
         
         return view('posiljka.index', compact('posiljke', 'nacini_placanja'));
     }
