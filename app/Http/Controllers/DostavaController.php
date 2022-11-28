@@ -449,11 +449,21 @@ class DostavaController extends Controller
         $table->addCell(500, $styleCell)->addText(htmlspecialchars('R.B.'), $fontStyle);
         $table->addCell(3000, $styleCell)->addText(htmlspecialchars('PRIMALAC'), $fontStyle);
         $table->addCell(2000, $styleCell)->addText(htmlspecialchars('BROJ POŠILJKE'), $fontStyle);
+        $table->addCell(3000, $styleCell)->addText(htmlspecialchars('NAČIN PLAĆANJA'), $fontStyle);
         $table->addCell(2000, $styleCell)->addText(htmlspecialchars('IZNOS'), $fontStyle);
         $table->addCell(2500, $styleCell)->addText(htmlspecialchars('NAPOMENA'), $fontStyle);
 
         $rb = 1;
+        $za_isplatu = 0;
         foreach ($dostava->stavke as $stavka) {
+            $za_isplatu += (float) $stavka->vrednost;
+            $stavka_vrednost = number_format($stavka->vrednost, 2);
+
+            if ($stavka->nacin_placanja_id == 2 || $stavka->nacin_placanja_id == 4) {
+                $za_isplatu += (float) $stavka->postarina;
+                $stavka_vrednost .= ' + ' . number_format($stavka->postarina, 2);
+            }
+
             $table->addRow();
 
             $c1 = $table->addCell(500);
@@ -466,11 +476,14 @@ class DostavaController extends Controller
             $c3 = $table->addCell(2000);
             $c3->addText(htmlspecialchars($stavka->broj_posiljke));
 
-            $c4 = $table->addCell(2000);
-            $c4->addText(htmlspecialchars(number_format($stavka->vrednost, 2)));
+            $c4 = $table->addCell(3000);
+            $c4->addText(htmlspecialchars(strtoupper($stavka->nacinPlacanja->naziv)));
+
+            $c5 = $table->addCell(2000);
+            $c5->addText(htmlspecialchars($stavka_vrednost));
             
-            $c5 = $table->addCell(2500);
-            $c5->addText(htmlspecialchars(''));
+            $c6 = $table->addCell(2500);
+            $c6->addText(htmlspecialchars(''));
 
             $rb++;
         }
@@ -485,13 +498,16 @@ class DostavaController extends Controller
         //$c2->addText(htmlspecialchars($stavka->primalac->kontakt_telefon));
         
         $c3 = $table->addCell(2000);
-        $c3->addText(htmlspecialchars('UKUPNO'));
+        $c3->addText(htmlspecialchars(''));
 
-        $c4 = $table->addCell(2000);
-        $c4->addText(htmlspecialchars(number_format($dostava->stavke->sum('vrednost'), 2)));
+        $c4 = $table->addCell(3000);
+        $c4->addText(htmlspecialchars('UKUPNO'));
+
+        $c5 = $table->addCell(2000);
+        $c5->addText(htmlspecialchars(number_format($za_isplatu, 2)));
         
-        $c5 = $table->addCell(2500);
-        $c5->addText(htmlspecialchars(''));
+        $c6 = $table->addCell(2500);
+        $c6->addText(htmlspecialchars(''));
         
         $section->addTextBreak(1);
         $section->addText(htmlspecialchars('POŠILJKE PREDAO: '.Korisnik::ulogovanKorisnik()->ime.' '.Korisnik::ulogovanKorisnik()->prezime));
@@ -512,7 +528,7 @@ class DostavaController extends Controller
     {
         $posiljalac = PosiljalacPrimalac::findOrFail($posiljalac_id);
 
-        $posiljke = Posiljka::with(['primalac'])
+        $posiljke = Posiljka::with(['primalac', 'nacinPlacanja'])
             ->join('dostava_stavka', 'posiljka.id', '=', 'dostava_stavka.posiljka_id')
             ->join('dostava', 'dostava_stavka.dostava_id', '=', 'dostava.id')
             ->whereIn('dostava_stavka.dostava_id', explode(',', $spiskovi))
@@ -553,12 +569,22 @@ class DostavaController extends Controller
         $table->addCell(3000, $styleCell)->addText(htmlspecialchars('PRIMALAC'), $fontStyle);
         // $table->addCell(3000, $styleCell)->addText(htmlspecialchars('RADNIK'), $fontStyle);
         $table->addCell(2000, $styleCell)->addText(htmlspecialchars('BROJ POŠILJKE'), $fontStyle);
+        $table->addCell(3000, $styleCell)->addText(htmlspecialchars('NAČIN PLAĆANJA'), $fontStyle);
         $table->addCell(2000, $styleCell)->addText(htmlspecialchars('IZNOS'), $fontStyle);
         $table->addCell(2500, $styleCell)->addText(htmlspecialchars('NAPOMENA'), $fontStyle);
 
         $rb = 1;
+        $za_isplatu = 0;
         foreach ($posiljke as $stavka) {
             if ((float) $stavka->vrednost > 0) {
+                $za_isplatu += (float) $stavka->vrednost;
+                $stavka_vrednost = number_format($stavka->vrednost, 2);
+
+                if ($stavka->nacin_placanja_id == 2 || $stavka->nacin_placanja_id == 4) {
+                    $za_isplatu += (float) $stavka->postarina;
+                    $stavka_vrednost .= ' + ' . number_format($stavka->postarina, 2);
+                }
+
                 $table->addRow();
 
                 $c1 = $table->addCell(500);
@@ -573,12 +599,15 @@ class DostavaController extends Controller
                 
                 $c3 = $table->addCell(2000);
                 $c3->addText(htmlspecialchars($stavka->broj_posiljke));
+
+                $c4 = $table->addCell(3000);
+                $c4->addText(htmlspecialchars(strtoupper($stavka->nacinPlacanja->naziv)));
     
-                $c4 = $table->addCell(2000);
-                $c4->addText(htmlspecialchars(number_format($stavka->vrednost, 2)));
+                $c5 = $table->addCell(2000);
+                $c5->addText(htmlspecialchars($stavka_vrednost));
                 
-                $c5 = $table->addCell(2500);
-                $c5->addText(htmlspecialchars(''));
+                $c6 = $table->addCell(2500);
+                $c6->addText(htmlspecialchars(''));
 
                 $rb++;
             }
@@ -597,13 +626,16 @@ class DostavaController extends Controller
         // $cr->addText(htmlspecialchars(''));
         
         $c3 = $table->addCell(2000);
-        $c3->addText(htmlspecialchars('UKUPNO'));
+        $c3->addText(htmlspecialchars(''));
 
-        $c4 = $table->addCell(2000);
-        $c4->addText(htmlspecialchars(number_format($posiljke->sum('vrednost'), 2)));
+        $c4 = $table->addCell(3000);
+        $c4->addText(htmlspecialchars('UKUPNO'));
+
+        $c5 = $table->addCell(2000);
+        $c5->addText(htmlspecialchars(number_format($za_isplatu, 2)));
         
-        $c5 = $table->addCell(2500);
-        $c5->addText(htmlspecialchars(''));
+        $c6 = $table->addCell(2500);
+        $c6->addText(htmlspecialchars(''));
 
         $section->addTextBreak(1);
         $section->addText(htmlspecialchars('Datum isplate: '.date('d.m.Y.')));
@@ -630,7 +662,7 @@ class DostavaController extends Controller
         $section = $phpWord->addSection(array('orientation' => 'landscape'));
 
         foreach ($posiljaoci as $key => $po) {
-            $posiljke = Posiljka::with(['primalac'])
+            $posiljke = Posiljka::with(['primalac', 'nacinPlacanja'])
             ->join('dostava_stavka', 'posiljka.id', '=', 'dostava_stavka.posiljka_id')
             ->join('dostava', 'dostava_stavka.dostava_id', '=', 'dostava.id')
             ->whereIn('dostava_stavka.dostava_id', explode(',', $request->spiskovi))
@@ -667,12 +699,22 @@ class DostavaController extends Controller
             $table->addCell(3000, $styleCell)->addText(htmlspecialchars('PRIMALAC'), $fontStyle);
             // $table->addCell(3000, $styleCell)->addText(htmlspecialchars('RADNIK'), $fontStyle);
             $table->addCell(2000, $styleCell)->addText(htmlspecialchars('BROJ POŠILJKE'), $fontStyle);
+            $table->addCell(3000, $styleCell)->addText(htmlspecialchars('NAČIN PLAĆANJA'), $fontStyle);
             $table->addCell(2000, $styleCell)->addText(htmlspecialchars('IZNOS'), $fontStyle);
             $table->addCell(2500, $styleCell)->addText(htmlspecialchars('NAPOMENA'), $fontStyle);
     
             $rb = 1;
+            $za_isplatu = 0;
             foreach ($posiljke as $stavka) {
                 if ((float) $stavka->vrednost > 0) {
+                    $za_isplatu += (float) $stavka->vrednost;
+                    $stavka_vrednost = number_format($stavka->vrednost, 2);
+
+                    if ($stavka->nacin_placanja_id == 2 || $stavka->nacin_placanja_id == 4) {
+                        $za_isplatu += (float) $stavka->postarina;
+                        $stavka_vrednost .= ' + ' . number_format($stavka->postarina, 2);
+                    }
+
                     $table->addRow();
     
                     $c1 = $table->addCell(500);
@@ -687,12 +729,15 @@ class DostavaController extends Controller
                     
                     $c3 = $table->addCell(2000);
                     $c3->addText(htmlspecialchars($stavka->broj_posiljke));
+
+                    $c4 = $table->addCell(3000);
+                    $c4->addText(htmlspecialchars(strtoupper($stavka->nacinPlacanja->naziv)));
         
-                    $c4 = $table->addCell(2000);
-                    $c4->addText(htmlspecialchars(number_format($stavka->vrednost, 2)));
+                    $c5 = $table->addCell(2000);
+                    $c5->addText(htmlspecialchars($stavka_vrednost));
                     
-                    $c5 = $table->addCell(2500);
-                    $c5->addText(htmlspecialchars(''));
+                    $c6 = $table->addCell(2500);
+                    $c6->addText(htmlspecialchars(''));
 
                     $rb++;
                 }
@@ -711,13 +756,16 @@ class DostavaController extends Controller
             // $cr->addText(htmlspecialchars(''));
             
             $c3 = $table->addCell(2000);
-            $c3->addText(htmlspecialchars('UKUPNO'));
+            $c3->addText(htmlspecialchars(''));
+
+            $c4 = $table->addCell(3000);
+            $c4->addText(htmlspecialchars('UKUPNO'));
     
-            $c4 = $table->addCell(2000);
-            $c4->addText(htmlspecialchars(number_format($posiljke->sum('vrednost'), 2)));
+            $c5 = $table->addCell(2000);
+            $c5->addText(htmlspecialchars(number_format($za_isplatu, 2)));
             
-            $c5 = $table->addCell(2500);
-            $c5->addText(htmlspecialchars(''));
+            $c6 = $table->addCell(2500);
+            $c6->addText(htmlspecialchars(''));
     
             $section->addTextBreak(1);
             $section->addText(htmlspecialchars('Datum isplate: '.date('d.m.Y.', strtotime($request->datum))));

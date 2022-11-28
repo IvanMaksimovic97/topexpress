@@ -234,11 +234,23 @@
                         </tr>
                       </thead>
                       <tbody>
+                        @php
+                           $iznosUkupan = 0;
+                        @endphp
                         @foreach ($posiljaociIzvestaj as $p_id => $posiljaocItem)
                           @php
                             $subIterations = 0;
                           @endphp
                           @foreach ($posiljaocItem['urucene_posiljke'] as $urucena_posiljka)
+                            @php
+                              $iznosUkupan += (float) $urucena_posiljka->vrednost;
+                              $stavka_prikaz = number_format((float) $urucena_posiljka->vrednost, 2);
+
+                              if ($urucena_posiljka->nacin_placanja_id == 2 || $urucena_posiljka->nacin_placanja_id == 4) {
+                                $iznosUkupan += (float) $urucena_posiljka->postarina;
+                                $stavka_prikaz .= ' + ' . number_format((float) $urucena_posiljka->postarina, 2);
+                              }
+                            @endphp
                             <tr>
                               @if ($subIterations == 0)
                                 <td rowspan="{{ count($posiljaocItem['urucene_posiljke']) }}"><a href="{{ route('cms.posiljalac-izvestaj', [$dostava->id, $p_id]) }}" class="btn btn-sm btn-primary">Štampaj  <i class="ti-printer btn-icon-append"></i></a></td>
@@ -246,8 +258,8 @@
                               @endif
                               <td>{{ $urucena_posiljka->primalac->naziv }}</td>
                               <td>{{ $urucena_posiljka->broj_posiljke }}</td>
-                              <td>{{ $urucena_posiljka->otkupnina_vrsta == 'Nalog za uplatu' ? number_format((float) $urucena_posiljka->vrednost, 2) : 0.00 }}</td>
-                              <td>{{ $urucena_posiljka->otkupnina_vrsta == 'TOP EXPRESS uputnica' ? number_format((float) $urucena_posiljka->vrednost, 2) : 0.00 }}</td>
+                              <td>{{ $urucena_posiljka->otkupnina_vrsta == 'Nalog za uplatu' ? $stavka_prikaz : 0.00 }}</td>
+                              <td>{{ $urucena_posiljka->otkupnina_vrsta == 'TOP EXPRESS uputnica' ? $stavka_prikaz : 0.00 }}</td>
                               @if ($subIterations == 0)
                                 <td rowspan="{{ count($posiljaocItem['urucene_posiljke']) }}">{{ number_format((float) $posiljaocItem['ukupan_iznos'], 2) }}</td>
                               @endif
