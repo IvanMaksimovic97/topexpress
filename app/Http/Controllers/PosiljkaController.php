@@ -109,11 +109,11 @@ class PosiljkaController extends Controller
 
         $posiljke = $posiljke->map(function ($posiljka, $key) {
             $status = $posiljka->statusi->first();
-            $posiljka->status_po_spisku = $status ? $status->status : '0';
+            $posiljka->status_po_spisku = $status ? $status->status : '-1';
             return $posiljka;
         });
 
-        if (request()->status_posiljke && request()->status_posiljke != '-1') {
+        if (request()->status_posiljke && request()->status_posiljke != '-2') {
             $posiljke = $posiljke->where('status_po_spisku', request()->status_posiljke);
         }
         

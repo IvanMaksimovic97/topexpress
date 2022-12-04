@@ -134,6 +134,7 @@
                             </td>
                             @else
                             <td>
+                              @if($posiljka->status_po_spisku == '-1') U pripremi @endif
                               @if($posiljka->status_po_spisku == 0) Primljena @endif
                               @if($posiljka->status_po_spisku == 1) Na dostavi @endif
                               @if($posiljka->status_po_spisku == 2) Uručena @endif
