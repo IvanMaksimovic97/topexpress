@@ -96,11 +96,39 @@
             </div>
         </div>
         <div class="col-md-4">
-            
             <button type="submit" id="unesi" class="btn btn-primary mb-2">Izmeni</button>
+            @if (count($spisak) == 0)
+                <button type="button" id="storniraj" class="btn btn-danger mb-2" data-toggle="modal" data-target="#storiranjeModal">Storniraj</button>
+            @endif
         </div>
     </div>
 </form>
+
+<!-- Modal -->
+<div class="modal fade" id="storiranjeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Storniraj pošiljku {{ $posiljka->broj_posiljke }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Da li ste sigurni da želite da stornirate pošiljku {{ $posiljka->broj_posiljke }}?
+        </div>
+        <div class="modal-footer">
+        <form action="{{ route('cms.posiljka.destroy', $posiljka) }}" method="POST">
+            @method('DELETE')
+            @csrf
+            <input type="hidden" name="p_id" value="{{ $posiljka->broj_posiljke }}">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Zatvori</button>
+            <button type="submit" class="btn btn-danger">Storniraj</button>
+        </form>
+        </div>
+      </div>
+    </div>
+</div>
 @endsection
 
 @section('custom-js')

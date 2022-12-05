@@ -70,6 +70,9 @@ Route::group([
             'radnik' => 'RadnikController'
         ]);
 
+        Route::get('/posiljke-stornirane', 'PosiljkaController@indexStornirane')->name('posiljke-stornirane');
+        Route::get('/posiljka-vrati/{id}', 'PosiljkaController@restore')->name('posiljka-restore');
+
         Route::get('/posiljke/{ids?}', 'DostavaController@posiljke')->name('posiljke');
         Route::get('/posiljke-na-dostavi/{ids?}/{dostava_id?}', 'DostavaController@posiljkeNaDostavi')->name('posiljke-na-dostavi');
         Route::get('/posiljke-unete/{id?}', 'DostavaController@posiljkeUnete')->name('posiljke-unete');

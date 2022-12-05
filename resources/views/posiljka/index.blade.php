@@ -8,7 +8,7 @@
 <div class="col-12 grid-margin stretch-card">
     <div class="card">
         <div class="card-body">
-            <form action="">
+            <form action="{!! $routeFilters !!}">
                 <div class="input-group">
                     <div class="row">
                         <div class="col">
@@ -56,7 +56,7 @@
                 </div>
                 <div class="mt-3">
                     <button class="btn btn-sm btn-primary" type="submit">Pretraži</button>
-                    <a href="{{ route('cms.posiljka.index') }}" class="btn btn-sm btn-primary">Resetuj</a>
+                    <a href="{!! $routeFilters !!}" class="btn btn-sm btn-primary">Resetuj</a>
                     <button type="button" class="btn btn-sm btn-primary" id="ponisti-datum">Poništi datum</button>
                 </div>
             </form>

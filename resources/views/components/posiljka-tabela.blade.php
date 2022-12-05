@@ -14,10 +14,14 @@
               <table class="table table-bordered table-sm">
                 <thead>
                   <tr>
-                    <th>Štampaj</th>
-                    <th>Izmeni</th>
+                    @if (Route::currentRouteName() != 'cms.posiljke-stornirane')
+                      <th>Štampaj</th>
+                      <th>Izmeni</th>
+                    @else
+                      <th>Vrati</th>
+                    @endif
                     <th>Status pošiljke</th>
-                    @if(Route::currentRouteName() != 'cms.posiljka.index')
+                    @if(Route::currentRouteName() != 'cms.posiljka.index' && Route::currentRouteName() != 'cms.posiljke-stornirane')
                       <th>Vraćena</th>
                     @endif
                     <th>Broj pošiljke</th>
@@ -83,9 +87,13 @@
                         }
                       @endphp
                         <tr @if($rowColor != '') class="{{ $rowColor }}" @endif>
+                            @if(Route::currentRouteName() != 'cms.posiljke-stornirane')
                             <td><a href="{{ route('cms.posiljka.show', $posiljka) }}" class="btn btn-sm btn-primary">Štampaj  <i class="ti-printer btn-icon-append"></i></a></td>
                             <td><a href="{{ route('cms.posiljka.edit', $posiljka) }}" class="btn btn-sm btn-danger">Izmeni  <i class="mdi mdi-lead-pencil"></i></a></td>
-                            @if(Route::currentRouteName() != 'cms.posiljka.index')
+                            @else
+                            <td><a href="{{ route('cms.posiljka-restore', $posiljka->id) }}" class="btn btn-sm btn-primary">Vrati  <i class="mdi mdi-lead-pencil"></i></a></td>
+                            @endif
+                            @if(Route::currentRouteName() != 'cms.posiljka.index' && Route::currentRouteName() != 'cms.posiljke-stornirane')
                             <td>
                               <select class="posiljka-status" data-id="{!! $posiljka->id !!}" data-spisakid="{!! $posiljka->id_dostava !!}"
                                 @if ($dostava)
