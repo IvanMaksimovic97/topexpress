@@ -14338,7 +14338,7 @@ function renderData(data) {
 			<td>${dateParse(data.posiljka.created_at)}</td>
 			<td>${korisnikRender(data.posiljka.posiljalac)}</td>
 			<td>${korisnikRender(data.posiljka.primalac)}</td>
-			<td>Primljena</td>
+			<td>U pripremi</td>
 			<td></td>
 		</tr>`;
 	}
