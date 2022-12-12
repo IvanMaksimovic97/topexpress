@@ -52,14 +52,14 @@ class PosiljkaTabela extends Component
                 if (array_key_exists($posiljka->posiljalac_id, $this->posiljaociIzvestaj)) {
                     $this->posiljaociIzvestaj[$posiljka->posiljalac_id]['ukupan_iznos'] += $iznos;
                     $this->posiljaociIzvestaj[$posiljka->posiljalac_id]['nalog_iznos'] +=  $posiljka->otkupnina_vrsta == 'Nalog za uplatu' ? $iznos : 0;
-                    $this->posiljaociIzvestaj[$posiljka->posiljalac_id]['uputnica_iznos'] += $posiljka->otkupnina_vrsta == 'TOP EXPRESS uputnica' ? $iznos : 0;
+                    $this->posiljaociIzvestaj[$posiljka->posiljalac_id]['uputnica_iznos'] += $posiljka->otkupnina_vrsta == 'TOP EXPRESS iznos' ? $iznos : 0;
                     $this->posiljaociIzvestaj[$posiljka->posiljalac_id]['urucene_posiljke'][] = $posiljka;
                 } else {
                     $this->posiljaociIzvestaj[$posiljka->posiljalac_id] = [
                         'naziv' => $posiljka->posiljalac->naziv,
                         'ukupan_iznos' => $iznos,
                         'nalog_iznos' => $posiljka->otkupnina_vrsta == 'Nalog za uplatu' ? $iznos : 0,
-                        'uputnica_iznos' => $posiljka->otkupnina_vrsta == 'TOP EXPRESS uputnica' ? $iznos : 0,
+                        'uputnica_iznos' => $posiljka->otkupnina_vrsta == 'TOP EXPRESS iznos' ? $iznos : 0,
                         'urucene_posiljke' => [$posiljka]
                     ];
                 }

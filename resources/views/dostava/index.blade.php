@@ -154,7 +154,7 @@
                       <th>Primalac</th>
                       <th>Broj pošiljke</th>
                       <th>NALOG iznos</th>
-                      <th>UPUTNICA iznos</th>
+                      <th>Iznos</th>
                       <th>UKUPAN iznos</th>
                     </tr>
                   </thead>
@@ -172,7 +172,7 @@
                           <td>{{ $urucena_posiljka->primalac->naziv }}</td>
                           <td>{{ $urucena_posiljka->broj_posiljke }}</td>
                           <td>{{ $urucena_posiljka->otkupnina_vrsta == 'Nalog za uplatu' ? number_format((float) $urucena_posiljka->vrednost, 2) : 0.00 }}</td>
-                          <td>{{ $urucena_posiljka->otkupnina_vrsta == 'TOP EXPRESS uputnica' ? number_format((float) $urucena_posiljka->vrednost, 2) : 0.00 }}</td>
+                          <td>{{ $urucena_posiljka->otkupnina_vrsta == 'TOP EXPRESS iznos' ? number_format((float) $urucena_posiljka->vrednost, 2) : 0.00 }}</td>
                           @if ($subIterations == 0)
                             <td rowspan="{{ count($posiljaocItem['urucene_posiljke']) }}">{{ number_format((float) $posiljaocItem['ukupan_iznos'], 2) }}</td>
                           @endif

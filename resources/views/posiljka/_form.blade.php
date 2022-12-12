@@ -314,8 +314,8 @@
             <div class="form-group mb-0 px-4">
                 <div class="form-check">
                     <label class="form-check-label">
-                      <input {{ $posiljka->otkupnina_vrsta == 'TOP EXPRESS uputnica' ? 'checked="checked"' : '' }} type="radio" {{ $posiljka->ima_otkupninu ? '' : 'disabled' }} class="form-check-input radio-uplata" name="otkupnina_vrsta" value="TOP EXPRESS uputnica" id="postanska-uputnica">
-                      TOP EXPRESS uputnica
+                      <input {{ $posiljka->otkupnina_vrsta == 'TOP EXPRESS iznos' ? 'checked="checked"' : '' }} type="radio" {{ $posiljka->ima_otkupninu ? '' : 'disabled' }} class="form-check-input radio-uplata" name="otkupnina_vrsta" value="TOP EXPRESS iznos" id="postanska-uputnica">
+                      TOP EXPRESS iznos
                     <i class="input-helper"></i></label>
                 </div>
             </div>
