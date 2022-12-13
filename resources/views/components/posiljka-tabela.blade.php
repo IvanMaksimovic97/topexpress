@@ -108,7 +108,7 @@
                             <td>
                               <select class="posiljka-status" data-id="{!! $posiljka->id !!}" data-spisakid="{!! $posiljka->id_dostava !!}"
                                 @if ($dostava)
-                                  @if ($dostava->status && strtotime(date('Y-m-d', strtotime($dostava->created_at))) != strtotime(date('Y-m-d', strtotime(now()))))
+                                  @if ($dostava->status && strtotime(date('Y-m-d', strtotime($dostava->created_at))) < strtotime(date('Y-m-d', strtotime('-2 days'))))
                                     disabled="disabled"
                                   @endif
                                 @endif
