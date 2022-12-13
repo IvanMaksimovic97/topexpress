@@ -77,6 +77,7 @@ Route::group([
         Route::get('/posiljke-na-dostavi/{ids?}/{dostava_id?}', 'DostavaController@posiljkeNaDostavi')->name('posiljke-na-dostavi');
         Route::get('/posiljke-unete/{id?}', 'DostavaController@posiljkeUnete')->name('posiljke-unete');
         Route::get('/razduzi/{id?}', 'DostavaController@razduzi')->name('razduzi');
+        Route::get('/razduzi-sve/{id?}', 'DostavaController@razduziSve')->name('razduzi-sve');
 
         Route::get('/posiljaoci-primaoci/{ime?}', 'PosiljalacPrimalacController@getPosiljaoci')->name('posiljaoci-primaoci');
 

@@ -53,6 +53,8 @@
                     $brojZaNarednu = 0;
                     $iznos = 0;
                     $postarina = 0;
+                    $iznosGotovina = 0;
+                    $iznosFaktura = 0;
                   @endphp
                     @foreach ($posiljke as $posiljka)
                       @php
@@ -63,6 +65,15 @@
                             $rowColor = 'table-success';
                             $iznos += $posiljka->otkupnina;
                             $postarina += $posiljka->postarina;
+
+                            if (in_array($posiljka->nacin_placanja_id, ['1', '3'])) {
+                              $iznosGotovina += $posiljka->otkupnina;
+                            }
+
+                            if (in_array($posiljka->nacin_placanja_id, ['2', '4'])) {
+                              $iznosFaktura += $posiljka->otkupnina;
+                            }
+
                             $brojUrucenih++;
                             break;
                           case 3:
@@ -203,6 +214,14 @@
                           <tr>
                             <th>Br. za narednu dostavu:</th>
                             <td>{{ $brojZaNarednu }}</td>
+                          </tr>
+                          <tr>
+                            <th>Gotovina ukupno:</th>
+                            <td>{{ number_format($iznosGotovina, 2) }} RSD</td>
+                          </tr>
+                          <tr>
+                            <th>Faktura ukupno:</th>
+                            <td>{{ number_format($iznosFaktura, 2) }} RSD</td>
                           </tr>
                           <tr>
                             <th>Naplaćeno ukupno:</th>

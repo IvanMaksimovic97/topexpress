@@ -13,10 +13,11 @@
         <div id="posiljke-render">
             <x-posiljka-tabela :posiljke="$dostava->stavke" :dostava="$dostava"></x-posiljka-tabela>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-8">
             <button type="submit" id="unesi" class="btn btn-primary mb-2">Izmeni</button>
             @if (!$dostava->status)
                 <a href="{{ route('cms.razduzi', $dostava) }}" id="razduzi" class="btn btn-success mb-2">Razduži</a>
+                <button type="button" id="razduzi-ceo-spisak" class="btn btn-success mb-2" data-toggle="modal" data-target="#razduziModal">RAZDUŽI SVE</button>
             @endif
             <button type="button" id="obrisi-spisak" class="btn btn-danger mb-2" data-toggle="modal" data-target="#deleteModal">Obriši</button>
         </div>
@@ -36,8 +37,28 @@
             Da li želite da obrišete spisak?
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary zatvori-modal-brisanje" data-dismiss="modal">Zatvori</button>
+          <button type="button" class="btn btn-secondary zatvori-modal-razduzivanje" data-dismiss="modal">Zatvori</button>
           <a href="{{ route('cms.dostava-brisanje', $dostava->id) }}" id="obrisi-spisak-confirm" class="btn btn-danger mb-2">Obriši</a>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="razduziModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Razduživanje spiska</h5>
+          <button type="button" class="close zatvori-modal-brisanje" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            Da li želite da razdužite spisak?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary zatvori-modal-brisanje" data-dismiss="modal">Zatvori</button>
+          <a href="{{ route('cms.razduzi-sve', $dostava->id) }}" id="obrisi-spisak-confirm" class="btn btn-success mb-2">Razduži</a>
         </div>
       </div>
     </div>
@@ -90,6 +111,10 @@ $(document).on('click', '#obrisi-spisak', function(e) {
     $('#deleteModal').modal('show');
 });
 
+$(document).on('click', '#razduzi-ceo-spisak', function(e) {
+    $('#razduziModal').modal('show');
+});
+
 $(document).on('click', '#obrisi-spisak-confirm', function(e) {
     if (!mozeDaSeObrise) {
         alert('Nije moguće obrisati spisak, prvo uklonite sve pošiljke!');
@@ -99,6 +124,10 @@ $(document).on('click', '#obrisi-spisak-confirm', function(e) {
 
 $(document).on('click', '.zatvori-modal-brisanje', function(e) {
     $('#deleteModal').modal('hide');
+});
+
+$(document).on('click', '.zatvori-modal-razduzivanje', function(e) {
+    $('#razduziModal').modal('hide');
 });
 </script>
 @endsection
