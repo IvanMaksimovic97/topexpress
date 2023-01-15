@@ -65,6 +65,10 @@
                         </div>
                         @endif
                     </div>
+                    <div class="form-group">
+                        <label>Datum i vreme pošiljke</label>
+                        <input type="datetime-local" class="form-control" name="created_at" value="{{ $posiljka->created_at ? date('Y-m-d H:i:s', strtotime($posiljka->created_at)) : date('Y-m-d H:i:s') }}">
+                    </div>
                 </div>
             </div>
           </div>
