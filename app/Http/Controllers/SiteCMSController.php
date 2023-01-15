@@ -118,7 +118,7 @@ class SiteCMSController extends Controller
         $posiljka = new Posiljka;
 
         if (request()->has('prethodna')) {
-            $posiljka = Posiljka::orderBy('id', 'desc')->first();
+            $posiljka = Posiljka::where('id_korisnik', Korisnik::ulogovanKorisnikSite()->id)->orderBy('id', 'desc')->first();
             $posiljka->firma_id = null;
             $posiljka->primalac_id = null;
             $posiljka->primalac = null;
