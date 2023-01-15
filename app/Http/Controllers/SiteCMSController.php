@@ -296,4 +296,48 @@ class SiteCMSController extends Controller
         
         return redirect()->route('posiljka-izmena-site', $posiljka);
     }
+
+    public function izmenaFirmeEdit()
+    {
+        $korisnik = Korisnik::ulogovanKorisnikSite();
+        $korisnik = Korisnik::find($korisnik->id);
+
+        $kompanija = null;
+
+        if ($korisnik->kompanija) {
+            $kompanija = $korisnik->kompanija;
+        } else {
+            $kompanija = new Kompanija;
+        }
+
+        return view('site.authorized._form_moja_firma', compact('kompanija'));
+    }
+
+    public function izmenaFirmeUpdate(Request $request)
+    {
+        $korisnik = Korisnik::ulogovanKorisnikSite();
+        $korisnik = Korisnik::find($korisnik->id);
+
+        $kompanija = null;
+
+        if ($korisnik->kompanija) {
+            $kompanija = $korisnik->kompanija;
+        } else {
+            $kompanija = new Kompanija;
+        }
+
+        $kompanija->id_korisnik = $korisnik->id;
+        $kompanija->naziv = $request->naziv;
+        $kompanija->naziv_pun = $request->naziv_pun;
+        $kompanija->pib = $request->pib;
+        $kompanija->mbr = $request->mbr;
+        $kompanija->adresa = $request->adresa;
+        $kompanija->email = $request->email;
+        $kompanija->websajt = $request->websajt;
+        $kompanija->telefon = $request->telefon;
+        $kompanija->mobilni = $request->mobilni;
+        $kompanija->save();
+
+        return redirect()->route('dashboard-site');
+    }
 }
