@@ -485,7 +485,7 @@ class PosiljkaController extends Controller
         </w:r>";
 
         $footer = "<w:r>
-        <w:t>".date('d.m.Y.')."</w:t>
+        <w:t>".date('d.m.Y.', strtotime($posiljka->created_at))."</w:t>
         <w:br/>
         <w:t>www.topexpress.rs</w:t>
         <w:br/>

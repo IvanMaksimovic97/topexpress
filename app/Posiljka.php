@@ -198,7 +198,7 @@ class Posiljka extends Model
             // </w:r>";
     
             $footer = "<w:r>
-            <w:t>".date('d.m.Y.')."</w:t>
+            <w:t>".date('d.m.Y.', strtotime($posiljka->created_at))."</w:t>
             <w:br/>
             <w:t>www.topexpress.rs</w:t>
             <w:br/>
@@ -256,7 +256,16 @@ class Posiljka extends Model
         $section = $phpWord->addSection(array('orientation' => 'landscape'));
         
         $header = array('size' => 16, 'bold' => true);
-        $section->addText(htmlspecialchars('Datum od: '.date('d.m.Y.', strtotime(request()->date_from ?? now())).' - Datum do: '.date('d.m.Y.', strtotime(request()->date_to ?? now()))), $header);
+
+        $dateFrom = request()->date_from ?? now();
+        $dateTo = request()->date_to ?? now();
+
+        if (request()->has('date')) {
+            $dateFrom = request()->date;
+            $dateTo = request()->date;
+        }
+
+        $section->addText(htmlspecialchars('Datum od: '.date('d.m.Y.', strtotime($dateFrom)).' - Datum do: '.date('d.m.Y.', strtotime($dateTo))), $header);
         $section->addTextBreak(1);
 
         if ($posiljalac) {
