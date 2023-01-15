@@ -119,6 +119,18 @@ class SiteCMSController extends Controller
 
         if (request()->has('prethodna')) {
             $posiljka = Posiljka::orderBy('id', 'desc')->first();
+            $posiljka->firma_id = null;
+            $posiljka->primalac_id = null;
+            $posiljka->primalac = null;
+            $posiljka->ima_vrednost = null;
+            $posiljka->ima_otkupninu = null;
+            $posiljka->vrednost = null;
+            $posiljka->otkupnina = null;
+            $posiljka->otkupnina_vrsta = null;
+            $posiljka->broj_racuna = null;
+            $posiljka->povratnica = null;
+            $posiljka->licno_preuzimanje = null;
+            $posiljka->sadrzina = null;
         }
 
         $moze_da_izmeni_broj = true;
@@ -235,7 +247,7 @@ class SiteCMSController extends Controller
             }
         }
         
-        return redirect()->route('posiljke-site');
+        return redirect()->route('posiljke-site', ['date' => date('Y-m-d', strtotime($posiljka->created_at))]);
     }
 
     public function posiljkaIzmenaUpdate(Request $request, $id)
