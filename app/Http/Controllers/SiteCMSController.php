@@ -226,6 +226,10 @@ class SiteCMSController extends Controller
 
         if ($request->has('rucni_unos')) {
             $cena_konacna = floatval($request->postarina);
+
+            session()->put('rucna_postarina', floatval($request->postarina));
+        } else {
+            session()->remove('rucna_postarina');
         }
 
         $posiljalac = PosiljalacPrimalac::where('email', Korisnik::ulogovanKorisnikSite()->email)->first();

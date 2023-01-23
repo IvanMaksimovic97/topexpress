@@ -255,13 +255,18 @@
             <h4 class="card-title">Poštarina</h4>
             <div class="form-group">
                 <label>Vrednost poštarine (DIN)</label>
-                <input type="text" disabled="disabled" name="postarina" class="form-control" id="postarina" placeholder="0.00">
+                <input type="text" 
+                    @if(!session()->has('rucna_postarina')) 
+                        disabled="disabled"
+                    @else
+                        value="{{ session()->get('rucna_postarina') }}"
+                    @endif name="postarina" class="form-control" id="postarina" placeholder="0.00">
             </div>
             <div class="form-group">
                 <button type="button" id="postarina-izracunaj" class="btn btn-sm btn-danger mb-2">Izračunaj</button>
                 <div class="form-check">
                     <label class="form-check-label">
-                      <input type="checkbox" id="rucni-unos" value="rucni-unos-postarine" name="rucni_unos" class="form-check-input">
+                      <input type="checkbox" @if(session()->has('rucna_postarina')) checked="checked" @endif id="rucni-unos" value="rucni-unos-postarine" name="rucni_unos" class="form-check-input">
                       Unesi ručno
                     <i class="input-helper"></i></label>
                 </div>
