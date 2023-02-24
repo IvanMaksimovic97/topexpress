@@ -3,7 +3,54 @@
         <div class="card">
           <div class="card-body">
             <h4 class="card-title">Lista pošiljaka</h4>
+            <hr>
+            <h4 class="card-title">Pošiljke na dostavi: {{ $posiljke->where('status_po_spisku', 1)->count() }}</h4>
+            <h4 class="card-title">Vraćene pošiljke: {{ $posiljke->where('status_po_spisku', 3)->count() }}</h4>
+            <h4 class="card-title">Za narednu dostavu pošiljke: {{ $posiljke->where('status_po_spisku', 4)->count() }}</h4>
+            <h4 class="card-title">Uručene pošiljke: {{ $posiljke->where('status_po_spisku', 2)->count() }}</h4>
             <h4 class="card-title">Ukupno pošiljaka: {{ $posiljke->count() }}</h4>
+            <hr>
+            @php
+                $ukupnoVrednost = (float) $posiljke->where('status_po_spisku', 2)->sum('vrednost');
+                $ukupnoPostarina = (float) $posiljke->where('status_po_spisku', 2)->sum('postarina');
+                $ukupno = $ukupnoVrednost + $ukupnoPostarina;
+
+                $posiljalacGotovinskiUkupnoVrednost = (float)$posiljke->where('nacin_placanja_id', 1)->where('status_po_spisku', 2)->sum('vrednost');
+                $posiljalacGotovinskiUkupnoPostarina = (float) $posiljke->where('nacin_placanja_id', 1)->where('status_po_spisku', 2)->sum('postarina');
+                $posiljalacGotovinskiUkupno = $posiljalacGotovinskiUkupnoVrednost + $posiljalacGotovinskiUkupnoPostarina;
+
+                $posiljalacFakturomUkupnoVrednost = (float) $posiljke->where('nacin_placanja_id', 2)->where('status_po_spisku', 2)->sum('vrednost');
+                $posiljalacFakturomUkupnoPostarina = (float) $posiljke->where('nacin_placanja_id', 2)->where('status_po_spisku', 2)->sum('postarina');
+                $posiljalacFakturomUkupno = $posiljalacFakturomUkupnoVrednost + $posiljalacFakturomUkupnoPostarina;
+
+                $primalacGotovinskiUkupnoVrednost = (float) $posiljke->where('nacin_placanja_id', 3)->where('status_po_spisku', 2)->sum('vrednost');
+                $primalacGotovinskiUkupnoPostarina = (float) $posiljke->where('nacin_placanja_id', 3)->where('status_po_spisku', 2)->sum('postarina');
+                $primalacGotovinskiUkupno = $primalacGotovinskiUkupnoVrednost + $primalacGotovinskiUkupnoPostarina;
+
+                $primalacFakturomUkupnoVrednost = (float) $posiljke->where('nacin_placanja_id', 4)->where('status_po_spisku', 2)->sum('vrednost');
+                $primalacFakturomUkupnoPostarina = (float) $posiljke->where('nacin_placanja_id', 4)->where('status_po_spisku', 2)->sum('postarina');
+                $primalacFakturomUkupno = $primalacFakturomUkupnoVrednost +  $primalacFakturomUkupnoPostarina;
+            @endphp
+            <h4 class="card-title">Pošiljalac gotovinski vrednost: {{ number_format($posiljalacGotovinskiUkupnoVrednost, 2) }}</h4>
+            <h4 class="card-title">Pošiljalac gotovinski poštarina: {{ number_format($posiljalacGotovinskiUkupnoPostarina, 2) }}</h4>
+            <h4 class="card-title">Pošiljalac gotovinski ukupno: {{ number_format($posiljalacGotovinskiUkupno, 2) }}</h4>
+            <hr>
+            <h4 class="card-title">Pošiljalac fakturom vrednost: {{ number_format($posiljalacFakturomUkupnoVrednost, 2) }}</h4>
+            <h4 class="card-title">Pošiljalac fakturom poštarina: {{ number_format($posiljalacFakturomUkupnoPostarina, 2) }}</h4>
+            <h4 class="card-title">Pošiljalac fakturom ukupno: {{ number_format($posiljalacFakturomUkupno, 2) }}</h4>
+            <hr>
+            <h4 class="card-title">Primalac gotovinski vrednost: {{ number_format($primalacGotovinskiUkupnoVrednost, 2) }}</h4>
+            <h4 class="card-title">Primalac gotovinski poštarina: {{ number_format($primalacGotovinskiUkupnoPostarina, 2) }}</h4>
+            <h4 class="card-title">Primalac gotovinski ukupno: {{ number_format($primalacGotovinskiUkupno, 2) }}</h4>
+            <hr>
+            <h4 class="card-title">Primalac fakturom vrednost: {{ number_format($primalacFakturomUkupnoVrednost, 2) }}</h4>
+            <h4 class="card-title">Primalac fakturom poštarina: {{ number_format($primalacFakturomUkupnoPostarina, 2) }}</h4>
+            <h4 class="card-title">Primalac fakturom ukupno: {{ number_format($primalacFakturomUkupno, 2) }}</h4>
+            <hr>
+            <h4 class="card-title">Ukupna poštarina: {{ number_format($ukupnoPostarina, 2) }}</h4>
+            <h4 class="card-title">Ukupna vrednost: {{ number_format($ukupnoVrednost, 2) }}</h4>
+            <h4 class="card-title">Ukupno: {{ number_format($ukupno, 2) }}</h4>
+            <hr>
             @if(Route::currentRouteName() == 'cms.posiljka.index')
               <a href="{{ request()->fullUrlWithQuery(['stampajadresnice' => '1']) }}" class="btn btn-sm btn-primary">Štampaj sve adresnice  <i class="ti-printer btn-icon-append"></i></a>
             @endif
