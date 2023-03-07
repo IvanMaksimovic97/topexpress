@@ -56,6 +56,17 @@
             <h4 class="card-title">Ukupna poštarina: {{ number_format($ukupnoPostarina, 2) }}</h4>
             <h4 class="card-title">Ukupna vrednost: {{ number_format($ukupnoVrednost, 2) }}</h4>
             <h4 class="card-title">Ukupno: {{ number_format($ukupno, 2) }}</h4>
+            @foreach ($posiljkePoPosiljaocu as $item)
+                <hr>
+                <p>Pošiljalac: <strong>{!! $item['ime_prezime'] !!}</strong></p>
+                <p>Primljene: {!! $item['primljene']['broj'] !!} ({!! number_format($item['primljene']['iznos'], 2) !!} rsd)</p>
+                <p>Uručene: {!! $item['urucene']['broj'] !!} ({!! number_format($item['urucene']['iznos'], 2) !!} rsd)</p>
+                <p>Na dostavi: {!! $item['na_dostavi']['broj'] !!} ({!! number_format($item['na_dostavi']['iznos'], 2) !!} rsd)</p>
+                <p>Vraćene: {!! $item['vracene']['broj'] !!} ({!! number_format($item['vracene']['iznos'], 2) !!} rsd)</p>
+                <p>Za narednu: {!! $item['za_narednu']['broj'] !!} ({!! number_format($item['za_narednu']['iznos'], 2) !!} rsd)</p>
+                <p>Nezadužene: {!! $item['nezaduzene']['broj'] !!} ({!! number_format($item['nezaduzene']['iznos'], 2) !!} rsd)</p>
+                <p>Ukupno: {!! $item['ukupno']['broj'] !!} ({!! number_format($item['ukupno']['iznos'], 2) !!} rsd)</p>
+            @endforeach
             </div>
           </div>
         </div>

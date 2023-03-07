@@ -9,16 +9,18 @@ class PosiljkaTabela extends Component
     public $posiljke;
     public $dostava;
     public $posiljaociIzvestaj = [];
+    public $posiljkePoPosiljaocu = [];
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($posiljke, $dostava = null)
+    public function __construct($posiljke, $dostava = null, $posiljkePoPosiljaocu = [])
     {
         $this->posiljke = $posiljke;
         $this->dostava = $dostava;
+        $this->posiljkePoPosiljaocu = $posiljkePoPosiljaocu;
 
         $this->izvestajPoPosiljaocu();
     }
@@ -34,7 +36,8 @@ class PosiljkaTabela extends Component
         return view('components.posiljka-tabela', [
             'posiljke' => $this->posiljke, 
             'dostava' => $this->dostava,
-            'posiljaociIzvestaj' => $this->posiljaociIzvestaj
+            'posiljaociIzvestaj' => $this->posiljaociIzvestaj,
+            'posiljkePoPosiljaocu' => $this->posiljkePoPosiljaocu
         ]);
     }
 

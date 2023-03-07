@@ -63,7 +63,7 @@
         </div>
     </div>
 </div>
-<x-posiljka-tabela :posiljke="$posiljke"></x-posiljka-tabela>
+<x-posiljka-tabela :posiljke="$posiljke" :posiljkePoPosiljaocu="$posiljkePoPosiljaocu"></x-posiljka-tabela>
 @endsection
 
 @section('custom-js')
