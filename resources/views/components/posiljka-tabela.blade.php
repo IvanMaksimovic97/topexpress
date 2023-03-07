@@ -1,15 +1,21 @@
 <div>
-    <div class="col-lg-12 grid-margin stretch-card">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">Lista pošiljaka</h4>
-            <hr>
-            <h4 class="card-title">Pošiljke na dostavi: {{ $posiljke->where('status_po_spisku', 1)->count() }}</h4>
-            <h4 class="card-title">Vraćene pošiljke: {{ $posiljke->where('status_po_spisku', 3)->count() }}</h4>
-            <h4 class="card-title">Za narednu dostavu pošiljke: {{ $posiljke->where('status_po_spisku', 4)->count() }}</h4>
-            <h4 class="card-title">Uručene pošiljke: {{ $posiljke->where('status_po_spisku', 2)->count() }}</h4>
-            <h4 class="card-title">Ukupno pošiljaka: {{ $posiljke->count() }}</h4>
-            <hr>
+  <div class="modal fade" id="izvestajiModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Izvestaji</h5>
+          <button type="button" class="close"  onclick="$('#izvestajiModal').modal('hide');">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col">
+              <h4 class="card-title">Pošiljke na dostavi: {{ $posiljke->where('status_po_spisku', 1)->count() }}</h4>
+              <h4 class="card-title">Vraćene pošiljke: {{ $posiljke->where('status_po_spisku', 3)->count() }}</h4>
+              <h4 class="card-title">Za narednu dostavu pošiljke: {{ $posiljke->where('status_po_spisku', 4)->count() }}</h4>
+              <h4 class="card-title">Uručene pošiljke: {{ $posiljke->where('status_po_spisku', 2)->count() }}</h4>
+              <hr>
             @php
                 $ukupnoVrednost = (float) $posiljke->where('status_po_spisku', 2)->sum('vrednost');
                 $ukupnoPostarina = (float) $posiljke->where('status_po_spisku', 2)->sum('postarina');
@@ -50,7 +56,24 @@
             <h4 class="card-title">Ukupna poštarina: {{ number_format($ukupnoPostarina, 2) }}</h4>
             <h4 class="card-title">Ukupna vrednost: {{ number_format($ukupnoVrednost, 2) }}</h4>
             <h4 class="card-title">Ukupno: {{ number_format($ukupno, 2) }}</h4>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="$('#izvestajiModal').modal('hide');">Zatvori</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Lista pošiljaka</h4>
+            <button type="button" class="btn btn-primary btn-sm" onclick="$('#izvestajiModal').modal('show');" >
+              Izveštaji
+            </button>
             <hr>
+            <h4 class="card-title">Ukupno pošiljaka: {{ $posiljke->count() }}</h4>
             @if(Route::currentRouteName() == 'cms.posiljka.index')
               <a href="{{ request()->fullUrlWithQuery(['stampajadresnice' => '1']) }}" class="btn btn-sm btn-primary">Štampaj sve adresnice  <i class="ti-printer btn-icon-append"></i></a>
             @endif
