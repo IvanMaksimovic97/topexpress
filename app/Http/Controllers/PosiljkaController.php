@@ -303,8 +303,10 @@ class PosiljkaController extends Controller
         }
 
         $routeFilters = route('cms.posiljke-stornirane');
+
+        $posiljkePoPosiljaocu = [];
         
-        return view('posiljka.index', compact('posiljke', 'nacini_placanja', 'routeFilters'));
+        return view('posiljka.index', compact('posiljke', 'nacini_placanja', 'routeFilters', 'posiljkePoPosiljaocu'));
     }
 
     public function updateStatus($id_posiljka, $id_spisak, $status)
