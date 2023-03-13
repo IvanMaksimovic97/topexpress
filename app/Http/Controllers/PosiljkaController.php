@@ -95,6 +95,7 @@ class PosiljkaController extends Controller
             $posiljke = $posiljke->where('nacin_placanja_id', request()->nacin_placanja_id);
         }
 
+        $posiljke = $posiljke->where('interna', 1);
         $posiljke = $posiljke->get();
 
         if (request()->stampajadresnice) {
@@ -309,6 +310,104 @@ class PosiljkaController extends Controller
         return view('posiljka.index', compact('posiljke', 'nacini_placanja', 'routeFilters', 'posiljkePoPosiljaocu'));
     }
 
+    public function indexEksterne()
+    {
+        $posiljke = Posiljka::with([
+            'posiljalac',
+            'posiljalac.ulica',
+            'posiljalac.naselje',
+            'primalac',
+            'primalac.ulica',
+            'primalac.naselje',
+            'vrstaUsluge',
+            'nacinPlacanja',
+            'firma',
+            'statusi'
+        ]);
+
+        if (request()->search || request()->search_po || request()->search_pr) {
+            if (request()->search) {
+                $posiljke = $posiljke->whereRaw('lower(broj_posiljke) LIKE ?', ['%'.strtolower(request()->search.'%')]);
+            }
+            
+            if (request()->search_po) {
+                $posiljke = $posiljke->whereHas('posiljalac', function($q) {
+                    $q->whereRaw('lower(posiljalac_primalac.naziv) LIKE ?', ['%'.strtolower(request()->search_po.'%')]);
+                });
+            }
+
+            if (request()->search_pr) {
+                $posiljke = $posiljke->whereHas('primalac', function($q) {
+                    $q->whereRaw('lower(posiljalac_primalac.naziv) LIKE ?', ['%'.strtolower(request()->search_pr.'%')]);
+                });
+            }
+
+            $izabran_bar_jedan_datum = false;
+            if (request()->date_from) {
+                $posiljke = $posiljke->whereRaw('date(created_at) >= ?', [Carbon::parse(request()->date_from)->format('Y-m-d')]);
+                $izabran_bar_jedan_datum = true;
+            }
+
+            if (request()->date_to) {
+                $posiljke = $posiljke->whereRaw('date(created_at) <= ?', [Carbon::parse(request()->date_to)->format('Y-m-d')]);
+                $izabran_bar_jedan_datum = true;
+            }
+
+            if (!$izabran_bar_jedan_datum) {
+                $posiljke = $posiljke->whereRaw('date(created_at) = ?', [Carbon::now()->format('Y-m-d')]);
+            }
+
+        } else {
+            $izabran_bar_jedan_datum = false;
+            if (request()->date_from) {
+                $posiljke = $posiljke->whereRaw('date(created_at) >= ?', [Carbon::parse(request()->date_from)->format('Y-m-d')]);
+                $izabran_bar_jedan_datum = true;
+            }
+
+            if (request()->date_to) {
+                $posiljke = $posiljke->whereRaw('date(created_at) <= ?', [Carbon::parse(request()->date_to)->format('Y-m-d')]);
+                $izabran_bar_jedan_datum = true;
+            }
+
+            if (!$izabran_bar_jedan_datum) {
+                $posiljke = $posiljke->whereRaw('date(created_at) = ?', [Carbon::now()->format('Y-m-d')]);
+            }
+        }
+
+        if (request()->nacin_placanja_id && request()->nacin_placanja_id != '-1') {
+            $posiljke = $posiljke->where('nacin_placanja_id', request()->nacin_placanja_id);
+        }
+
+        $posiljke = $posiljke->where('interna', 0);
+        $posiljke = $posiljke->get();
+
+        if (request()->stampajadresnice) {
+            return Posiljka::stampajAdresnice($posiljke);
+        }
+
+        if (request()->stampajspisak) {
+            return Posiljka::stampajSpisak($posiljke);
+        }
+
+        $nacini_placanja = NacinPlacanja::all(['id', 'naziv']);
+
+        $posiljke = $posiljke->map(function ($posiljka, $key) {
+            $status = $posiljka->statusi->first();
+            $posiljka->status_po_spisku = $status ? $status->status : '-1';
+            return $posiljka;
+        });
+
+        if (request()->status_posiljke && request()->status_posiljke != '-2') {
+            $posiljke = $posiljke->where('status_po_spisku', request()->status_posiljke);
+        }
+
+        $routeFilters = route('cms.posiljke-eksterne');
+
+        $posiljkePoPosiljaocu = [];
+        
+        return view('posiljka.index', compact('posiljke', 'nacini_placanja', 'routeFilters', 'posiljkePoPosiljaocu'));
+    }
+
     public function updateStatus($id_posiljka, $id_spisak, $status)
     {
         $dostava = Dostava::findOrFail($id_spisak);
@@ -483,6 +582,7 @@ class PosiljkaController extends Controller
         }
 
         $posiljka = new Posiljka;
+        $posiljka->interna = 1;
         $posiljka->id_korisnik = Korisnik::ulogovanKorisnik()->id;
         $posiljka->setValues($request->firma_id ?? -1, $posiljalac->id, $primalac->id, $cena_konacna);
         $posiljka->setBarCode();
@@ -745,6 +845,15 @@ class PosiljkaController extends Controller
     {
         Posiljka::where('id', $id)->withTrashed()->update([
             'deleted_at' => NULL
+        ]);
+
+        return redirect()->route('cms.posiljka.index');
+    }
+
+    public function import($id) 
+    {
+        Posiljka::where('id', $id)->update([
+            'interna' => 1
         ]);
 
         return redirect()->route('cms.posiljka.index');

@@ -44,7 +44,7 @@
                             <h4 class="card-title">Status</h4>
                             <select class="form-control form-control-sm" name="status_posiljke" id="status_posiljke">
                                 <option value="-2">Izaberi</option>
-                                <option value="-1" @if(request()->status_posiljke == '0') selected @endif>U pripremi</option>
+                                <option value="-1" @if(request()->status_posiljke == '-1') selected @endif>U pripremi</option>
                                 <option value="0" @if(request()->status_posiljke == '0') selected @endif>Primljena</option>
                                 <option value="1" @if(request()->status_posiljke == '1') selected @endif>Na dostavi</option>
                                 <option value="2" @if(request()->status_posiljke == '2') selected @endif>Uručena</option>

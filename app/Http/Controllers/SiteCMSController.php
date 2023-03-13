@@ -235,6 +235,7 @@ class SiteCMSController extends Controller
         $posiljalac = PosiljalacPrimalac::where('email', Korisnik::ulogovanKorisnikSite()->email)->first();
 
         $posiljka = new Posiljka;
+        $posiljka->interna = 0;
         $posiljka->id_korisnik = Korisnik::ulogovanKorisnikSite()->id;
         $posiljka->setValues($request->firma_id ?? -1, $posiljalac->id, $primalac->id, $cena_konacna);
         $posiljka->setBarCode();

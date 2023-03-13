@@ -98,7 +98,7 @@ class DostavaController extends Controller
         $posiljkeDostave = [];
         $posiljke = Posiljka::
                     whereRaw('date(created_at) <= ?', [Carbon::now()->format('Y-m-d')])
-                    // ->where('status', '!=', 2)
+                    ->where('interna', 1)
                     ->select(['id', 'broj_posiljke'])
                     ->addSelect(DB::raw('
                         (SELECT COUNT(*) 
@@ -834,7 +834,7 @@ class DostavaController extends Controller
 
         $posiljke = Posiljka::where(function ($q) use ($dostava) {
             $q->whereRaw('date(created_at) <= ?', [Carbon::parse($dostava->za_datum)->format('Y-m-d')]);
-            //$q->where('status', '!=', 1);
+            $q->where('interna', 1);
         })
         ->orWhereIn('id', $posiljkeDostave)
         ->select(['id', 'broj_posiljke'])
@@ -872,6 +872,8 @@ class DostavaController extends Controller
         ->havingRaw('(urucen_status = 0 AND postoji_na_zaduzenom_spisku = 0) OR id IN ('.(count($posiljkeDostave) ? implode(',', $posiljkeDostave) : 0).')')
         ->orderBy('ds_id')
         ->get();
+
+        //dd($posiljke);
 
         $mozeDaSeRazduzi = DostavaStavka::mozeDaSeRazduzi($id);
 

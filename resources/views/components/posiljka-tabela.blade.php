@@ -79,7 +79,21 @@
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
           <div class="card-body">
-            <h4 class="card-title">Lista pošiljaka</h4>
+
+            @php
+              $lista = 'Lista pošiljaka';
+              if (Route::currentRouteName() == 'cms.posiljka.index') {
+                $lista = 'Lista pošiljaka';
+              }
+              if (Route::currentRouteName() == 'cms.posiljke-stornirane') {
+                $lista = 'Lista storniranih pošiljaka';
+              }
+              if (Route::currentRouteName() == 'cms.posiljke-eksterne') {
+                $lista = 'Lista eksternih pošiljaka';
+              }
+            @endphp
+        
+            <h4 class="card-title">{{ $lista }}</h4>
             <button type="button" class="btn btn-primary btn-sm" onclick="$('#izvestajiModal').modal('show');" >
               Izveštaji
             </button>
@@ -95,14 +109,16 @@
               <table class="table table-bordered table-sm">
                 <thead>
                   <tr>
-                    @if (Route::currentRouteName() != 'cms.posiljke-stornirane')
+                    @if (Route::currentRouteName() != 'cms.posiljke-stornirane' && Route::currentRouteName() != 'cms.posiljke-eksterne')
                       <th>Štampaj</th>
                       <th>Izmeni</th>
+                    @elseif(Route::currentRouteName() == 'cms.posiljke-eksterne')
+                    <th>Primi</th>
                     @else
                       <th>Vrati</th>
                     @endif
                     <th>Status pošiljke</th>
-                    @if(Route::currentRouteName() != 'cms.posiljka.index' && Route::currentRouteName() != 'cms.posiljke-stornirane')
+                    @if(Route::currentRouteName() != 'cms.posiljka.index' && Route::currentRouteName() != 'cms.posiljke-stornirane' && Route::currentRouteName() != 'cms.posiljke-eksterne')
                       <th>Vraćena</th>
                     @endif
                     <th>Broj pošiljke</th>
@@ -179,13 +195,15 @@
                         }
                       @endphp
                         <tr @if($rowColor != '') class="{{ $rowColor }}" @endif>
-                            @if(Route::currentRouteName() != 'cms.posiljke-stornirane')
+                            @if(Route::currentRouteName() != 'cms.posiljke-stornirane' && Route::currentRouteName() != 'cms.posiljke-eksterne')
                             <td><a href="{{ route('cms.posiljka.show', $posiljka) }}" class="btn btn-sm btn-primary">Štampaj  <i class="ti-printer btn-icon-append"></i></a></td>
                             <td><a href="{{ route('cms.posiljka.edit', $posiljka) }}" class="btn btn-sm btn-danger">Izmeni  <i class="mdi mdi-lead-pencil"></i></a></td>
+                            @elseif(Route::currentRouteName() == 'cms.posiljke-eksterne')
+                            <td><a href="{{ route('cms.posiljka-import', $posiljka->id) }}" class="btn btn-sm btn-primary">Primi  <i class="mdi mdi-inbox"></i></a></td>
                             @else
                             <td><a href="{{ route('cms.posiljka-restore', $posiljka->id) }}" class="btn btn-sm btn-primary">Vrati  <i class="mdi mdi-lead-pencil"></i></a></td>
                             @endif
-                            @if(Route::currentRouteName() != 'cms.posiljka.index' && Route::currentRouteName() != 'cms.posiljke-stornirane')
+                            @if(Route::currentRouteName() != 'cms.posiljka.index' && Route::currentRouteName() != 'cms.posiljke-stornirane' && Route::currentRouteName() != 'cms.posiljke-eksterne')
                             <td>
                               <select class="posiljka-status" data-id="{!! $posiljka->id !!}" data-spisakid="{!! $posiljka->id_dostava !!}"
                                 @if ($dostava)
