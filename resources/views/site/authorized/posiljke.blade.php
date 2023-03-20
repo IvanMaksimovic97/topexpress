@@ -34,8 +34,12 @@
                                     <input type="text" class="form-control" value="{!! request()->search_pr !!}" name="search_pr" placeholder="Pretraga po broju primaocu">
                                 </div>
                                 <div class="col">
-                                    <h4 class="card-title">Datum</h4>
-                                    <input type="date" class="form-control" value="{!! request()->date ? date('Y-m-d', strtotime(request()->date)) : '' !!}" name="date" id="datum" placeholder="datum">
+                                  <h4 class="card-title">Datum od</h4>
+                                  <input type="date" class="form-control form-control-sm" value="{!! date('Y-m-d', strtotime(request()->date_from ?? now())) !!}" name="date_from" id="date_from" placeholder="datum od">
+                                </div>
+                                <div class="col">
+                                  <h4 class="card-title">Datum do</h4>
+                                  <input type="date" class="form-control form-control-sm" value="{!! date('Y-m-d', strtotime(request()->date_to ?? now())) !!}" name="date_to" id="date_to" placeholder="datum do">
                                 </div>
                             </div>
                         </div>
