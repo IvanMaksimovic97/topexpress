@@ -76,6 +76,7 @@ Route::group([
         Route::get('/posiljke-stornirane', 'PosiljkaController@indexStornirane')->name('posiljke-stornirane');
         Route::get('/posiljka-vrati/{id}', 'PosiljkaController@restore')->name('posiljka-restore');
         Route::get('/posiljka-import/{id}', 'PosiljkaController@import')->name('posiljka-import');
+        Route::post('/posiljka-import-multiple', 'PosiljkaController@importMultiple')->name('posiljka-import-multiple');
 
         Route::get('/posiljke/{ids?}', 'DostavaController@posiljke')->name('posiljke');
         Route::get('/posiljke-na-dostavi/{ids?}/{dostava_id?}', 'DostavaController@posiljkeNaDostavi')->name('posiljke-na-dostavi');

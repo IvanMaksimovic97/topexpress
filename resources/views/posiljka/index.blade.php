@@ -63,11 +63,44 @@
         </div>
     </div>
 </div>
+
+@if(Route::currentRouteName() == 'cms.posiljke-eksterne')
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <form action="{{ route('cms.posiljka-import-multiple') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="form-group" id="posiljka-div">
+                        <label>Primi pošiljke</label>
+                        <select class="js-example-basic-single w-100" name="posiljke[]" id="posiljke" multiple="multiple">
+                            {{-- <option value="0">Izaberi</option> --}}
+                            @foreach ($posiljke as $posiljka)
+                                <option value="{{ $posiljka->id }}">{{ $posiljka->broj_posiljke }}</option>
+                            @endforeach
+                        </select>
+                        <button type="submit" class="btn btn-primary btn-sm mt-3">Primi pošiljke</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
+
 <x-posiljka-tabela :posiljke="$posiljke" :posiljkePoPosiljaocu="$posiljkePoPosiljaocu"></x-posiljka-tabela>
 @endsection
 
 @section('custom-js')
+<script src="{{ asset('star_admin/vendors/select2/select2.min.js') }}"></script>
+<script src="{{ asset('star_admin/vendors/typeahead.js/typeahead.bundle.min.js') }}"></script>
 <script>
+@if(Route::currentRouteName() == 'cms.posiljke-eksterne')
+$(function () {
+    var posiljke = $("#posiljke").select2();
+});
+@endif
+
 $(document).on('click', '#ponisti-datum', function(e) {
     $('#datum').val('');
 });

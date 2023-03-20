@@ -859,6 +859,17 @@ class PosiljkaController extends Controller
         return redirect()->route('cms.posiljka.index');
     }
 
+    public function importMultiple(Request $request) 
+    {
+        if ($request->has('posiljke')) {
+            Posiljka::whereIn('id', $request->posiljke)->update([
+                'interna' => 1
+            ]);
+        }
+        
+        return redirect()->back();
+    }
+
     public function vratiStatuse($broj_posiljke)
     {
         $posiljka = Posiljka::with([
