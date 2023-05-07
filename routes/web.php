@@ -26,6 +26,8 @@ Route::get('/pretraga-posiljke/{broj_posiljke?}', 'PosiljkaController@vratiStatu
 
 Route::post('/send-email', 'SiteController@contactSendEmail')->name('send-mail-contact');
 
+Route::get('/sms', 'SMSController@sendSMSTwilioService');
+
 Route::group(['middleware' => ['notLoggedInSite']], function () {
     /// ovde rute ako nije je ulogovan
     Route::get('/registracija', 'SiteController@registracija')->name('registracija');
