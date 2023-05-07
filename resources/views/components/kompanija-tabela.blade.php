@@ -13,6 +13,7 @@
                     <th>Pun naziv</th>
                     <th>Email</th>
                     <th>Telefon</th>
+                    <th>Vlasnik</th>
                     <th>#</th>
                   </tr>
                 </thead>
@@ -24,6 +25,7 @@
                           <td>{!! $kompanija->naziv_pun !!}</td>
                           <td>{!! $kompanija->email !!}</td>
                           <td>{!! $kompanija->telefon !!}</td>
+                          <td>{!! $kompanija->vlasnikNaziv() !!}</td>
                           <td>{!! $kompanija->id !!}</td>
                         </tr>
                     @endforeach

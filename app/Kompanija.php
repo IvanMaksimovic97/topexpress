@@ -18,4 +18,16 @@ class Kompanija extends Model
         $this->naziv = request()->ugovor ?? '';
         $this->updated_at = Carbon::now();
     }
+
+    public function vlasnik()
+    {
+        return $this->hasOne(Korisnik::class, 'id', 'id_korisnik');
+    }
+
+    public function vlasnikNaziv()
+    {
+        $vlasnik = $this->vlasnik;
+
+        return $vlasnik ? $vlasnik->ime . ' ' . $vlasnik->prezime : '';
+    }
 }
