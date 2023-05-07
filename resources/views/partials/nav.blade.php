@@ -36,6 +36,7 @@
           </ul>
         </div>
       </li>
+      @if(App\Korisnik::ulogovanKorisnik()->id == 1)
       <li class="nav-item">
         <a class="nav-link" data-bs-toggle="collapse" href="#kompanija-meni" aria-expanded="false" aria-controls="ui-basic">
           <i class="mdi mdi-city menu-icon"></i>
@@ -76,6 +77,19 @@
         </div>
       </li>
       <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="collapse" href="#korisnici-meni" aria-expanded="false" aria-controls="ui-basic">
+          <i class="mdi mdi-account menu-icon"></i>
+          <span class="menu-title">Korisnici sistema</span>
+          <i class="menu-arrow"></i> 
+        </a>
+        <div class="collapse" id="korisnici-meni">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item"> <a class="nav-link" href="{{ route('cms.korisnik.create') }}">Novi</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ route('cms.korisnik.index') }}">Lista</a></li>
+          </ul>
+        </div>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="#">
           <i class="mdi mdi-settings menu-icon"></i>
           <span class="menu-title">Administracija</span>
@@ -87,6 +101,7 @@
           <span class="menu-title">Izveštaji</span>
         </a>
       </li>
+      @endif
       {{-- <li class="nav-item nav-category">Forms and Datas</li>
       <li class="nav-item">
         <a class="nav-link" href="index.html">
