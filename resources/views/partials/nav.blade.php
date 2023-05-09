@@ -90,10 +90,19 @@
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" data-bs-toggle="collapse" href="#administracija-meni" aria-expanded="false" aria-controls="ui-basic">
           <i class="mdi mdi-settings menu-icon"></i>
-          <span class="menu-title">Administracija</span>
+          <span class="menu-title">Adminisracija</span>
+          <i class="menu-arrow"></i> 
         </a>
+        <div class="collapse" id="administracija-meni">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item"> <a class="nav-link" href="{{ route('cms.te_grad.index') }}">Gradovi</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ route('cms.te_opstina.index') }}">Opštine</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ route('cms.te_naselje.index') }}">Naselja</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ route('cms.te_ulica.index') }}">Ulice</a></li>
+          </ul>
+        </div>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">

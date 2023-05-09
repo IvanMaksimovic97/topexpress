@@ -72,7 +72,11 @@ Route::group([
             'kompanija' => 'CompanyController',
             'ugovor' => 'UgovorController',
             'radnik' => 'RadnikController',
-            'korisnik' => 'KorisnikController'
+            'korisnik' => 'KorisnikController',
+            'te_grad' => 'TEGradController',
+            'te_opstina' => 'TEOpstinaController',
+            'te_naselje' => 'TENaseljeController',
+            'te_ulica' => 'TEUlicaController'
         ]);
 
         Route::get('/posiljke-eksterne', 'PosiljkaController@indexEksterne')->name('posiljke-eksterne');
