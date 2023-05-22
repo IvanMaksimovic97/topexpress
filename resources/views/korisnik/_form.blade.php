@@ -42,6 +42,37 @@
                         <input type="password" class="form-control" value="" name="password_confirmation" id="password_confirmation"/>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label>Naselje</label>
+                    <select class="js-example-basic-single w-100" data-live-search="true" id="naselje_id" name="naselje_id" required>
+                        <option selected disabled value="-1">Izaberi naselje *</option>
+                        @foreach ($naselja as $n)
+                            <option @if($posiljalac && $posiljalac->naselje_id == $n->id) selected @endif value="{{ $n->id }}">{{ strtoupper($n->naziv) }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Ulica</label>
+                    <select class="js-example-basic-single w-100" data-live-search="true" id="ulica_id" name="ulica_id" required>
+                        <option selected disabled value="-1">Izaberi ulicu *</option>
+                        @foreach ($ulice as $u)
+                            <option @if($posiljalac && $posiljalac->ulica_id == $u->id) selected @endif value="{{ $u->id }}">{{ strtoupper($u->naziv) }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                   <div class="row">
+                    <div class="col">
+                        <input type="text" name="broj" required class="form-control" placeholder="Broj *" value="{{ old('broj') ?? ($posiljalac ? $posiljalac->broj : '') }}" />
+                        @if ($errors->has('broj'))
+                        <span class="text-danger">{{ $errors->first('broj') }}</span>
+                        @endif
+                    </div>
+                    <div class="col"><input type="text" name="podbroj" class="form-control" placeholder="Pod broj" value="{{ old('podbroj') ?? ($posiljalac ? $posiljalac->podbroj : '') }}" /></div>
+                    <div class="col"><input type="text" name="sprat" class="form-control" placeholder="Sprat" value="{{ old('sprat') ?? ($posiljalac ? $posiljalac->sprat : '') }}" /></div>
+                    <div class="col"><input type="text" name="stan" class="form-control" placeholder="Stan" value="{{ old('stan') ?? ($posiljalac ? $posiljalac->stan : '') }}" /></div>
+                   </div>
+                </div>
                 <div class="row">
                     <div class="form-group">
                         <label>Tip korisnika</label>

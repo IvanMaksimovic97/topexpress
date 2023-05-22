@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Korisnik;
+use App\Naselje;
+use App\PosiljalacPrimalac;
+use App\Ulica;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\MessageBag;
 
@@ -39,8 +43,13 @@ class KorisnikController extends Controller
     public function create()
     {
         $korisnik = new Korisnik;
+        
+        $ulice = Ulica::select('id', 'naziv')->groupBy(DB::raw('LOWER(naziv)'))->distinct()->get();
+        $naselja = Naselje::select('id', 'naziv')->groupBy(DB::raw('LOWER(naziv)'))->distinct()->get();
 
-        return view('korisnik.create', compact('korisnik'));
+        $posiljalac = new PosiljalacPrimalac;
+
+        return view('korisnik.create', compact('korisnik', 'ulice', 'naselja', 'posiljalac'));
     }
 
     /**
@@ -55,14 +64,18 @@ class KorisnikController extends Controller
             'ime' => 'required',
             'prezime' => 'required',
             'email' => 'required|unique:korisnik,email',
-            'password' => 'required|confirmed'
+            'password' => 'required|confirmed',
+            'naselje_id' => 'required',
+            'ulica_id' => 'required'
         ],
         [
             'email.unique' => 'Korisnik sa unetim email-om već postoji!',
             'ime.required' => 'Ime je obavezno!',
             'prezime.required' => 'Ime je obavezno!',
             'password.required' => 'Lozinka je obavezna!',
-            'password.confirmed' => 'Lozinke se ne poklapaju'
+            'password.confirmed' => 'Lozinke se ne poklapaju',
+            'naselje_id.required' => 'Polje naselje je obavezno',
+            'ulica_id.required' => 'Polje ulica je obavezno'
         ]);
 
         $korisnik = new Korisnik;
@@ -71,9 +84,26 @@ class KorisnikController extends Controller
         $korisnik->ime = $request->ime;
         $korisnik->prezime = $request->prezime;
         $korisnik->created_at = Carbon::now();
-        $korisnik->status = $request->status;
+        $korisnik->status = $request->status ?? 0;
         $korisnik->pristup = $request->pristup;
         $korisnik->save();
+
+        $naselje = Naselje::find($request->naselje_id);
+        $ulica = Ulica::find($request->ulica_id);
+
+        $posiljalac = new PosiljalacPrimalac;
+        $posiljalac->naselje_id = $naselje ? $naselje->id : -1;
+        $posiljalac->ulica_id = $ulica ? $ulica->id : -1;
+        $posiljalac->naziv = $korisnik->ime . ' ' . $korisnik->prezime;
+        $posiljalac->email = $korisnik->email;
+        $posiljalac->naselje = $naselje ? $naselje->naziv : '';
+        $posiljalac->ulica = $ulica ? $ulica->naziv : '';
+        $posiljalac->broj = $request->broj ?? '';
+        $posiljalac->podbroj = $request->podbroj ?? '';
+        $posiljalac->sprat = $request->podbroj ?? '';
+        $posiljalac->stan = $request->podbroj ?? '';
+        $posiljalac->kontakt_telefon = $request->telefon ?? '';
+        $posiljalac->save();
 
         return redirect()->route('cms.korisnik.index');
     }
@@ -97,7 +127,12 @@ class KorisnikController extends Controller
      */
     public function edit(Korisnik $korisnik)
     {
-        return view('korisnik.edit', compact('korisnik'));
+        $ulice = Ulica::select('id', 'naziv')->groupBy(DB::raw('LOWER(naziv)'))->distinct()->get();
+        $naselja = Naselje::select('id', 'naziv')->groupBy(DB::raw('LOWER(naziv)'))->distinct()->get();
+
+        $posiljalac = PosiljalacPrimalac::where('email', $korisnik->email)->first();
+
+        return view('korisnik.edit', compact('korisnik', 'ulice', 'naselja', 'posiljalac'));
     }
 
     /**
@@ -112,13 +147,17 @@ class KorisnikController extends Controller
         $request->validate([
             'ime' => 'required',
             'prezime' => 'required',
-            'password' => 'confirmed'
+            'password' => 'confirmed',
+            'naselje_id' => 'required',
+            'ulica_id' => 'required'
         ],
         [
             'email.unique' => 'Korisnik sa unetim email-om već postoji!',
             'ime.required' => 'Ime je obavezno!',
             'prezime.required' => 'Ime je obavezno!',
-            'password.confirmed' => 'Lozinke se ne poklapaju'
+            'password.confirmed' => 'Lozinke se ne poklapaju',
+            'naselje_id.required' => 'Polje naselje je obavezno',
+            'ulica_id.required' => 'Polje ulica je obavezno'
         ]);
 
         $email_check = Korisnik::where('email', $request->email)->where('id', '!=', $korisnik->id)->first();
@@ -134,7 +173,7 @@ class KorisnikController extends Controller
         $korisnik->ime = $request->ime;
         $korisnik->prezime = $request->prezime;
         $korisnik->created_at = Carbon::now();
-        $korisnik->status = $request->status;
+        $korisnik->status = $request->status ?? 0;
         $korisnik->pristup = $request->pristup;
 
         if ($request->password != '') {
@@ -143,6 +182,26 @@ class KorisnikController extends Controller
 
         $korisnik->save();
 
+        $naselje = Naselje::find($request->naselje_id);
+        $ulica = Ulica::find($request->ulica_id);
+
+        $posiljalac = PosiljalacPrimalac::where('email', $korisnik->email)->first();
+
+        if ($posiljalac) {
+            $posiljalac->naselje_id = $naselje ? $naselje->id : -1;
+            $posiljalac->ulica_id = $ulica ? $ulica->id : -1;
+            $posiljalac->naziv = $korisnik->ime . ' ' . $korisnik->prezime;
+            $posiljalac->email = $korisnik->email;
+            $posiljalac->naselje = $naselje ? $naselje->naziv : '';
+            $posiljalac->ulica = $ulica ? $ulica->naziv : '';
+            $posiljalac->broj = $request->broj ?? '';
+            $posiljalac->podbroj = $request->podbroj ?? '';
+            $posiljalac->sprat = $request->podbroj ?? '';
+            $posiljalac->stan = $request->podbroj ?? '';
+            $posiljalac->kontakt_telefon = $request->telefon ?? '';
+            $posiljalac->save();
+        }
+    
         return redirect()->route('cms.korisnik.edit', $korisnik)->withSuccess('Uspensa izmena!');
     }
 
