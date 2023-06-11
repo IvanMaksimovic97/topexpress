@@ -97,7 +97,17 @@
           <label>Naselje</label>
           <div class="naselje-typeahead" id="pr_naselje_div">
                 <input type="hidden" name="pr_naselje_id" id="pr_naselje_id" value="{{ $posiljka->primalac ? $posiljka->primalac->naselje_id : ''}}">
-              <input class="form-control" name="pr_naselje" id="pr_naselje" type="text" required value="{{ $posiljka->primalac ? $posiljka->primalac->naselje : '' }}">
+              {{-- <input class="form-control" name="pr_naselje" id="pr_naselje" type="text" required value="{{ $posiljka->primalac ? $posiljka->primalac->naselje : '' }}"> --}}
+              
+            <select class="form-control" id="n_naselje_id" data-live-search="true" name="naselje_id" required>
+                @isset($posiljka->primalac)
+                    <option value="{{ $posiljka->primalac->naselje_id }}" selected>{{ $posiljka->primalac->naselje()->first() ? $posiljka->primalac->naselje()->first()->naziv : '' }}</option>
+                @endisset
+                {{-- <option selected disabled value="-1">Izaberi naselje *</option>
+                @foreach ($naselja as $n)
+                <option @if($n->id == old('naselje_id')) selected @endif value="{{ $n->id }}">{{ strtoupper($n->naziv) }}</option>
+                @endforeach --}}
+            </select>
           </div>
         </div>
         <div class="form-group">

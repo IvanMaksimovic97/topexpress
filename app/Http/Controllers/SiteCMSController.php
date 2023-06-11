@@ -209,6 +209,7 @@ class SiteCMSController extends Controller
 
     public function posiljkaNovaStore(Request $request)
     {
+        //dd($request->all());
         $postojiPosiljka = Posiljka::where('broj_posiljke', 'TE'.$request->broj_posiljke.'BG')->first();
         if ($postojiPosiljka) {
             return redirect()->route('posiljke-nova-site', ['prethodna'])->with('errMsg', 'Pošiljka sa zadatim brojem već postoji!');
@@ -227,7 +228,7 @@ class SiteCMSController extends Controller
         }
 
         $primalac = $request->primalac_id ? PosiljalacPrimalac::find($request->primalac_id) : new PosiljalacPrimalac;
-        $primalac->primalacSetValues($pr_naselje->id, $pr_ulica->id);
+        $primalac->primalacSetValuesSite($pr_naselje, $pr_ulica->id);
         $primalac->save();
 
         $masa = floatval($request->masa_kg);
@@ -292,7 +293,7 @@ class SiteCMSController extends Controller
         }
 
         $primalac = $request->primalac_id ? PosiljalacPrimalac::find($request->primalac_id) : new PosiljalacPrimalac;
-        $primalac->primalacSetValues($pr_naselje->id, $pr_ulica->id);
+        $primalac->primalacSetValuesSite($pr_naselje, $pr_ulica->id);
         $primalac->save();
 
         $masa = floatval($request->masa_kg);

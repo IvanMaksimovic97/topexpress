@@ -17,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/naselje', 'API\ApiController@getNaselja')->name('api.naselja');
+Route::get('/pravo-naselje', 'API\ApiController@getPravoNaselje')->name('api.pravo-naselje');

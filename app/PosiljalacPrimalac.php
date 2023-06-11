@@ -55,4 +55,21 @@ class PosiljalacPrimalac extends Model
         $this->kontakt_osoba = request()->pr_kontakt_osoba ?? '';
         $this->kontakt_telefon = request()->pr_kontakt_telefon ?? '';
     }
+
+    public function primalacSetValuesSite($naselje, $ulica_id)
+    {
+        $this->naselje_id = $naselje->id;
+        $this->ulica_id = $ulica_id;
+        $this->naziv = request()->pr_naziv ?? '';
+        $this->email = request()->pr_email ?? '';
+        $this->naselje = $naselje->naziv ?? '';
+        $this->ulica = request()->pr_ulica ?? '';
+        $this->broj = request()->pr_broj ?? '';
+        $this->podbroj = request()->pr_podbroj ?? '';
+        $this->sprat = request()->pr_sprat ?? '';
+        $this->stan = request()->pr_stan ?? '';
+        $this->napomena = request()->pr_napomena ?? '';
+        $this->kontakt_osoba = request()->pr_kontakt_osoba ?? '';
+        $this->kontakt_telefon = request()->pr_kontakt_telefon ?? '';
+    }
 }

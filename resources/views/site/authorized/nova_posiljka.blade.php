@@ -5,6 +5,12 @@
 <link rel="stylesheet" href="{{ asset('star_admin/vendors/select2/select2.min.css') }}">
 <link rel="stylesheet" href="{{ asset('star_admin/vendors/select2-bootstrap-theme/select2-bootstrap.min.css') }}">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet"/>
+<style>
+.is-invalid .select2-selection,
+.needs-validation ~ span > .select2-dropdown{
+  border-color:red !important;
+}
+</style>
 @endsection
 
 @section('content')
@@ -118,6 +124,44 @@ $(function () {
     autocompleteInit('#po_ulica', '#po_ulica_id', ulice, 'naziv');
     autocompleteInit('#pr_ulica', '#pr_ulica_id', ulice, 'naziv');
     autocompleteInit('#broj_racuna', '#racun_id', racuni, 'broj_racuna');
+
+    $('#n_naselje_id').select2({
+        theme: 'bootstrap',
+        ajax: {
+            url: '{{ route('api.naselja') }}',
+            dataType: 'json',
+            data: function (params) {
+                return {
+                    q: params.term, // search term
+                    page: params.page
+                };
+            },
+            processResults: function (data, params) {
+                params.page = params.page || 1;
+
+                return {
+                    results: data
+                };
+            }
+            // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+        }
+    });
+});
+
+$(document).on('change', '#n_naselje_id', function (e) {
+    const vrednost = this.value;
+    $("#n_naselje_id + span").removeClass("is-invalid");
+
+    $.ajax({
+        url: '{{ route('api.pravo-naselje') }}',
+        method: 'get',
+        data: {
+            te_naselje_id: vrednost
+        },
+        success: function(data) {
+            $('#pr_naselje_id').val(data.id);
+        }
+    })
 });
 
 $(document).on('input', '#firma', function (e) {
@@ -326,7 +370,8 @@ $(document).on('click', '#unesi', function(e) {
         $('#po_naselje'),
         $('#po_ulica'),
         $('#pr_naziv'),
-        $('#pr_naselje'),
+        //$('#pr_naselje'),
+        //$('#pr_naselje_id'),
         $('#pr_ulica'),
         $('#po_kontakt_telefon'),
         $('#pr_kontakt_telefon'),
@@ -357,6 +402,11 @@ $(document).on('click', '#unesi', function(e) {
     if (!brojJeValidan) {
         $('#broj_posiljke-invalid-text').html(brojNevalidanPoruka);
         $('#broj_posiljke').addClass('is-invalid');
+        valid = false;
+    }
+
+    if($('#n_naselje_id').val() == null) {
+        $("#n_naselje_id + span").addClass("is-invalid");
         valid = false;
     }
 
