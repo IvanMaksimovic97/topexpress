@@ -104,5 +104,7 @@ Route::group([
         Route::get('/dostava-brisanje/{id?}', 'DostavaController@destroy')->name('dostava-brisanje');
 
         Route::get('/update-barkodovi', 'PosiljkaController@updateBarKodoviBezSlike');
+
+        Route::post('/upload-excel', 'DashboardController@uploadExcel')->name('upload.excel');
     });
 });
