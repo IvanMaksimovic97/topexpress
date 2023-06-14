@@ -16,6 +16,7 @@ class ApiController extends Controller
             ->orWhere('naziv', 'like', '%'.$request->get('q', '').'%')
             ->skip(0)
             ->take(15)
+            ->orderBy('naziv', 'asc')
             ->get();
 
         $result = [];
