@@ -104,7 +104,7 @@
   </div>
   <!-- container-scroller -->
 
-  @routes
+  <?= app('Tightenco\Ziggy\BladeRouteGenerator')->generate(); ?>
 
   <!-- plugins:js -->
   <script src="{{ asset('star_admin/vendors/js/vendor.bundle.base.js') }}"></script>
