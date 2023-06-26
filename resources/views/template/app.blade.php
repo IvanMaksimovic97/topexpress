@@ -104,6 +104,8 @@
   </div>
   <!-- container-scroller -->
 
+  @routes
+
   <!-- plugins:js -->
   <script src="{{ asset('star_admin/vendors/js/vendor.bundle.base.js') }}"></script>
   <!-- endinject -->
@@ -127,6 +129,7 @@
   <!-- End custom js for this page-->
 
   <script>
+    const csrf_token = "{{ csrf_token() }}";
     var razduzi = false;
 
     $(document).on('change', '.posiljka-status', function() {

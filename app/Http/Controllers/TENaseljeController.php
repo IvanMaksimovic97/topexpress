@@ -104,8 +104,11 @@ class TENaseljeController extends Controller
      * @param  \App\TENaselje  $tENaselje
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TENaselje $tENaselje)
+    public function destroy($id)
     {
-        //
+        $naselje = TENaselje::findOrFail($id);
+        $naselje->delete();
+
+        return response()->json(['msg' => 'Naselje je uspešno obrisano!']);
     }
 }
