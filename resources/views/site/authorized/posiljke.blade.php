@@ -45,7 +45,7 @@
                         </div>
                         <div class="mt-3">
                             <a href="{{ route('posiljke-nova-site') }}" class="btn btn-sm btn-danger"><i class="fa fa-plus" aria-hidden="true"></i> Nova pošiljka</a>
-                            <a href="{{ route('posiljke-nova-site') }}?prethodna" class="btn btn-sm btn-danger"><i class="fa fa-plus" aria-hidden="true"></i> Nova prethodna pošiljka</a>
+                            {{-- <a href="{{ route('posiljke-nova-site') }}?prethodna" class="btn btn-sm btn-danger"><i class="fa fa-plus" aria-hidden="true"></i> Nova prethodna pošiljka</a> --}}
                             <button class="btn btn-sm btn-danger" type="submit">Pretraži</button>
                             <a href="{{ route('posiljke-site') }}" class="btn btn-sm btn-danger">Resetuj</a>
                             <button type="button" class="btn btn-sm btn-danger" id="ponisti-datum">Poništi datum</button>

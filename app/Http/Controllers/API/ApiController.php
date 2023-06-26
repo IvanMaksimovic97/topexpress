@@ -15,7 +15,7 @@ class ApiController extends Controller
         $naselja = TENaselje::where('postanski_broj', 'like', '%'.$request->get('q', '').'%')
             ->orWhere('naziv', 'like', '%'.$request->get('q', '').'%')
             ->skip(0)
-            ->take(15)
+            ->take($request->get('q', '') != '' ? 15 : 0)
             ->orderBy('naziv', 'asc')
             ->get();
 
