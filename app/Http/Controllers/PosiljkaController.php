@@ -470,17 +470,17 @@ class PosiljkaController extends Controller
         //$posiljkaBroj = PosiljkaBroj::poslednjiBrojFormat();
         $vrste_usluga = VrstaUsluge::all(['id', 'naziv']);
         $nacini_placanja = NacinPlacanja::all(['id', 'naziv']);
-        $kompanije = Kompanija::all(['id', 'naziv', 'naziv_pun']);
-        $primalacPosiljalac = PosiljalacPrimalac::groupBy('naziv')->get();
-        $naselja = Naselje::groupBy('naziv')->get();
-        $ulice = Ulica::groupBy('naziv')->get();
-        $racuni = Racun::all(['id', 'broj_racuna']);
-        $ugovori = Ugovor::with(['kompanija'])->get();
+        // $kompanije = Kompanija::all(['id', 'naziv', 'naziv_pun']);
+        // $primalacPosiljalac = PosiljalacPrimalac::groupBy('naziv')->get();
+        // $naselja = Naselje::groupBy('naziv')->get();
+        // $ulice = Ulica::groupBy('naziv')->get();
+        // $racuni = Racun::all(['id', 'broj_racuna']);
+        // $ugovori = Ugovor::with(['kompanija'])->get();
 
-        $ugovori->transform(function ($item) {
-            $item->naslov = $item->kompanija->naziv . ' - ' . $item->broj_ugovora;
-            return $item;
-        });
+        // $ugovori->transform(function ($item) {
+        //     $item->naslov = $item->kompanija->naziv . ' - ' . $item->broj_ugovora;
+        //     return $item;
+        // });
 
         $posiljka = new Posiljka;
 
@@ -507,13 +507,7 @@ class PosiljkaController extends Controller
             'posiljka',
             'vrste_usluga', 
             'nacini_placanja', 
-            'kompanije', 
-            'primalacPosiljalac', 
-            'naselja', 
-            'ulice',
             //'posiljkaBroj',
-            'racuni',
-            'ugovori',
             'moze_da_izmeni_broj'
         ));
     }
@@ -714,17 +708,17 @@ class PosiljkaController extends Controller
     {
         $vrste_usluga = VrstaUsluge::all(['id', 'naziv']);
         $nacini_placanja = NacinPlacanja::all(['id', 'naziv']);
-        $kompanije = Kompanija::all(['id', 'naziv', 'naziv_pun']);
-        $primalacPosiljalac = PosiljalacPrimalac::groupBy('naziv')->get();
-        $naselja = Naselje::groupBy('naziv')->get();
-        $ulice = Ulica::groupBy('naziv')->get();
-        $racuni = Racun::all(['id', 'broj_racuna']);
-        $ugovori = Ugovor::with(['kompanija'])->get();
+        // $kompanije = Kompanija::all(['id', 'naziv', 'naziv_pun']);
+        // $primalacPosiljalac = PosiljalacPrimalac::groupBy('naziv')->get();
+        // $naselja = Naselje::groupBy('naziv')->get();
+        // $ulice = Ulica::groupBy('naziv')->get();
+        // $racuni = Racun::all(['id', 'broj_racuna']);
+        // $ugovori = Ugovor::with(['kompanija'])->get();
 
-        $ugovori->transform(function ($item) {
-            $item->naslov = $item->kompanija->naziv . ' - ' . $item->broj_ugovora;
-            return $item;
-        });
+        // $ugovori->transform(function ($item) {
+        //     $item->naslov = $item->kompanija->naziv . ' - ' . $item->broj_ugovora;
+        //     return $item;
+        // });
 
         $spisak = DostavaStavka::with(['dostava'])->where('posiljka_id', $posiljka->id)->get();
 
@@ -734,14 +728,14 @@ class PosiljkaController extends Controller
             'posiljka',
             'vrste_usluga', 
             'nacini_placanja', 
-            'kompanije', 
-            'primalacPosiljalac', 
-            'naselja', 
-            'ulice',
+            //'kompanije', 
+            //'primalacPosiljalac', 
+            //'naselja', 
+            //'ulice',
             //'posiljkaBroj',
-            'racuni',
+            //'racuni',
             'spisak',
-            'ugovori',
+            //'ugovori',
             'moze_da_izmeni_broj'
         ));
     }

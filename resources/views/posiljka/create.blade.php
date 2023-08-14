@@ -24,25 +24,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>   
 {{-- <script src="{{ asset('star_admin/js/typeahead.js') }}"></script> --}}
 <script>
-var autocompleteInit = function (element_id, hidden_id, data, name_to_show) {
+var autocompleteInit = function (element_id, hidden_id, route, name_to_show) {
     $(element_id).autocomplete({
         minLength: 1,
-        source: function (request, response) {
-            response($.map(data, function (obj, key) {
-                
-                var name = obj[name_to_show].toUpperCase();
-                
-                if (name.indexOf(request.term.toUpperCase()) != -1) {			
-                    return {
-                        label: obj[name_to_show], // Label for Display
-                        value: obj.id, // Value
-                        obj: obj // Element
-                    }
-                } else {
-                    return null;
-                }
-            }));			
-        },    
+        source: route,    
         focus: function(event, ui) {
             event.preventDefault();
         },
@@ -78,25 +63,18 @@ var autocompleteInit = function (element_id, hidden_id, data, name_to_show) {
     });
 }
 
-var firme = JSON.parse('{!! $kompanije !!}');
-var ulice = JSON.parse('{!! $ulice !!}');
-var naselja = JSON.parse('{!! $naselja !!}');
-var primalacPosiljalac = JSON.parse('{!! $primalacPosiljalac !!}');
-var racuni = JSON.parse('{!! $racuni !!}');
-var ugovori = JSON.parse('{!! $ugovori !!}');
-
 $(function () {
     var vrsta_usluge_select2 = $("#vrsta-usluge").select2();
     var nacin_placanja_select2 = $("#nacin-placanja").select2();
 
-    autocompleteInit('#firma', '#firma_id', ugovori, 'naslov');
-    autocompleteInit('#po_naziv', '#posiljalac_id', primalacPosiljalac, 'naziv');
-    autocompleteInit('#pr_naziv', '#primalac_id', primalacPosiljalac, 'naziv');
-    autocompleteInit('#po_naselje', '#po_naselje_id', naselja, 'naziv');
-    autocompleteInit('#pr_naselje', '#pr_naselje_id', naselja, 'naziv');
-    autocompleteInit('#po_ulica', '#po_ulica_id', ulice, 'naziv');
-    autocompleteInit('#pr_ulica', '#pr_ulica_id', ulice, 'naziv');
-    autocompleteInit('#broj_racuna', '#racun_id', racuni, 'broj_racuna');
+    autocompleteInit('#firma', '#firma_id', '{!! route('api.firme') !!}', 'naslov');
+    autocompleteInit('#po_naziv', '#posiljalac_id', '{!! route('api.primalac-posiljalac') !!}', 'naziv');
+    autocompleteInit('#pr_naziv', '#primalac_id', '{!! route('api.primalac-posiljalac') !!}', 'naziv');
+    autocompleteInit('#po_naselje', '#po_naselje_id', '{!! route('api.naselja') !!}', 'naziv');
+    autocompleteInit('#pr_naselje', '#pr_naselje_id', '{!! route('api.naselja') !!}', 'naziv');
+    autocompleteInit('#po_ulica', '#po_ulica_id', '{!! route('api.ulice') !!}', 'naziv');
+    autocompleteInit('#pr_ulica', '#pr_ulica_id', '{!! route('api.ulice') !!}', 'naziv');
+    autocompleteInit('#broj_racuna', '#racun_id', '{!! route('api.racuni') !!}', 'broj_racuna');
 });
 
 $(document).on('input', '#firma', function (e) {
