@@ -91,8 +91,8 @@ $(function () {
     var nacin_placanja_select2 = $("#nacin-placanja").select2();
 
     autocompleteInit('#firma', '#firma_id', '{!! route('api.firme') !!}', 'naslov');
-    autocompleteInit('#po_naziv', '#posiljalac_id', '{!! route('api.primalac-posiljalac') !!}', 'naziv');
-    autocompleteInit('#pr_naziv', '#primalac_id', '{!! route('api.primalac-posiljalac') !!}', 'naziv');
+    //autocompleteInit('#po_naziv', '#posiljalac_id', '{!! route('api.primalac-posiljalac') !!}', 'naziv');
+    //autocompleteInit('#pr_naziv', '#primalac_id', '{!! route('api.primalac-posiljalac') !!}', 'naziv');
     autocompleteInit('#po_naselje', '#po_naselje_id', '{!! route('api.naselja') !!}', 'naziv');
     autocompleteInit('#pr_naselje', '#pr_naselje_id', '{!! route('api.naselja') !!}', 'naziv');
     autocompleteInit('#po_ulica', '#po_ulica_id', '{!! route('api.ulice') !!}', 'naziv');
@@ -409,6 +409,42 @@ $(document).on('click', '#unesi', function(e) {
     if (!valid) {
         e.preventDefault();
     }
+});
+
+$(document).on('click', '#reset-posiljalac', function (e) {
+    const p_type = 'po';
+    $(`#posiljalac_id`).val('');
+    $(`#${p_type}_naziv`).val('');
+    $(`#${p_type}_naselje`).val('');
+    $(`#${p_type}_naselje_id`).val('');
+    $(`#${p_type}_ulica`).val('');
+    $(`#${p_type}_ulica_id`).val('');
+    $(`#${p_type}_broj`).val('');
+    $(`#${p_type}_podbroj`).val('');
+    $(`#${p_type}_sprat`).val('');
+    $(`#${p_type}_stan`).val('');
+    $(`#${p_type}_napomena`).val('');
+    $(`#${p_type}_kontakt_osoba`).val('');
+    $(`#${p_type}_kontakt_telefon`).val('');
+    $(`#${p_type}_email`).val('');
+});
+
+$(document).on('click', '#reset-primalac', function (e) {
+    const p_type = 'pr';
+    $(`#primalac_id`).val('');
+    $(`#${p_type}_naziv`).val('');
+    $(`#${p_type}_naselje`).val('');
+    $(`#${p_type}_naselje_id`).val('');
+    $(`#${p_type}_ulica`).val('');
+    $(`#${p_type}_ulica_id`).val('');
+    $(`#${p_type}_broj`).val('');
+    $(`#${p_type}_podbroj`).val('');
+    $(`#${p_type}_sprat`).val('');
+    $(`#${p_type}_stan`).val('');
+    $(`#${p_type}_napomena`).val('');
+    $(`#${p_type}_kontakt_osoba`).val('');
+    $(`#${p_type}_kontakt_telefon`).val('');
+    $(`#${p_type}_email`).val('');
 });
 </script>
 @endsection

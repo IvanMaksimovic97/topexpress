@@ -95,8 +95,8 @@ $(function () {
     var nacin_placanja_select2 = $("#nacin-placanja").select2();
 
     autocompleteInit('#firma', '#firma_id', '{!! route('api.firme') !!}', 'naslov');
-    autocompleteInit('#po_naziv', '#posiljalac_id', '{!! route('api.primalac-posiljalac') !!}', 'naziv');
-    autocompleteInit('#pr_naziv', '#primalac_id', '{!! route('api.primalac-posiljalac') !!}', 'naziv');
+    //autocompleteInit('#po_naziv', '#posiljalac_id', '{!! route('api.primalac-posiljalac') !!}', 'naziv');
+    //autocompleteInit('#pr_naziv', '#primalac_id', '{!! route('api.primalac-posiljalac') !!}', 'naziv');
     autocompleteInit('#po_naselje', '#po_naselje_id', '{!! route('api.naselja') !!}', 'naziv');
     autocompleteInit('#pr_naselje', '#pr_naselje_id', '{!! route('api.naselja') !!}', 'naziv');
     autocompleteInit('#po_ulica', '#po_ulica_id', '{!! route('api.ulice') !!}', 'naziv');
