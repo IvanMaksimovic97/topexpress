@@ -18,7 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/naselje', 'API\ApiController@getNaselja')->name('api.naselja');
+Route::get('/naselje', 'API\ApiController@getNaselja')->name('api.naselje');
 Route::get('/pravo-naselje', 'API\ApiController@getPravoNaselje')->name('api.pravo-naselje');
 
 Route::get('/firme', 'API\ApiController@apiFirme')->name('api.firme');
