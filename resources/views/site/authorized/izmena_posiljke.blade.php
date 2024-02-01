@@ -236,7 +236,7 @@ function validacijaBrojaPosiljke(element)
 }
 
 $(document).on('input', '#broj_posiljke', function (e) {
-    validacijaBrojaPosiljke($(this));
+    //validacijaBrojaPosiljke($(this));
 });
 
 $(document).on('change', '#vrsta-usluge', function () {
@@ -347,7 +347,7 @@ $(document).on('click', '#unesi', function(e) {
     let elements = [
         $('#vrsta-usluge'),
         $('#nacin-placanja'),
-        $('#broj_posiljke'),
+        //$('#broj_posiljke'),
         $('#po_naziv'),
         $('#po_naselje'),
         $('#po_ulica'),
@@ -380,11 +380,11 @@ $(document).on('click', '#unesi', function(e) {
         valid = false;
     }
 
-    if (!brojJeValidan) {
-        $('#broj_posiljke-invalid-text').html(brojNevalidanPoruka);
-        $('#broj_posiljke').addClass('is-invalid');
-        valid = false;
-    }
+    // if (!brojJeValidan) {
+    //     $('#broj_posiljke-invalid-text').html(brojNevalidanPoruka);
+    //     $('#broj_posiljke').addClass('is-invalid');
+    //     valid = false;
+    // }
 
     if($('#n_naselje_id').val() == null) {
         $("#n_naselje_id + span").addClass("is-invalid");

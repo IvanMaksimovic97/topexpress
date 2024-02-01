@@ -10,6 +10,7 @@ use App\NacinPlacanja;
 use App\Naselje;
 use App\PosiljalacPrimalac;
 use App\Posiljka;
+use App\PosiljkaBroj;
 use App\Racun;
 use App\Ugovor;
 use App\Ulica;
@@ -155,7 +156,7 @@ class SiteCMSController extends Controller
             $posiljka->sadrzina = null;
         }
 
-        $moze_da_izmeni_broj = true;
+        $moze_da_izmeni_broj = false;
 
         return view('site.authorized.nova_posiljka', compact(
             'posiljka',
@@ -192,7 +193,7 @@ class SiteCMSController extends Controller
 
         //$spisak = DostavaStavka::with(['dostava'])->where('posiljka_id', $posiljka->id)->get();
 
-        $moze_da_izmeni_broj = false;
+        $moze_da_izmeni_broj = true;
 
         return view('site.authorized.izmena_posiljke', compact(
             'posiljka',
@@ -212,10 +213,10 @@ class SiteCMSController extends Controller
     public function posiljkaNovaStore(Request $request)
     {
         //dd($request->all());
-        $postojiPosiljka = Posiljka::where('broj_posiljke', 'TE'.$request->broj_posiljke.'BG')->first();
-        if ($postojiPosiljka) {
-            return redirect()->route('posiljke-nova-site', ['prethodna'])->with('errMsg', 'Pošiljka sa zadatim brojem već postoji!');
-        }
+        // $postojiPosiljka = Posiljka::where('broj_posiljke', 'TE'.$request->broj_posiljke.'BG')->first();
+        // if ($postojiPosiljka) {
+        //     return redirect()->route('posiljke-nova-site', ['prethodna'])->with('errMsg', 'Pošiljka sa zadatim brojem već postoji!');
+        // }
 
         $pr_naselje = $request->pr_naselje_id ? Naselje::find($request->pr_naselje_id) : new Naselje;
         if (!$request->pr_naselje_id) {
@@ -256,13 +257,19 @@ class SiteCMSController extends Controller
         }
 
         $posiljalac = PosiljalacPrimalac::where('email', Korisnik::ulogovanKorisnikSite()->email)->first();
+        $posiljkaBroj = PosiljkaBroj::first();
 
         $posiljka = new Posiljka;
+        $posiljka->broj_posiljke = $posiljkaBroj->format;
         $posiljka->interna = 0;
         $posiljka->id_korisnik = Korisnik::ulogovanKorisnikSite()->id;
+
         $posiljka->setValues($request->firma_id ?? -1, $posiljalac->id, $primalac->id, $cena_konacna);
         $posiljka->setBarCode();
         $posiljka->save();
+
+        $posiljkaBroj->setPoslednjiBroj();
+        $posiljkaBroj->save();
 
         if ($request->broj_racuna != null && $request->broj_racuna != '') {
             $racunPostoji = Racun::where('broj_racuna', $request->broj_racuna)->first();

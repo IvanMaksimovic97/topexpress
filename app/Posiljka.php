@@ -64,11 +64,11 @@ class Posiljka extends Model
         $this->posiljalac_id = $posiljalac_id;
         $this->primalac_id = $primalac_id;
         
-        if ($broj_p) {
-            $this->broj_posiljke = $broj_p;
-        } else {
-            $this->broj_posiljke = 'TE'.(request()->broj_posiljke ?? '').'BG';
-        }
+        // if ($broj_p) {
+        //     $this->broj_posiljke = $broj_p;
+        // } else {
+        //     $this->broj_posiljke = 'TE'.(request()->broj_posiljke ?? '').'BG';
+        // }
         
         $this->broj_dolaznice = request()->broj_dolaznice ?? '';
         $this->broj_racuna = request()->broj_racuna ?? '';
