@@ -48,6 +48,8 @@ Route::group(['middleware' => ['isLoggedInSite']], function () {
     Route::post('/posiljka-update-site/{id}', 'SiteCMSController@posiljkaIzmenaUpdate')->name('posiljka-update-site');
     Route::get('/moja-firma', 'SiteCMSController@izmenaFirmeEdit')->name('moja-firma');
     Route::post('/moja-firma', 'SiteCMSController@izmenaFirmeUpdate')->name('moja-firma-post');
+    Route::get('/posiljke-excel-unos', 'SiteCMSController@unosPosiljkiExcel')->name('posiljke-excel-unos');
+    Route::post('/posiljke-excel-unos', 'SiteCMSController@unosPosiljkiExcelStore')->name('posiljke-excel-unos-store');
 });
 
 // CMS

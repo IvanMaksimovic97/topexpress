@@ -1,5 +1,5 @@
 @extends('template.site')
-@section('title', 'TOP EXPRESS 2022 d.o.o.')
+@section('title', 'Nova pošiljka | TOP EXPRESS 2022 d.o.o.')
 
 @section('custom-css')
 <link rel="stylesheet" href="{{ asset('star_admin/vendors/select2/select2.min.css') }}">

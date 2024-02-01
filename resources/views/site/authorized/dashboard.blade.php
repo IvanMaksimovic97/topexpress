@@ -1,5 +1,5 @@
 @extends('template.site')
-@section('title', 'TOP EXPRESS 2022 d.o.o.')
+@section('title', 'Dashboard | TOP EXPRESS 2022 d.o.o.')
 @section('content')
 
 <!-- Contact Start -->
@@ -16,6 +16,13 @@
             </div>
         </div>
         <div class="col-lg-9">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <a href="{{ route('posiljke-nova-site') }}" class="btn btn-sm btn-danger"><i class="fa fa-plus" aria-hidden="true"></i> Nova pošiljka</a>
+                    <a href="{{ route('posiljke-excel-unos') }}" class="btn btn-sm btn-danger"><i class="fa fa-plus" aria-hidden="true"></i><i class="mdi mdi-file-excel"></i> Unos pošiljki excel</a>
+                </div>
+            </div>
+
             <span class="h4">Dobro došli <strong>{{ App\Korisnik::ulogovanKorisnikSite()->ime . ' ' . App\Korisnik::ulogovanKorisnikSite()->prezime }}</strong></span>
         </div>
     </div>

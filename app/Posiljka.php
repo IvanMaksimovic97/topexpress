@@ -97,7 +97,7 @@ class Posiljka extends Model
         @unlink($this->bar_kod);
 
         $barcodeImage = file_get_contents('https://barcode.tec-it.com/barcode.ashx?data='.$this->broj_posiljke);
-        file_put_contents('storage/'.$this->broj_posiljke.'.jpg', $barcodeImage);
+        file_put_contents(env('BARCODE_STORAGE_PATH').$this->broj_posiljke.'.jpg', $barcodeImage);
 
         $this->bar_kod = $this->broj_posiljke.'.jpg';
     }

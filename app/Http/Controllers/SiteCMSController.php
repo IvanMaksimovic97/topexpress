@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Cenovnik;
+use App\Imports\PosiljkeExcelImport;
 use App\Kompanija;
 use App\Korisnik;
 use App\NacinPlacanja;
@@ -15,6 +16,7 @@ use App\Ulica;
 use App\VrstaUsluge;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SiteCMSController extends Controller
 {
@@ -377,5 +379,19 @@ class SiteCMSController extends Controller
         $kompanija->save();
 
         return redirect()->route('dashboard-site');
+    }
+
+    public function unosPosiljkiExcel()
+    {
+        return view('site.authorized.upload_excel');
+    }
+
+    public function unosPosiljkiExcelStore(Request $request)
+    {
+        //dd($request->all());
+
+        Excel::import(new PosiljkeExcelImport, request()->file('excel-file'));
+
+        return redirect()->route('posiljke-site');
     }
 }

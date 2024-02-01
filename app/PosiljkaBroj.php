@@ -14,11 +14,11 @@ class PosiljkaBroj extends Model
         return self::first();
     }
 
-    public static function poslednjiBrojFormat()
+    public function setPoslednjiBroj()
     {
-        $broj = self::first();
-        $broj_cifara = strlen($broj->broj);
-        $maksimalan_broj = 6;
+        $this->broj++;
+        $broj_cifara = strlen($this->broj);
+        $maksimalan_broj = 7;
         $broj_nula = $maksimalan_broj - $broj_cifara;
 
         $format = 'TE';
@@ -28,9 +28,9 @@ class PosiljkaBroj extends Model
             $broj_nula--;
         }
 
-        $format .= $broj->broj . 'BG';
-
-        return $format;
+        $format .= $this->broj . 'BG';
+        
+        $this->format = $format;
     }
 
     public static function povecajBroj()
