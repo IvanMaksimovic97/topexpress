@@ -501,7 +501,7 @@ class PosiljkaController extends Controller
             $posiljka->licno_preuzimanje = null;
         }
 
-        $moze_da_izmeni_broj = true;
+        $moze_da_izmeni_broj = false;
 
         return view('posiljka.create', compact(
             'posiljka',
@@ -520,10 +520,10 @@ class PosiljkaController extends Controller
      */
     public function store(Request $request)
     {
-        $postojiPosiljka = Posiljka::where('broj_posiljke', 'TE'.$request->broj_posiljke.'BG')->first();
-        if ($postojiPosiljka) {
-            return redirect()->route('cms.posiljka.create', ['prethodna'])->with('errMsg', 'Pošiljka sa zadatim brojem već postoji!');
-        }
+        // $postojiPosiljka = Posiljka::where('broj_posiljke', 'TE'.$request->broj_posiljke.'BG')->first();
+        // if ($postojiPosiljka) {
+        //     return redirect()->route('cms.posiljka.create', ['prethodna'])->with('errMsg', 'Pošiljka sa zadatim brojem već postoji!');
+        // }
 
         $po_naselje = $request->po_naselje_id ? Naselje::find($request->po_naselje_id) : new Naselje;
         if (!$request->po_naselje_id) {
@@ -575,12 +575,18 @@ class PosiljkaController extends Controller
             $cena_konacna = floatval($request->postarina);
         }
 
+        $posiljkaBroj = PosiljkaBroj::first();
+
         $posiljka = new Posiljka;
+        $posiljka->broj_posiljke = $posiljkaBroj->format;
         $posiljka->interna = 1;
         $posiljka->id_korisnik = Korisnik::ulogovanKorisnik()->id;
         $posiljka->setValues($request->firma_id ?? -1, $posiljalac->id, $primalac->id, $cena_konacna);
         $posiljka->setBarCode();
         $posiljka->save();
+
+        $posiljkaBroj->setPoslednjiBroj();
+        $posiljkaBroj->save();
 
         if ($request->broj_racuna != null && $request->broj_racuna != '') {
             $racunPostoji = Racun::where('broj_racuna', $request->broj_racuna)->first();
@@ -722,7 +728,7 @@ class PosiljkaController extends Controller
 
         $spisak = DostavaStavka::with(['dostava'])->where('posiljka_id', $posiljka->id)->get();
 
-        $moze_da_izmeni_broj = false;
+        $moze_da_izmeni_broj = true;
 
         return view('posiljka.edit', compact(
             'posiljka',

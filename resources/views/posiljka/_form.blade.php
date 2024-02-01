@@ -52,19 +52,12 @@
             </div>
             <div class="col-md-6">
                 <div class="row">
+                    @if($moze_da_izmeni_broj)
                     <div class="form-group">
                         <label>Broj pošiljke</label>
-                        <input @if(!$moze_da_izmeni_broj) disabled="disabled" @endif value="{{ preg_replace('/[^0-9.]+/', '', $posiljka->broj_posiljke) }}" type="text" class="form-control {{ session()->has('errMsg') ? 'is-invalid' : '' }}" name="broj_posiljke" id="broj_posiljke" required />
-                        @if(session()->has('errMsg'))
-                        <div class="invalid-feedback" id="broj_posiljke-invalid-text">
-                           {{ session()->get('errMsg') }}
-                        </div>
-                        @else
-                        <div class="invalid-feedback" id="broj_posiljke-invalid-text">
-                            Unesite broj pošiljke!
-                        </div>
-                        @endif
+                        <input value="{{ $posiljka->broj_posiljke }}" disabled="disabled" type="text" class="form-control" name="broj_posiljke" id="broj_posiljke" />
                     </div>
+                    @endif
                     <div class="form-group">
                         <label>Datum i vreme pošiljke</label>
                         <input type="datetime-local" class="form-control" name="created_at" value="{{ $posiljka->created_at ? date('Y-m-d H:i:s', strtotime($posiljka->created_at)) : date('Y-m-d H:i:s') }}">
