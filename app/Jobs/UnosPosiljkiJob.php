@@ -50,6 +50,8 @@ class UnosPosiljkiJob implements ShouldQueue
             {
                 $count++;
                 continue;
+            } else {
+                $count++;
             }
 
             if ($item[0] != null && 
@@ -124,6 +126,12 @@ class UnosPosiljkiJob implements ShouldQueue
                 $posiljka->created_at = date('Y-m-d H:i:s');
                 $posiljka->setBarCode();
                 $posiljka->save();
+
+                if ($count > 101) {
+                    break;
+                }
+
+                sleep(3);
             }
         }
     }
