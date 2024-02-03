@@ -129,7 +129,7 @@ class UnosPosiljkiJob implements ShouldQueue
                 $posiljka->setBarCodeSDK();
                 $posiljka->save();
 
-                if ($count > 101) {
+                if ($count > 201) {
                     break;
                 }
             }
