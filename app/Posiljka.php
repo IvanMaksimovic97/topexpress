@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Picqer\Barcode\BarcodeGeneratorPNG;
 
 class Posiljka extends Model
 {
@@ -100,6 +101,16 @@ class Posiljka extends Model
         file_put_contents(env('BARCODE_STORAGE_PATH').$this->broj_posiljke.'.jpg', $barcodeImage);
 
         $this->bar_kod = $this->broj_posiljke.'.jpg';
+    }
+
+    public function setBarCodeSDK()
+    {
+        @unlink($this->bar_kod);
+
+        $generator = new BarcodeGeneratorPNG;
+        file_put_contents(env('BARCODE_STORAGE_PATH').$this->broj_posiljke.'.png', $generator->getBarcode($this->broj_posiljke, $generator::TYPE_CODE_128, 2, 90));
+
+        $this->bar_kod = $this->broj_posiljke.'.png';
     }
 
     public function setBarCodeWithoutImage()

@@ -41,7 +41,7 @@ class UnosPosiljkiJob implements ShouldQueue
      */
     public function handle()
     {
-        ini_set('max_execution_time', '0');
+        //ini_set('max_execution_time', '0');
         //dd($this->korisnik, $this->posiljke);
 
         $count = 0;
@@ -125,14 +125,13 @@ class UnosPosiljkiJob implements ShouldQueue
                 $posiljka->otkupnina_vrsta = 'TOP EXPRESS iznos';
                 $posiljka->postarina = 0;
                 $posiljka->created_at = date('Y-m-d H:i:s');
-                $posiljka->setBarCode();
+                //$posiljka->setBarCode();
+                $posiljka->setBarCodeSDK();
                 $posiljka->save();
 
                 if ($count > 101) {
                     break;
                 }
-
-                sleep(3);
             }
         }
     }
