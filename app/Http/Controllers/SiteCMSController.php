@@ -88,6 +88,12 @@ class SiteCMSController extends Controller
 
         $posiljke = $posiljke->get();
 
+        $posiljke = $posiljke->map(function ($posiljka, $key) {
+            $status = $posiljka->statusi->first();
+            $posiljka->status_po_spisku = $status ? $status->status : '-1';
+            return $posiljka;
+        });
+
         $sum_posiljka = new Posiljka;
         $sum_posiljka->primalac = (object) [
             'naziv' => '',

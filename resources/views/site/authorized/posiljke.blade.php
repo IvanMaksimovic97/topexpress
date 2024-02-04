@@ -75,6 +75,7 @@
                           <th><input type="checkbox" class="ml-3 mr-3" id="check-all"/></th>
                           <th>Izmeni</th>
                           <th>Broj pošiljke</th>
+                          <th>Status pošiljke</th>
                           <th>Datum prijema</th>
                           <th>Primalac</th>
                           <th>Mesto</th>
@@ -137,6 +138,14 @@
                                   {{-- <td><a href="{{ route('cms.posiljka.show', $posiljka) }}" class="btn btn-sm btn-danger">Štampaj  <i class="ti-printer btn-icon-append"></i></a></td> --}}
                                   <td><a href="{{ route('posiljka-izmena-site', $posiljka->id) }}" class="btn btn-sm btn-danger">Izmeni  <i class="mdi mdi-lead-pencil"></i></a></td>
                                   <td>{!! $posiljka->broj_posiljke !!}</td>
+                                  <td>
+                                    @if($posiljka->status_po_spisku == '-1') U pripremi @endif
+                                    @if($posiljka->status_po_spisku == 0) Primljena @endif
+                                    @if($posiljka->status_po_spisku == 1) Na dostavi @endif
+                                    @if($posiljka->status_po_spisku == 2) Uručena @endif
+                                    @if($posiljka->status_po_spisku == 3) Vraćena @endif
+                                    @if($posiljka->status_po_spisku == 4) Za narednu dostavu @endif
+                                  </td>
                                   <td>{!! date('d.m.Y. H:i:s', strtotime($posiljka->created_at)) !!}</td>
                                   <td>{!! $posiljka->primalac->naziv !!}</td>
                                   <td>{!! $posiljka->primalac->naselje !!}</td>
