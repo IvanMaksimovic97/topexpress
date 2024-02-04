@@ -679,15 +679,15 @@ class PosiljkaController extends Controller
         $footer = "<w:r>
         <w:t>".date('d.m.Y.', strtotime($posiljka->created_at))."</w:t>
         <w:br/>
-        <w:t>www.topexpress.rs</w:t>
+        <w:t>".$posiljka->broj_posiljke."</w:t>
         <w:br/>
-        <w:t>+381668150900</w:t>
+        <w:t>Tel:+381668150900</w:t>
         </w:r>";
 
         $section->addImage('storage/'.$posiljka->bar_kod, array('align' => 'center', 'width' => 130, 'space' => array('before' => 0, 'after' => 0)));
         // $section->addText($posiljka->broj_posiljke, null, array('align' => 'center', 'bold' => true, 'size' => 11));
         $font = $section->addText($description, null, array('marginTop' => 0, 'marginBottom' => 0, 'space' => array('before' => 0, 'after' => 0)));
-        $section->addText($footer, null, array('align' => 'center', 'size' => 11, 'marginTop' => 0, 'marginBottom' => 0, 'space' => array('before' => 0, 'after' => 0)));
+        $section->addText($footer, null, array('align' => 'center', 'size' => 9, 'marginTop' => 0, 'marginBottom' => 0, 'space' => array('before' => 0, 'after' => 0)));
         $font->setFontStyle($fontStyle);
 
         $section->addImage('site/images/adresnica.jpg', ['align' => 'center', 'width' => 130, 'marginTop' => 0, 'marginBottom' => 0, 'space' => array('before' => 0, 'after' => 0)]);
