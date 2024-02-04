@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Cenovnik;
+use App\Exports\PosiljkeEksportExcel;
 use App\Imports\PosiljkeExcelImport;
 use App\Kompanija;
 use App\Korisnik;
@@ -122,6 +123,11 @@ class SiteCMSController extends Controller
 
         if (request()->stampajspisak) {
             return Posiljka::stampajSpisak($posiljke, Korisnik::ulogovanKorisnikSite());
+        }
+
+        if (request()->exportexcel) {
+            //dd('ulazi');
+            return Excel::download(new PosiljkeEksportExcel($posiljke), 'posiljke.xlsx');
         }
         
         return view('site.authorized.posiljke', compact('posiljke', 'sum_posiljka'));
