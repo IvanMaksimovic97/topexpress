@@ -33,7 +33,7 @@
                 </div>
     
                 <div class="input-group mb-3">
-                    <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-plus" aria-hidden="true"></i> Unesi</button>
+                    <button type="submit" id="unesi-btn" class="btn btn-sm btn-danger"><span id="unesi-spinner" class="spinner-border spinner-border-sm d-none"></span> <i class="fa fa-plus" aria-hidden="true"></i> Unesi</button>
                 </div>
             </form>
         </div>
@@ -49,6 +49,14 @@
         var fileName = e.target.files[0].name;
         //replace the "Choose a file" label
         $(this).next('.custom-file-label').html(fileName);
-    })
+    });
+
+    $(document).on('click', '#unesi-btn', function(e) {
+        $(function() {
+            $('#unesi-btn').attr('disabled', 'disabled');
+        });
+
+        $('#unesi-spinner').removeClass('d-none');
+    });
 </script>
 @endsection

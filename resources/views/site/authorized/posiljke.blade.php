@@ -72,6 +72,7 @@
                       <thead>
                         <tr>
                           {{-- <th>Štampaj</th> --}}
+                          <th><input type="checkbox" class="ml-3 mr-3" id="check-all"/></th>
                           <th>Izmeni</th>
                           <th>Broj pošiljke</th>
                           <th>Datum prijema</th>
@@ -132,6 +133,7 @@
                               }
                             @endphp
                               <tr @if($rowColor != '') class="{{ $rowColor }}" @endif>
+                                  <td><input type="checkbox" class="check-item ml-3 mr-3" data-id="{{ $posiljka->id }}"/></td>
                                   {{-- <td><a href="{{ route('cms.posiljka.show', $posiljka) }}" class="btn btn-sm btn-danger">Štampaj  <i class="ti-printer btn-icon-append"></i></a></td> --}}
                                   <td><a href="{{ route('posiljka-izmena-site', $posiljka->id) }}" class="btn btn-sm btn-danger">Izmeni  <i class="mdi mdi-lead-pencil"></i></a></td>
                                   <td>{!! $posiljka->broj_posiljke !!}</td>
@@ -173,8 +175,81 @@
                   </div>
                 </div>
             </div>
+            <button type="button" class="btn btn-sm btn-danger mt-3" data-toggle="modal" data-target="#posiljke-brisanje-modal">Obriši pošiljke</button>
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="posiljke-brisanje-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Potvrda brisanja pošiljki</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Da li ste sigurni da želite da obrišete izabrane pošiljke?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Zatvori</button>
+        <button type="button" class="btn btn-sm btn-danger" id="obrisi-posiljke"><span id="obrisi-spinner" class="spinner-border spinner-border-sm d-none"></span> Obriši</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Contact End -->
+@endsection
+
+@section('custom-js')
+<script>
+$(document).on('click', '#check-all', function(e) {
+  if (this.checked) {
+    $('.check-item').not(this).prop('checked', true);
+  } else {
+    $('.check-item').not(this).prop('checked', false);
+  }
+  
+});
+
+$(document).on('click', '#obrisi-posiljke', function(e) {
+  const c_ids = [];
+  const posiljke = $('.check-item:checkbox:checked');
+
+  $('.check-item:checkbox:checked').each(function () {
+    c_ids.push($(this).data('id'));
+  });
+  
+  let spinner = $('#obrisi-spinner');
+  spinner.removeClass('d-none');
+
+  let btn = $('#obrisi-posiljke');
+  btn.attr('disabled', 'disabled');
+  
+  $.ajax({
+    url: '{{ route('posiljke-delete-mass') }}',
+    method: 'post',
+    data: {
+      _token: '{{ csrf_token() }}',
+      c_ids: c_ids
+    },
+    success: function(data) {
+      $('.check-item:checkbox:checked').each(function () {
+        let id = $(this).data('id');
+        if (data.includes(id)) {
+          $(this).parent().parent().remove();
+        }
+      });
+      spinner.addClass('d-none');
+      btn.removeAttr('disabled');
+    },
+    error: function(err) {
+
+    }
+  });
+});
+</script>
 @endsection

@@ -395,7 +395,10 @@ class SiteCMSController extends Controller
 
     public function unosPosiljkiExcelStore(Request $request)
     {
-        //dd($request->all());
+        if (!$request->hasFile('excel-file')) {
+            echo "Fajl nije unet ili nije u ispravnom formatu!";
+            exit;
+        }
 
         Excel::import(new PosiljkeExcelImport, request()->file('excel-file'));
 

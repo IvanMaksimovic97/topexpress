@@ -841,6 +841,24 @@ class PosiljkaController extends Controller
         return redirect()->route('cms.posiljke-stornirane');
     }
 
+    public function destroyMass(Request $request)
+    {
+        $posiljke = $request->c_ids ?? [];
+        $obrisane = [];
+
+        foreach($posiljke as $p) {
+            $postojiNaDostavi = DostavaStavka::where('posiljka_id', $p)->first();
+            if (!$postojiNaDostavi) {
+                $posiljka = Posiljka::find($p);
+                $posiljka->delete();
+
+                $obrisane[] = (int) $p;
+            }
+        }
+
+        return response()->json($obrisane);
+    }
+
     public function restore($id) 
     {
         Posiljka::where('id', $id)->withTrashed()->update([

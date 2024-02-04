@@ -50,6 +50,7 @@ Route::group(['middleware' => ['isLoggedInSite']], function () {
     Route::post('/moja-firma', 'SiteCMSController@izmenaFirmeUpdate')->name('moja-firma-post');
     Route::get('/posiljke-excel-unos', 'SiteCMSController@unosPosiljkiExcel')->name('posiljke-excel-unos');
     Route::post('/posiljke-excel-unos', 'SiteCMSController@unosPosiljkiExcelStore')->name('posiljke-excel-unos-store');
+    Route::post('/posiljke-delete-mass', 'PosiljkaController@destroyMass')->name('posiljke-delete-mass');
 });
 
 // CMS
