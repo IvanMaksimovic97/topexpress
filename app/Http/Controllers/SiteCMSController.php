@@ -33,7 +33,8 @@ class SiteCMSController extends Controller
             'primalac.naselje',
             'vrstaUsluge',
             'nacinPlacanja',
-            'firma'
+            'firma',
+            'vlasnik'
         ]);
 
         if (request()->search || request()->search_po || request()->search_pr) {
@@ -128,6 +129,14 @@ class SiteCMSController extends Controller
         if (request()->exportexcel) {
             //dd('ulazi');
             return Excel::download(new PosiljkeEksportExcel($posiljke), 'posiljke.xlsx');
+        }
+
+        if (request()->stampajadresnicea4l){
+            return Posiljka::stampajAdresniceA4($posiljke, 'site/adresnice_a4_landscape.docx');
+        }
+
+        if (request()->stampajadresnicea4){
+            return Posiljka::stampajAdresniceA4($posiljke, 'site/adresnice_a4.docx');
         }
         
         return view('site.authorized.posiljke', compact('posiljke', 'sum_posiljka'));

@@ -65,6 +65,12 @@
                     <a href="{{ request()->fullUrlWithQuery(['stampajadresnice' => '1']) }}" class="btn btn-sm btn-danger">Štampaj sve adresnice <i class="ti-printer btn-icon-append"></i></a>
                   @endif
                   @if(Route::currentRouteName() == 'posiljke-site')
+                    <a href="{{ request()->fullUrlWithQuery(['stampajadresnicea4' => '1']) }}" class="btn btn-sm btn-danger">Štampaj sve adresnice A4 <i class="ti-printer btn-icon-append"></i></a>
+                  @endif
+                  @if(Route::currentRouteName() == 'posiljke-site')
+                    <a href="{{ request()->fullUrlWithQuery(['stampajadresnicea4l' => '1']) }}" class="btn btn-sm btn-danger">Štampaj sve adresnice A4 LandScape<i class="ti-printer btn-icon-append"></i></a>
+                  @endif
+                  @if(Route::currentRouteName() == 'posiljke-site')
                     <a href="{{ request()->fullUrlWithQuery(['stampajspisak' => '1']) }}" class="btn btn-sm btn-danger">Štampaj spisak <i class="ti-printer btn-icon-append"></i></a>
                   @endif
                   @if(Route::currentRouteName() == 'posiljke-site')
