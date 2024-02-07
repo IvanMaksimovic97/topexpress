@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Cenovnik;
 use App\Dostava;
 use App\DostavaStavka;
+use App\Exports\PosiljkeEksportExcel;
 use App\Kompanija;
 use App\Korisnik;
 use App\NacinPlacanja;
@@ -19,6 +20,7 @@ use App\VrstaUsluge;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PosiljkaController extends Controller
 {
@@ -104,6 +106,24 @@ class PosiljkaController extends Controller
 
         if (request()->stampajspisak) {
             return Posiljka::stampajSpisak($posiljke);
+        }
+
+        if (request()->exportexcel) {
+            $posiljke = $posiljke->map(function ($posiljka, $key) {
+                $status = $posiljka->statusi->first();
+                $posiljka->status_po_spisku = $status ? $status->status : '-1';
+                return $posiljka;
+            });
+            
+            return Excel::download(new PosiljkeEksportExcel($posiljke), 'posiljke.xlsx');
+        }
+
+        if (request()->stampajadresnicea4l){
+            return Posiljka::stampajAdresniceA4($posiljke, 'site/adresnice_a4_landscape.docx');
+        }
+
+        if (request()->stampajadresnicea4){
+            return Posiljka::stampajAdresniceA4($posiljke, 'site/adresnice_a4.docx');
         }
 
         $nacini_placanja = NacinPlacanja::all(['id', 'naziv']);
