@@ -88,6 +88,11 @@ class SiteCMSController extends Controller
 
         $posiljke = $posiljke->where('id_korisnik', Korisnik::ulogovanKorisnikSite()->id);
 
+        if (request()->ids != null) {
+            $ids = explode(',', request()->ids);
+            $posiljke = $posiljke->whereIn('id', $ids);
+        }
+
         $posiljke = $posiljke->get();
 
         $posiljke = $posiljke->map(function ($posiljka, $key) {
@@ -116,6 +121,8 @@ class SiteCMSController extends Controller
         }
 
         //$posiljke->push($sum_posiljka);
+
+        //dd((request()->all()));
 
         if (request()->stampajadresnice) {
             Posiljka::$stampaj_kao_firma = true;

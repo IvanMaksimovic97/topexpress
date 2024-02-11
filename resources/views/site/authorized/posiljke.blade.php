@@ -62,19 +62,19 @@
                 <div class="card-body">
                   <h4 class="card-title">Lista pošiljaka</h4>
                   @if(Route::currentRouteName() == 'posiljke-site')
-                    <a href="{{ request()->fullUrlWithQuery(['stampajadresnice' => '1']) }}" class="btn btn-sm btn-danger">Štampaj sve adresnice <i class="ti-printer btn-icon-append"></i></a>
+                    <a href="{{ request()->fullUrlWithQuery(['stampajadresnice' => '1']) }}" id="stampaj-adresnice" class="btn btn-sm btn-danger">Štampaj adresnice <i class="ti-printer btn-icon-append"></i></a>
                   @endif
                   @if(Route::currentRouteName() == 'posiljke-site')
-                    <a href="{{ request()->fullUrlWithQuery(['stampajadresnicea4' => '1']) }}" class="btn btn-sm btn-danger">Štampaj sve adresnice A4 <i class="ti-printer btn-icon-append"></i></a>
+                    <a href="{{ request()->fullUrlWithQuery(['stampajadresnicea4' => '1']) }}" id="stampaj-adresnice-a4" class="btn btn-sm btn-danger">Štampaj adresnice A4 <i class="ti-printer btn-icon-append"></i></a>
                   @endif
                   @if(Route::currentRouteName() == 'posiljke-site')
-                    <a href="{{ request()->fullUrlWithQuery(['stampajadresnicea4l' => '1']) }}" class="btn btn-sm btn-danger">Štampaj sve adresnice A4 LandScape<i class="ti-printer btn-icon-append"></i></a>
+                    <a href="{{ request()->fullUrlWithQuery(['stampajadresnicea4l' => '1']) }}" id="stampaj-adresnice-a4-l" class="btn btn-sm btn-danger">Štampaj adresnice A4 LandScape<i class="ti-printer btn-icon-append"></i></a>
                   @endif
                   @if(Route::currentRouteName() == 'posiljke-site')
-                    <a href="{{ request()->fullUrlWithQuery(['stampajspisak' => '1']) }}" class="btn btn-sm btn-danger">Štampaj spisak <i class="ti-printer btn-icon-append"></i></a>
+                    <a href="{{ request()->fullUrlWithQuery(['stampajspisak' => '1']) }}" id="stampaj-spisak" class="btn btn-sm btn-danger">Štampaj spisak <i class="ti-printer btn-icon-append"></i></a>
                   @endif
                   @if(Route::currentRouteName() == 'posiljke-site')
-                    <a href="{{ request()->fullUrlWithQuery(['exportexcel' => '1']) }}" class="btn btn-sm btn-danger">Izvoz u excel <i class="ti-printer btn-icon-append"></i></a>
+                    <a href="{{ request()->fullUrlWithQuery(['exportexcel' => '1']) }}" id="izvoz-excel" class="btn btn-sm btn-danger">Izvoz u excel <i class="ti-printer btn-icon-append"></i></a>
                   @endif
                   <div class="table-responsive pt-3">
                     <table class="table table-bordered table-sm">
@@ -224,6 +224,45 @@
 
 @section('custom-js')
 <script>
+let stampaj_adresnice_route = '{!! request()->fullUrlWithQuery(['stampajadresnice' => '1']) !!}';
+let stampaj_adresnice_a4_route = '{!! request()->fullUrlWithQuery(['stampajadresnicea4' => '1']) !!}';
+let stampaj_adresnice_a4_l_route = '{!! request()->fullUrlWithQuery(['stampajadresnicea4l' => '1']) !!}';
+let stampaj_spisak_route = '{!! request()->fullUrlWithQuery(['stampajspisak' => '1']) !!}';
+let izvoz_excel_route = '{!! request()->fullUrlWithQuery(['exportexcel' => '1']) !!}';
+
+let stampaj_adresnice_obj = $('#stampaj-adresnice');
+let stampaj_adresnice_a4_obj = $('#stampaj-adresnice-a4');
+let stampaj_adresnice_a4_l_obj = $('#stampaj-adresnice-a4-l');
+let stampaj_spisak_obj = $('#stampaj-spisak');
+let izvoz_excel_obj = $('#izvoz-excel');
+
+function setHrefs()
+{
+  const posiljke = $('.check-item:checkbox:checked');
+  const ids = [];
+
+  posiljke.each(function () {
+    ids.push($(this).data('id'));
+  });
+
+  let result = ids.join(',');
+  let route = '&ids=' + result;
+
+  if (ids.length == 0) {
+    route = '&ids=0';
+  }
+
+  stampaj_adresnice_obj.attr('href', stampaj_adresnice_route + route);
+  stampaj_adresnice_a4_obj.attr('href', stampaj_adresnice_a4_route + route);
+  stampaj_adresnice_a4_l_obj.attr('href', stampaj_adresnice_a4_l_route + route);
+  stampaj_spisak_obj.attr('href', stampaj_spisak_route + route);
+  izvoz_excel_obj.attr('href', izvoz_excel_route + route);
+}
+
+$(document).on('click', '.check-item', function(e) {
+  setHrefs();
+});
+
 $(document).on('click', '#check-all', function(e) {
   if (this.checked) {
     $('.check-item').not(this).prop('checked', true);
@@ -231,6 +270,7 @@ $(document).on('click', '#check-all', function(e) {
     $('.check-item').not(this).prop('checked', false);
   }
   
+  setHrefs();
 });
 
 $(document).on('click', '#obrisi-posiljke', function(e) {
