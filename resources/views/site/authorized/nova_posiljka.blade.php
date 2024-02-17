@@ -423,6 +423,10 @@ $(document).on('click', '#unesi', function(e) {
 
     if (!valid) {
         e.preventDefault();
+    } else {
+        $(function() {
+            $('#unesi').attr('disabled', 'disabled');
+        });
     }
 });
 

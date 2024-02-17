@@ -340,9 +340,12 @@ $(document).on('click', '#unesi', function(e) {
         }
     }
 
-    console.log(valid);
     if (!valid) {
         e.preventDefault();
+    } else {
+        $(function() {
+            $('#unesi').attr('disabled', 'disabled');
+        });
     }
 });
 
