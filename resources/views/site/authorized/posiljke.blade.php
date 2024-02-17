@@ -83,6 +83,7 @@
                           {{-- <th>Štampaj</th> --}}
                           <th><input type="checkbox" class="ml-3 mr-3" id="check-all"/></th>
                           <th>Izmeni</th>
+                          <th>ID</th>
                           <th>Broj pošiljke</th>
                           <th>Status pošiljke</th>
                           <th>Datum prijema</th>
@@ -146,6 +147,7 @@
                                   <td><input type="checkbox" class="check-item ml-3 mr-3" data-id="{{ $posiljka->id }}"/></td>
                                   {{-- <td><a href="{{ route('cms.posiljka.show', $posiljka) }}" class="btn btn-sm btn-danger">Štampaj  <i class="ti-printer btn-icon-append"></i></a></td> --}}
                                   <td><a href="{{ route('posiljka-izmena-site', $posiljka->id) }}" class="btn btn-sm btn-danger">Izmeni  <i class="mdi mdi-lead-pencil"></i></a></td>
+                                  <td>{!! $posiljka->id !!}</td>
                                   <td>{!! $posiljka->broj_posiljke !!}</td>
                                   <td>
                                     @if($posiljka->status_po_spisku == '-1') U pripremi @endif
