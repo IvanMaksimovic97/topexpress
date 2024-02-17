@@ -119,7 +119,7 @@ class UnosPosiljkiJob implements ShouldQueue
                 $posiljka->ima_otkupninu = floatval($item[11]) ? 1 : 0;
                 $posiljka->otkupnina = floatval($item[11]) ?? 0;
                 $posiljka->povratnica = 0;
-                $posiljka->licno_preuzimanje = strtolower($item[13]) == 'da' ? 1 : 0;
+                $posiljka->licno_preuzimanje = isset($item[13]) ? (strtolower($item[13]) == 'da' ? 1 : 0) : 0 ;
                 $posiljka->otkupnina_vrsta = 'TOP EXPRESS iznos';
                 $posiljka->postarina = 0;
                 $posiljka->created_at = date('Y-m-d H:i:s');
