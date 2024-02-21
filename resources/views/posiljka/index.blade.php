@@ -79,6 +79,7 @@
                                 <option value="{{ $posiljka->id }}">{{ $posiljka->broj_posiljke }}</option>
                             @endforeach
                         </select>
+                        <button id="oznaci-sve" type="button" class="btn btn-primary btn-sm mt-3">Označi sve</button>
                         <button type="submit" class="btn btn-primary btn-sm mt-3">Primi pošiljke</button>
                     </div>
                 </form>
@@ -103,6 +104,17 @@ $(function () {
 
 $(document).on('click', '#ponisti-datum', function(e) {
     $('#datum').val('');
+});
+
+$(document).on('click', '#oznaci-sve', function(e) {
+    
+    $('#posiljke option').each(function () {
+        $(this).attr('selected', 'selected');
+    });
+
+    $(function() {
+        $('#posiljke').trigger('change');
+    });
 });
 </script>
 @endsection
