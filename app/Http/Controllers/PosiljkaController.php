@@ -424,6 +424,89 @@ class PosiljkaController extends Controller
         $routeFilters = route('cms.posiljke-eksterne');
 
         $posiljkePoPosiljaocu = [];
+
+        foreach ($posiljke as $p) {
+            if (!array_key_exists($p->posiljalac_id, $posiljkePoPosiljaocu)) {
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['ime_prezime'] = $p->posiljalac->naziv;
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['primljene']['broj'] = 0;
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['primljene']['iznos'] = 0;
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['urucene']['broj'] = 0;
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['urucene']['iznos'] = 0;
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['na_dostavi']['broj'] = 0;
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['na_dostavi']['iznos'] = 0;
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['vracene']['broj'] = 0;
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['vracene']['iznos'] = 0;
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['za_narednu']['broj'] = 0;
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['za_narednu']['iznos'] = 0;
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['nezaduzene']['broj'] = 0;
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['nezaduzene']['iznos'] = 0;
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['ukupno']['broj'] = 1;
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['ukupno']['iznos'] = (float) $p->vrednost;
+
+                if ($p->status_po_spisku == '-1') {
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['nezaduzene']['broj'] = 1;
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['nezaduzene']['iznos'] = (float) $p->vrednost;
+                }
+
+                if ($p->status_po_spisku == '0') {
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['primljene']['broj'] = 1;
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['primljene']['iznos'] = (float) $p->vrednost;
+                }
+
+                if ($p->status_po_spisku == '2') {
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['urucene']['broj'] = 1;
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['urucene']['iznos'] = (float) $p->vrednost;
+                }
+                
+                if ($p->status_po_spisku == '1') {
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['na_dostavi']['broj'] = 1;
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['na_dostavi']['iznos'] = (float) $p->vrednost;
+                }
+                
+                if ($p->status_po_spisku == '3') {
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['vracene']['broj'] = 1;
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['vracene']['iznos'] = (float) $p->vrednost;
+                }
+                
+                if ($p->status_po_spisku == '4') {
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['za_narednu']['broj'] = 1;
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['za_narednu']['iznos'] = (float) $p->vrednost;
+                }
+            } else {
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['ukupno']['broj']++;
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['ukupno']['iznos'] += (float) $p->vrednost;
+
+                if ($p->status_po_spisku == '-1') {
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['nezaduzene']['broj']++;
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['nezaduzene']['iznos'] += (float) $p->vrednost;
+                }
+
+                if ($p->status_po_spisku == '0') {
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['primljene']['broj']++;
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['primljene']['iznos'] += (float) $p->vrednost;
+                }
+
+                if ($p->status_po_spisku == '2') {
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['urucene']['broj']++;
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['urucene']['iznos'] += (float) $p->vrednost;
+                }
+                
+                if ($p->status_po_spisku == '1') {
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['na_dostavi']['broj']++;
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['na_dostavi']['iznos'] += (float) $p->vrednost;
+                }
+                
+                if ($p->status_po_spisku == '3') {
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['vracene']['broj']++;
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['vracene']['iznos'] += (float) $p->vrednost;
+                }
+                
+                if ($p->status_po_spisku == '4') {
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['za_narednu']['broj']++;
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['za_narednu']['iznos'] += (float) $p->vrednost;
+                }
+            }
+        }
         
         return view('posiljka.index', compact('posiljke', 'nacini_placanja', 'routeFilters', 'posiljkePoPosiljaocu'));
     }

@@ -18,6 +18,7 @@ class PosiljkaTabela extends Component
      */
     public function __construct($posiljke, $dostava = null, $posiljkePoPosiljaocu = [])
     {
+        //dd($posiljkePoPosiljaocu);
         $this->posiljke = $posiljke;
         $this->dostava = $dostava;
         $this->posiljkePoPosiljaocu = $posiljkePoPosiljaocu;
@@ -33,6 +34,7 @@ class PosiljkaTabela extends Component
     public function render()
     {
         //dd($this->posiljaociIzvestaj);
+        //dd($this->posiljkePoPosiljaocu);
         return view('components.posiljka-tabela', [
             'posiljke' => $this->posiljke, 
             'dostava' => $this->dostava,
