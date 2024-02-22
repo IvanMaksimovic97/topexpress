@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Dostava;
 use App\DostavaBroj;
 use App\DostavaStavka;
+use App\Exports\PosiljkeEksportExcel;
 use App\Korisnik;
 use App\PosiljalacPrimalac;
 use App\Posiljka;
@@ -12,6 +13,7 @@ use App\View\Components\PosiljkaTabela;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DostavaController extends Controller
 {
@@ -426,6 +428,19 @@ class DostavaController extends Controller
         }
 
         return response()->download(storage_path($dostava->broj_spiska.'.docx'))->deleteFileAfterSend(true);
+    }
+
+    public function izvozExcel($id)
+    {
+        $dostava = Dostava::find($id);
+        $posiljke = $dostava->stavke->map(function ($item, $key) use ($id) {
+            $status = $item->statusi()->where('dostava_id', $id)->first();
+            $status->status = (int) $status->status;
+            $item->status_po_spisku = $status ? $status->status : '-1';
+            return $item;
+        });
+        
+        return Excel::download(new PosiljkeEksportExcel($posiljke), 'posiljke.xlsx');
     }
 
     public function spisakPoPosiljaocu($id, $posiljalac_id)

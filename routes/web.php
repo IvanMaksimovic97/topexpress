@@ -110,5 +110,7 @@ Route::group([
         Route::get('/update-barkodovi', 'PosiljkaController@updateBarKodoviBezSlike');
 
         Route::post('/upload-excel', 'DashboardController@uploadExcel')->name('upload.excel');
+
+        Route::get('/dostava/excel/{id}', 'DostavaController@izvozExcel')->name('dostava-excel');
     });
 });

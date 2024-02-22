@@ -50,6 +50,7 @@
             <thead>
               <tr>
                 <th>Štampaj</th>
+                <th>Izvoz Excel</th>
                 <th>Pošiljke</th>
                 <th>Izmeni</th>
                 <th>Status</th>
@@ -78,6 +79,7 @@
                 @endphp
                     <tr @if($stavka->status) class="table-success" @endif>
                         <td><a href="{{ route('cms.dostava.show', $stavka) }}" class="btn btn-sm btn-primary">Štampaj  <i class="ti-printer btn-icon-append"></i></a></th>
+                        <td><a href="{{ route('cms.dostava-excel', $stavka) }}" class="btn btn-sm btn-success">Izvoz Excel  <i class="mdi mdi-file-excel btn-icon-append"></i></a></th>
                         <td>
                             <button class="btn btn-sm btn-secondary prikazi" data-id="{{ $stavka->id }}">
                                 <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
