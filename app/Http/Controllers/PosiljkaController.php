@@ -685,7 +685,8 @@ class PosiljkaController extends Controller
         $posiljka->interna = 1;
         $posiljka->id_korisnik = Korisnik::ulogovanKorisnik()->id;
         $posiljka->setValues($request->firma_id ?? -1, $posiljalac->id, $primalac->id, $cena_konacna);
-        $posiljka->setBarCode();
+        //$posiljka->setBarCode();
+        $posiljka->setBarCodeSDK();
         $posiljka->save();
 
         $posiljkaBroj->setPoslednjiBroj();
@@ -910,7 +911,8 @@ class PosiljkaController extends Controller
 
         //$posiljka = new Posiljka;
         $posiljka->setValues($request->firma_id ?? -1, $posiljalac->id, $primalac->id, $cena_konacna, $posiljka->broj_posiljke);
-        $posiljka->setBarCode();
+        //$posiljka->setBarCode();
+        $posiljka->setBarCodeSDK();
         $posiljka->save();
 
         if ($request->broj_racuna != null && $request->broj_racuna != '') {
@@ -1024,7 +1026,8 @@ class PosiljkaController extends Controller
 
         DB::transaction(function () use ($posiljke) {
             foreach ($posiljke as $p) {
-                $p->setBarCode();
+                //$p->setBarCode();
+                $p->setBarCodeSDK();
                 $p->save();
             }
         });

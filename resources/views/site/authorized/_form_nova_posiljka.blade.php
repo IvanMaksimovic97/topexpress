@@ -167,7 +167,11 @@
             </div>
             <div class="form-group">
               <label>Opis sadržine</label>
-              <textarea style="width: 100%; border: 1px solid #dee2e6; font-weight: 400; font-size: 0.875rem;border-radius: 4px;" name="sadrzina" id="sadrzina" cols="30" rows="7">{{ $posiljka->sadrzina }}</textarea>
+              <textarea style="width: 100%; border: 1px solid #dee2e6; font-weight: 400; font-size: 0.875rem;border-radius: 4px;" name="sadrzina" id="sadrzina" cols="30" rows="4">{{ $posiljka->sadrzina }}</textarea>
+            </div>
+            <div class="form-group">
+                <label>Napomena</label>
+                <textarea style="width: 100%; border: 1px solid #dee2e6; font-weight: 400; font-size: 0.875rem;border-radius: 4px;" name="napomena" id="napomena" cols="30" rows="4">{{ $posiljka->napomena }}</textarea>
             </div>
           </div>
       </div>

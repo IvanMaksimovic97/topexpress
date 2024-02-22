@@ -76,6 +76,7 @@ class Posiljka extends Model
         $this->broj_racuna = request()->broj_racuna ?? '';
         $this->ugovor = request()->ugovor ?? '';
         $this->sadrzina = request()->sadrzina ?? '';
+        $this->napomena = request()->napomena ?? '';
         $this->masa_kg = floatval(request()->masa_kg);
         $this->ima_vrednost = request()->has('ima_vrednost') ? 1 : 0;
         $this->vrednost = request()->vrednost ?? 0;
@@ -394,6 +395,7 @@ class Posiljka extends Model
                 'Masa1' => isset($chunk[0]) ? 'MASA: '.$chunk[0]['masa_kg'].' KG' : '',
                 'Sadrzaj1' => isset($chunk[0]) ? substr('SADRŽAJ: '.str_replace('&', '', $chunk[0]['sadrzina']), 0, 50) : '',
                 'Otkupnina1' => isset($chunk[0]) ? 'OTKUPNINA: '.$chunk[0]['otkupnina'] : '',
+                'Napomena1' => isset($chunk[0]) ? substr('NAPOMENA: '.str_replace('&', '', $chunk[0]['napomena']), 0, 48) : '',
                 'DatumKreiranja1' => isset($chunk[0]) ? date('d.m.Y', strtotime($chunk[0]['created_at'])) : '',
                 'SajtURL1' => isset($chunk[0]) ? 'www.topexpress.rs' : '',
                 'TETelefon1' => isset($chunk[0]) ? '+381668150900' : '',
@@ -410,6 +412,7 @@ class Posiljka extends Model
                 'Masa2' => isset($chunk[1]) ? 'MASA: '.$chunk[1]['masa_kg'].' KG' : '',
                 'Sadrzaj2' => isset($chunk[1]) ? substr('SADRŽAJ: '.str_replace('&', '', $chunk[1]['sadrzina']), 0, 50) : '',
                 'Otkupnina2' => isset($chunk[1]) ? 'OTKUPNINA: '.$chunk[1]['otkupnina'] : '',
+                'Napomena2' => isset($chunk[1]) ? substr('NAPOMENA: '.str_replace('&', '', $chunk[1]['napomena']), 0, 48) : '',
                 'DatumKreiranja2' => isset($chunk[1]) ? date('d.m.Y', strtotime($chunk[1]['created_at'])) : '',
                 'SajtURL2' => isset($chunk[1]) ? 'www.topexpress.rs' : '',
                 'TETelefon2' => isset($chunk[1]) ? '+381668150900' : '',
@@ -426,6 +429,7 @@ class Posiljka extends Model
                 'Masa3' => isset($chunk[2]) ? 'MASA: '.$chunk[2]['masa_kg'].' KG' : '',
                 'Sadrzaj3' => isset($chunk[2]) ? substr('SADRŽAJ: '.str_replace('&', '', $chunk[2]['sadrzina']), 0, 50) : '',
                 'Otkupnina3' => isset($chunk[2]) ? 'OTKUPNINA: '.$chunk[2]['otkupnina'] : '',
+                'Napomena3' => isset($chunk[2]) ? substr('NAPOMENA: '.str_replace('&', '', $chunk[2]['napomena']), 0, 48) : '',
                 'DatumKreiranja3' => isset($chunk[2]) ? date('d.m.Y', strtotime($chunk[2]['created_at'])) : '',
                 'SajtURL3' => isset($chunk[2]) ? 'www.topexpress.rs' : '',
                 'TETelefon3' => isset($chunk[2]) ? '+381668150900' : '',
@@ -442,6 +446,7 @@ class Posiljka extends Model
                 'Masa4' => isset($chunk[3]) ? 'MASA: '.$chunk[3]['masa_kg'].' KG' : '',
                 'Sadrzaj4' => isset($chunk[3]) ? substr('SADRŽAJ: '.str_replace('&', '', $chunk[3]['sadrzina']), 0, 50) : '',
                 'Otkupnina4' => isset($chunk[3]) ? 'OTKUPNINA: '.$chunk[3]['otkupnina'] : '',
+                'Napomena4' => isset($chunk[3]) ? substr('NAPOMENA: '.str_replace('&', '', $chunk[3]['napomena']), 0, 48) : '',
                 'DatumKreiranja4' => isset($chunk[3]) ? date('d.m.Y', strtotime($chunk[3]['created_at'])) : '',
                 'SajtURL4' => isset($chunk[3]) ? 'www.topexpress.rs' : '',
                 'TETelefon4' => isset($chunk[3]) ? '+381668150900' : '',

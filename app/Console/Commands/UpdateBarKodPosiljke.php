@@ -48,7 +48,8 @@ class UpdateBarKodPosiljke extends Command
 
         DB::transaction(function () use ($posiljke) {
             for ($i = 0; $i <= 2; $i++) {
-                $posiljke[$i]->setBarCode();
+                //$posiljke[$i]->setBarCode();
+                $posiljke[$i]->setBarCodeSDK();
                 $posiljke[$i]->save();
             }
         });
