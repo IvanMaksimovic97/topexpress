@@ -1,7 +1,7 @@
 <table>
     <thead>
         <tr>
-            <th style="font-weight: bold; border:1px solid black">ID</th>
+            <th style="font-weight: bold; border:1px solid black">RB</th>
             <th style="font-weight: bold; border:1px solid black">Broj pošiljke</th>
             <th style="font-weight: bold; border:1px solid black">Status pošiljke</th>
             <th style="font-weight: bold; border:1px solid black">Datum prijema</th>
@@ -28,6 +28,7 @@
         $brojZaNarednu = 0;
         $iznos = 0;
         $postarina = 0;
+        $rb = 1;
     @endphp
         @foreach ($posiljke as $posiljka)
           @php
@@ -62,7 +63,7 @@
             }
           @endphp
             <tr>
-                <td @if($rowColor != '') style="background-color: {!! $rowColor !!};border:1px solid #CCCCCC" @endif>{!! $posiljka->id !!}</td>
+                <td @if($rowColor != '') style="background-color: {!! $rowColor !!};border:1px solid #CCCCCC" @endif>{!! $rb !!}</td>
                 <td @if($rowColor != '') style="background-color: {!! $rowColor !!};border:1px solid #CCCCCC" @endif>{!! $posiljka->broj_posiljke !!}</td>
                 <td @if($rowColor != '') style="background-color: {!! $rowColor !!};border:1px solid #CCCCCC" @endif>
                   @if($posiljka->status_po_spisku == '-1') U pripremi @endif
@@ -88,6 +89,9 @@
                 <td>{!! $posiljka->id !!}</td> --}}
                 <td @if($rowColor != '') style="background-color: {!! $rowColor !!};border:1px solid #CCCCCC" @endif>{!! $posiljka->otkupnina_vrsta !!}</td>
             </tr>
+            @php
+              $rb++;
+            @endphp
         @endforeach
     </tbody>
 </table>
