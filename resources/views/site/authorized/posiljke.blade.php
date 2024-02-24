@@ -185,12 +185,12 @@
                             <td></td>
                             <td></td>
                             <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                             <td>UKUPNO</td>
                             <td>{{ number_format((float) $sum_posiljka->otkupnina, 2) }}</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>{{ number_format((float) $sum_posiljka->postarina, 2) }}</td>
                             <td></td>
                             <td></td>
                             <td></td>
