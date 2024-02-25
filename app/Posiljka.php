@@ -190,7 +190,6 @@ class Posiljka extends Model
             <w:br/>
             <w:t>".mb_strtoupper($posiljka->primalac->napomena, 'UTF-8')."</w:t>
             <w:br/>
-            <w:br/>
             <w:t><w:rPr><w:b w:val='true'/></w:rPr>".mb_strtoupper('MASA: ', 'UTF-8')."<w:rPr><w:b w:val='false'/></w:rPr></w:t>
             <w:t>".mb_strtoupper($posiljka->masa_kg, 'UTF-8')." KG</w:t>
             <w:br/>
@@ -218,13 +217,14 @@ class Posiljka extends Model
             $footer = "<w:r>
             <w:t>".date('d.m.Y.', strtotime($posiljka->created_at))."</w:t>
             <w:br/>
-            <w:t>".$posiljka->broj_posiljke."</w:t>
+            <w:t>www.topexpress.rs</w:t>
             <w:br/>
             <w:t>Tel:+381668150900</w:t>
             </w:r>";
     
-            $section->addImage('storage/'.$posiljka->bar_kod, array('align' => 'center', 'width' => 130, 'space' => array('before' => 0, 'after' => 0)));
-            // $section->addText($posiljka->broj_posiljke, null, array('align' => 'center', 'bold' => true, 'size' => 11));
+            $textrun = $section->addTextRun(array('align' => 'center', 'width' => 130, 'marginBottom' => 0, 'space' => array('before' => 0, 'after' => 0)));
+            $textrun->addImage('storage/'.$posiljka->bar_kod, array('align' => 'center', 'width' => 130, 'marginBottom' => 0, 'space' => array('before' => 0, 'after' => 0)));
+            $section->addText($posiljka->broj_posiljke, null, array('align' => 'center', 'bold' => true, 'size' => 11, 'space' => array('before' => 0, 'after' => 0)));
             $font = $section->addText($description, null, array('marginTop' => 0, 'marginBottom' => 0, 'space' => array('before' => 0, 'after' => 0)));
             $section->addText($footer, null, array('align' => 'center', 'size' => 9, 'marginTop' => 0, 'marginBottom' => 0, 'space' => array('before' => 0, 'after' => 0)));
             $font->setFontStyle($fontStyle);
