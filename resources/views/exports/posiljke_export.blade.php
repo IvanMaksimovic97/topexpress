@@ -8,6 +8,7 @@
             @if($urucene)
               <th style="font-weight: bold; border:1px solid black">Datum uručenja</th>
             @endif
+            <th style="font-weight: bold; border:1px solid black">Pošiljalac</th>
             <th style="font-weight: bold; border:1px solid black">Primalac</th>
             <th style="font-weight: bold; border:1px solid black">Mesto</th>
             <th style="font-weight: bold; border:1px solid black">Adresa</th>
@@ -80,6 +81,7 @@
                 @if($urucene)
                   <td @if($rowColor != '') style="background-color: {!! $rowColor !!};border:1px solid #CCCCCC" @endif>{!! date('d.m.Y. H:i:s', strtotime($posiljka->datum_urucenja)) !!}</td>
                 @endif
+                <td @if($rowColor != '') style="background-color: {!! $rowColor !!};border:1px solid #CCCCCC" @endif>{!! $posiljka->posiljalac->naziv !!}</td>
                 <td @if($rowColor != '') style="background-color: {!! $rowColor !!};border:1px solid #CCCCCC" @endif>{!! $posiljka->primalac->naziv !!}</td>
                 <td @if($rowColor != '') style="background-color: {!! $rowColor !!};border:1px solid #CCCCCC" @endif>{!! $posiljka->primalac->naselje !!}</td>
                 <td @if($rowColor != '') style="background-color: {!! $rowColor !!};border:1px solid #CCCCCC" @endif>{!! $posiljka->primalac->ulica.' br. '.$posiljka->primalac->broj !!}{!! $posiljka->primalac->stan ? '/'.$posiljka->primalac->stan : '' !!}</td>
