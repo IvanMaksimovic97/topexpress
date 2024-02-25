@@ -24,6 +24,9 @@ class SiteCMSController extends Controller
 {
     public function posiljke()
     {
+        $vrste_usluga = VrstaUsluge::all();
+        $nacini_placanja = NacinPlacanja::all();
+
         $posiljke = Posiljka::with([
             'posiljalac',
             'posiljalac.ulica',
@@ -51,7 +54,10 @@ class SiteCMSController extends Controller
             'np.created_at as nacin_placanja_created_at'
         );
 
-        if (request()->search || request()->search_po || request()->search_pr) {
+        if (request()->search || 
+            request()->search_po || 
+            request()->search_pr
+        ) {
             if (request()->search) {
                 $posiljke = $posiljke->whereRaw('lower(broj_posiljke) LIKE ?', ['%'.strtolower(request()->search.'%')]);
             }
@@ -99,6 +105,35 @@ class SiteCMSController extends Controller
                 $posiljke = $posiljke->whereRaw('date(posiljka.created_at) = ?', [Carbon::now()->format('Y-m-d')]);
             }
         }
+
+
+        //Nova filtracija
+        if (request()->search_mesto) {
+            $posiljke = $posiljke->whereRaw('lower(pp.naselje) LIKE ?', ['%'.strtolower(request()->search_mesto.'%')]);
+        }
+
+        if (request()->search_adresa) {
+            $posiljke = $posiljke->whereRaw('lower(pp.ulica) LIKE ?', ['%'.strtolower(request()->search_adresa.'%')]);
+        }
+
+        if (request()->licno_preuzimanje && request()->licno_preuzimanje != '-1') {
+            $lp = 0;
+
+            if (request()->licno_preuzimanje == 2) {
+                $lp = 1;
+            }
+
+            $posiljke = $posiljke->where('licno_preuzimanje', $lp);
+        }
+
+        if (request()->vrste_usluga && request()->vrste_usluga != '-1') {
+            $posiljke = $posiljke->where('vrsta_usluge_id', request()->vrste_usluga);
+        }
+
+        if (request()->nacini_placanja && request()->nacini_placanja != '-1') {
+            $posiljke = $posiljke->where('nacin_placanja_id', request()->nacini_placanja);
+        }
+        //Nova filtracija kraj
 
         $posiljke = $posiljke->where('id_korisnik', Korisnik::ulogovanKorisnikSite()->id);
 
@@ -238,7 +273,7 @@ class SiteCMSController extends Controller
             return Posiljka::stampajAdresniceA4($posiljke, 'site/adresnice_a4.docx');
         }
         
-        return view('site.authorized.posiljke', compact('posiljke', 'sum_posiljka'));
+        return view('site.authorized.posiljke', compact('posiljke', 'sum_posiljka', 'vrste_usluga', 'nacini_placanja'));
     }
 
     public function posiljkaNova()

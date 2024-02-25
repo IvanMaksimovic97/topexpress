@@ -37,7 +37,7 @@
                                 </div> --}}
                                 <div class="col">
                                     <h4 class="card-title">Primalac</h4>
-                                    <input type="text" class="form-control form-control-sm" value="{!! request()->search_pr !!}" name="search_pr" placeholder="Pretraga po broju primaocu">
+                                    <input type="text" class="form-control form-control-sm" value="{!! request()->search_pr !!}" name="search_pr" placeholder="Pretraga po primaocu">
                                 </div>
                                 <div class="col">
                                   <h4 class="card-title">Datum od</h4>
@@ -48,8 +48,44 @@
                                   <input type="date" class="form-control form-control-sm" value="{!! date('Y-m-d', strtotime(request()->date_to ?? now())) !!}" name="date_to" id="date_to" placeholder="datum do">
                                 </div>
                             </div>
-                            <div class="row mt-3">
-                              <div class="col">
+                            <div class="row">
+                              <div class="col mt-3">
+                                <h4 class="card-title">Mesto</h4>
+                                  <input type="text" class="form-control form-control-sm" value="{!! request()->search_mesto !!}" name="search_mesto" id="search_mesto" placeholder="Pretraga po mestu">
+                              </div>
+                              <div class="col mt-3">
+                                <h4 class="card-title">Adresa</h4>
+                                  <input type="text" class="form-control form-control-sm" value="{!! request()->search_adresa !!}" name="search_adresa" id="search_adresa" placeholder="Pretraga po adresi">
+                              </div>
+                              <div class="col mt-3">
+                                <h4 class="card-title">Lično preuzimanje</h4>
+                                <select class="form-control form-control-sm" name="licno_preuzimanje" id="">
+                                  <option value="-1">Izaberi</option>
+                                  <option @if(request()->licno_preuzimanje == 1) selected="selected" @endif value="1">Ne</option>
+                                  <option @if(request()->licno_preuzimanje == 2) selected="selected" @endif value="2">Da</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col mt-3">
+                                <h4 class="card-title">Vrsta usluge</h4>
+                                <select class="form-control form-control-sm" name="vrste_usluga" id="vrste_usluga">
+                                  <option value="-1">Izaberi</option>
+                                  @foreach ($vrste_usluga as $item)
+                                    <option @if(request()->vrste_usluga == $item->id) selected="selected" @endif value="{{$item->id}}">{{$item->naziv}}</option>
+                                  @endforeach
+                                </select>
+                              </div>
+                              <div class="col mt-3">
+                                <h4 class="card-title">Način plaćanja</h4>
+                                <select class="form-control form-control-sm" name="nacini_placanja" id="nacini_placanja">
+                                  <option value="-1">Izaberi</option>
+                                  @foreach ($nacini_placanja as $item)
+                                    <option @if(request()->nacini_placanja == $item->id) selected="selected" @endif value="{{$item->id}}">{{$item->naziv}}</option>
+                                  @endforeach
+                                </select>
+                              </div>
+                              <div class="col mt-3">
                                 <h4 class="card-title">Sortiraj po</h4>
                                 <select class="form-control form-control-sm" name="sortBy">
                                   <option value="-1">Izaberi...</option>
