@@ -99,19 +99,19 @@
             </button>
             <hr>
             <h4 class="card-title">Ukupno pošiljaka: {{ $posiljke->count() }}</h4>
-            @if(Route::currentRouteName() == 'cms.posiljka.index')
+            @if(Route::currentRouteName() == 'cms.posiljka.index' || Route::currentRouteName() == 'cms.posiljke-urucene')
               <a href="{{ request()->fullUrlWithQuery(['stampajadresnice' => '1']) }}" class="btn btn-sm btn-primary">Štampaj sve adresnice  <i class="ti-printer btn-icon-append"></i></a>
             @endif
-            @if(Route::currentRouteName() == 'cms.posiljka.index')
+            @if(Route::currentRouteName() == 'cms.posiljka.index' || Route::currentRouteName() == 'cms.posiljke-urucene')
               <a href="{{ request()->fullUrlWithQuery(['stampajadresnicea4' => '1']) }}" class="btn btn-sm btn-primary">Štampaj sve adresnice A4 <i class="ti-printer btn-icon-append"></i></a>
             @endif
-            @if(Route::currentRouteName() == 'cms.posiljka.index')
+            @if(Route::currentRouteName() == 'cms.posiljka.index' || Route::currentRouteName() == 'cms.posiljke-urucene')
               <a href="{{ request()->fullUrlWithQuery(['stampajadresnicea4l' => '1']) }}" class="btn btn-sm btn-primary">Štampaj sve adresnice A4 landscape <i class="ti-printer btn-icon-append"></i></a>
             @endif
-            @if(Route::currentRouteName() == 'cms.posiljka.index')
+            @if(Route::currentRouteName() == 'cms.posiljka.index' || Route::currentRouteName() == 'cms.posiljke-urucene')
               <a href="{{ request()->fullUrlWithQuery(['stampajspisak' => '1']) }}" class="btn btn-sm btn-primary">Štampaj spisak  <i class="ti-printer btn-icon-append"></i></a>
             @endif
-            @if(Route::currentRouteName() == 'cms.posiljka.index')
+            @if(Route::currentRouteName() == 'cms.posiljka.index' || Route::currentRouteName() == 'cms.posiljke-urucene')
                 <a href="{{ request()->fullUrlWithQuery(['exportexcel' => '1']) }}" class="btn btn-sm btn-primary">Izvoz u excel <i class="ti-printer btn-icon-append"></i></a>
             @endif
             <div class="table-responsive pt-3">
@@ -127,11 +127,14 @@
                       <th>Vrati</th>
                     @endif
                     <th>Status pošiljke</th>
-                    @if(Route::currentRouteName() != 'cms.posiljka.index' && Route::currentRouteName() != 'cms.posiljke-stornirane' && Route::currentRouteName() != 'cms.posiljke-eksterne')
+                    @if(Route::currentRouteName() != 'cms.posiljka.index' && Route::currentRouteName() != 'cms.posiljke-stornirane' && Route::currentRouteName() != 'cms.posiljke-eksterne' && Route::currentRouteName() != 'cms.posiljke-urucene')
                       <th>Vraćena</th>
                     @endif
                     <th>Broj pošiljke</th>
                     <th>Datum prijema</th>
+                    @if(Route::currentRouteName() == 'cms.posiljke-urucene')
+                      <th>Datum uručenja</th>
+                    @endif
                     <th>Vrsta usluge</th>
                     <th>Način plaćanja</th>
                     <th>Pošiljalac</th>
@@ -212,7 +215,7 @@
                             @else
                             <td><a href="{{ route('cms.posiljka-restore', $posiljka->id) }}" class="btn btn-sm btn-primary">Vrati  <i class="mdi mdi-lead-pencil"></i></a></td>
                             @endif
-                            @if(Route::currentRouteName() != 'cms.posiljka.index' && Route::currentRouteName() != 'cms.posiljke-stornirane' && Route::currentRouteName() != 'cms.posiljke-eksterne')
+                            @if(Route::currentRouteName() != 'cms.posiljka.index' && Route::currentRouteName() != 'cms.posiljke-stornirane' && Route::currentRouteName() != 'cms.posiljke-eksterne' && Route::currentRouteName() != 'cms.posiljke-urucene')
                             <td>
                               <select class="posiljka-status" data-id="{!! $posiljka->id !!}" data-spisakid="{!! $posiljka->id_dostava !!}"
                                 @if ($dostava)
@@ -271,6 +274,9 @@
                             @endif
                             <td>{!! $posiljka->broj_posiljke !!}</td>
                             <td>{!! date('d.m.Y. H:i:s', strtotime($posiljka->created_at)) !!}</td>
+                            @if(Route::currentRouteName() == 'cms.posiljke-urucene')
+                              <td>{!! date('d.m.Y. H:i:s', strtotime($posiljka->datum_urucenja)) !!}</td>
+                            @endif
                             <td>{!! $posiljka->vrstaUsluge->naziv !!}</td>
                             <td>{!! $posiljka->nacinPlacanja->naziv !!}</td>
                             <td>{!! $posiljka->posiljalac->naziv !!}</td>

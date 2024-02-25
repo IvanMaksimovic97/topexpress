@@ -511,6 +511,216 @@ class PosiljkaController extends Controller
         return view('posiljka.index', compact('posiljke', 'nacini_placanja', 'routeFilters', 'posiljkePoPosiljaocu'));
     }
 
+    public function indexUrucene()
+    {
+        $posiljke = Posiljka::with([
+            'posiljalac',
+            'posiljalac.ulica',
+            'posiljalac.naselje',
+            'primalac',
+            'primalac.ulica',
+            'primalac.naselje',
+            'vrstaUsluge',
+            'nacinPlacanja',
+            'firma',
+            'statusi'
+        ])
+        ->join('dostava_stavka as ds', 'ds.posiljka_id', '=', 'posiljka.id')
+        ->select(
+            'posiljka.*',
+            'ds.updated_at as datum_urucenja',
+            'ds.status as status_p'
+        );
+
+        $posiljke = $posiljke->where('ds.status', 2);
+
+        if (request()->search || request()->search_po || request()->search_pr) {
+            if (request()->search) {
+                $posiljke = $posiljke->whereRaw('lower(broj_posiljke) LIKE ?', ['%'.strtolower(request()->search.'%')]);
+            }
+            
+            if (request()->search_po) {
+                $posiljke = $posiljke->whereHas('posiljalac', function($q) {
+                    $q->whereRaw('lower(posiljalac_primalac.naziv) LIKE ?', ['%'.strtolower(request()->search_po.'%')]);
+                });
+            }
+
+            if (request()->search_pr) {
+                $posiljke = $posiljke->whereHas('primalac', function($q) {
+                    $q->whereRaw('lower(posiljalac_primalac.naziv) LIKE ?', ['%'.strtolower(request()->search_pr.'%')]);
+                });
+            }
+
+            $izabran_bar_jedan_datum = false;
+            if (request()->date_from) {
+                $posiljke = $posiljke->whereRaw('date(ds.updated_at) >= ?', [Carbon::parse(request()->date_from)->format('Y-m-d')]);
+                $izabran_bar_jedan_datum = true;
+            }
+
+            if (request()->date_to) {
+                $posiljke = $posiljke->whereRaw('date(ds.updated_at) <= ?', [Carbon::parse(request()->date_to)->format('Y-m-d')]);
+                $izabran_bar_jedan_datum = true;
+            }
+
+            if (!$izabran_bar_jedan_datum) {
+                $posiljke = $posiljke->whereRaw('date(ds.updated_at) = ?', [Carbon::now()->format('Y-m-d')]);
+            }
+
+        } else {
+            $izabran_bar_jedan_datum = false;
+            if (request()->date_from) {
+                $posiljke = $posiljke->whereRaw('date(ds.updated_at) >= ?', [Carbon::parse(request()->date_from)->format('Y-m-d')]);
+                $izabran_bar_jedan_datum = true;
+            }
+
+            if (request()->date_to) {
+                $posiljke = $posiljke->whereRaw('date(ds.updated_at) <= ?', [Carbon::parse(request()->date_to)->format('Y-m-d')]);
+                $izabran_bar_jedan_datum = true;
+            }
+
+            if (!$izabran_bar_jedan_datum) {
+                $posiljke = $posiljke->whereRaw('date(ds.updated_at) = ?', [Carbon::now()->format('Y-m-d')]);
+            }
+        }
+
+        if (request()->nacin_placanja_id && request()->nacin_placanja_id != '-1') {
+            $posiljke = $posiljke->where('nacin_placanja_id', request()->nacin_placanja_id);
+        }
+
+        $posiljke = $posiljke->where('interna', 1);
+        $posiljke = $posiljke->get();
+
+        if (request()->stampajadresnice) {
+            return Posiljka::stampajAdresnice($posiljke);
+        }
+
+        if (request()->stampajspisak) {
+            return Posiljka::stampajSpisak($posiljke);
+        }
+
+        if (request()->exportexcel) {
+            $posiljke = $posiljke->map(function ($posiljka, $key) {
+                $status = $posiljka->statusi->first();
+                $posiljka->status_po_spisku = $status ? $status->status : '-1';
+                return $posiljka;
+            });
+            
+            return Excel::download(new PosiljkeEksportExcel($posiljke, true), 'posiljke.xlsx');
+        }
+
+        if (request()->stampajadresnicea4l){
+            return Posiljka::stampajAdresniceA4($posiljke, 'site/adresnice_a4_landscape.docx');
+        }
+
+        if (request()->stampajadresnicea4){
+            return Posiljka::stampajAdresniceA4($posiljke, 'site/adresnice_a4.docx');
+        }
+
+        $nacini_placanja = NacinPlacanja::all(['id', 'naziv']);
+
+        $posiljke = $posiljke->map(function ($posiljka, $key) {
+            $status = $posiljka->statusi->first();
+            $posiljka->status_po_spisku = $status ? $status->status : '-1';
+            return $posiljka;
+        });
+
+        $posiljke = $posiljke->where('status_po_spisku', 2);
+
+        $routeFilters = route('cms.posiljke-urucene');
+
+
+        #Izvestaj po posiljaocu#
+        $posiljkePoPosiljaocu = [];
+
+        foreach ($posiljke as $p) {
+            if (!array_key_exists($p->posiljalac_id, $posiljkePoPosiljaocu)) {
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['ime_prezime'] = $p->posiljalac->naziv;
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['primljene']['broj'] = 0;
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['primljene']['iznos'] = 0;
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['urucene']['broj'] = 0;
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['urucene']['iznos'] = 0;
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['na_dostavi']['broj'] = 0;
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['na_dostavi']['iznos'] = 0;
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['vracene']['broj'] = 0;
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['vracene']['iznos'] = 0;
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['za_narednu']['broj'] = 0;
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['za_narednu']['iznos'] = 0;
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['nezaduzene']['broj'] = 0;
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['nezaduzene']['iznos'] = 0;
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['ukupno']['broj'] = 1;
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['ukupno']['iznos'] = (float) $p->vrednost;
+
+                if ($p->status_po_spisku == '-1') {
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['nezaduzene']['broj'] = 1;
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['nezaduzene']['iznos'] = (float) $p->vrednost;
+                }
+
+                if ($p->status_po_spisku == '0') {
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['primljene']['broj'] = 1;
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['primljene']['iznos'] = (float) $p->vrednost;
+                }
+
+                if ($p->status_po_spisku == '2') {
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['urucene']['broj'] = 1;
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['urucene']['iznos'] = (float) $p->vrednost;
+                }
+                
+                if ($p->status_po_spisku == '1') {
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['na_dostavi']['broj'] = 1;
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['na_dostavi']['iznos'] = (float) $p->vrednost;
+                }
+                
+                if ($p->status_po_spisku == '3') {
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['vracene']['broj'] = 1;
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['vracene']['iznos'] = (float) $p->vrednost;
+                }
+                
+                if ($p->status_po_spisku == '4') {
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['za_narednu']['broj'] = 1;
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['za_narednu']['iznos'] = (float) $p->vrednost;
+                }
+            } else {
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['ukupno']['broj']++;
+                $posiljkePoPosiljaocu[$p->posiljalac_id]['ukupno']['iznos'] += (float) $p->vrednost;
+
+                if ($p->status_po_spisku == '-1') {
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['nezaduzene']['broj']++;
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['nezaduzene']['iznos'] += (float) $p->vrednost;
+                }
+
+                if ($p->status_po_spisku == '0') {
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['primljene']['broj']++;
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['primljene']['iznos'] += (float) $p->vrednost;
+                }
+
+                if ($p->status_po_spisku == '2') {
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['urucene']['broj']++;
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['urucene']['iznos'] += (float) $p->vrednost;
+                }
+                
+                if ($p->status_po_spisku == '1') {
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['na_dostavi']['broj']++;
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['na_dostavi']['iznos'] += (float) $p->vrednost;
+                }
+                
+                if ($p->status_po_spisku == '3') {
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['vracene']['broj']++;
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['vracene']['iznos'] += (float) $p->vrednost;
+                }
+                
+                if ($p->status_po_spisku == '4') {
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['za_narednu']['broj']++;
+                    $posiljkePoPosiljaocu[$p->posiljalac_id]['za_narednu']['iznos'] += (float) $p->vrednost;
+                }
+            }
+        }
+
+        //dd($posiljkePoPosiljaocu);
+        #Izvestaj po posiljaocu kraj#
+        
+        return view('posiljka.index_urucene', compact('posiljke', 'nacini_placanja', 'routeFilters', 'posiljkePoPosiljaocu'));
+    }
+
     public function updateStatus($id_posiljka, $id_spisak, $status)
     {
         $dostava = Dostava::findOrFail($id_spisak);
