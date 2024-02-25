@@ -139,7 +139,7 @@ class SiteCMSController extends Controller
 
         if (request()->ids != null) {
             $ids = explode(',', request()->ids);
-            $posiljke = $posiljke->whereIn('id', $ids);
+            $posiljke = $posiljke->whereIn('posiljka.id', $ids);
         }
 
         switch(request()->sortBy) {
