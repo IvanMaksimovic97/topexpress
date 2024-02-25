@@ -35,7 +35,21 @@ class SiteCMSController extends Controller
             'nacinPlacanja',
             'firma',
             'vlasnik'
-        ]);
+        ])
+        ->join('posiljalac_primalac as pp', 'pp.id', '=', 'posiljka.primalac_id')
+        ->join('vrsta_usluge as vu', 'vu.id', '=', 'posiljka.vrsta_usluge_id')
+        ->join('nacin_placanja as np', 'np.id', '=', 'posiljka.nacin_placanja_id')
+        ->select(
+            'posiljka.*',
+            'pp.naziv as primalac_naziv',
+            'pp.naselje as primalac_naselje',
+            'pp.ulica as primalac_ulica',
+            'pp.created_at as primalac_created_at',
+            'vu.naziv as vrsta_usluge_naziv',
+            'vu.created_at as vrsta_usluge_created_at',
+            'np.naziv as nacin_placanja_naziv',
+            'np.created_at as nacin_placanja_created_at'
+        );
 
         if (request()->search || request()->search_po || request()->search_pr) {
             if (request()->search) {
@@ -56,33 +70,33 @@ class SiteCMSController extends Controller
 
             $izabran_bar_jedan_datum = false;
             if (request()->date_from) {
-                $posiljke = $posiljke->whereRaw('date(created_at) >= ?', [Carbon::parse(request()->date_from)->format('Y-m-d')]);
+                $posiljke = $posiljke->whereRaw('date(posiljka.created_at) >= ?', [Carbon::parse(request()->date_from)->format('Y-m-d')]);
                 $izabran_bar_jedan_datum = true;
             }
 
             if (request()->date_to) {
-                $posiljke = $posiljke->whereRaw('date(created_at) <= ?', [Carbon::parse(request()->date_to)->format('Y-m-d')]);
+                $posiljke = $posiljke->whereRaw('date(posiljka.created_at) <= ?', [Carbon::parse(request()->date_to)->format('Y-m-d')]);
                 $izabran_bar_jedan_datum = true;
             }
 
             if (!$izabran_bar_jedan_datum) {
-                $posiljke = $posiljke->whereRaw('date(created_at) = ?', [Carbon::now()->format('Y-m-d')]);
+                $posiljke = $posiljke->whereRaw('date(posiljka.created_at) = ?', [Carbon::now()->format('Y-m-d')]);
             }
 
         } else {
             $izabran_bar_jedan_datum = false;
             if (request()->date_from) {
-                $posiljke = $posiljke->whereRaw('date(created_at) >= ?', [Carbon::parse(request()->date_from)->format('Y-m-d')]);
+                $posiljke = $posiljke->whereRaw('date(posiljka.created_at) >= ?', [Carbon::parse(request()->date_from)->format('Y-m-d')]);
                 $izabran_bar_jedan_datum = true;
             }
 
             if (request()->date_to) {
-                $posiljke = $posiljke->whereRaw('date(created_at) <= ?', [Carbon::parse(request()->date_to)->format('Y-m-d')]);
+                $posiljke = $posiljke->whereRaw('date(posiljka.created_at) <= ?', [Carbon::parse(request()->date_to)->format('Y-m-d')]);
                 $izabran_bar_jedan_datum = true;
             }
 
             if (!$izabran_bar_jedan_datum) {
-                $posiljke = $posiljke->whereRaw('date(created_at) = ?', [Carbon::now()->format('Y-m-d')]);
+                $posiljke = $posiljke->whereRaw('date(posiljka.created_at) = ?', [Carbon::now()->format('Y-m-d')]);
             }
         }
 
@@ -93,6 +107,84 @@ class SiteCMSController extends Controller
             $posiljke = $posiljke->whereIn('id', $ids);
         }
 
+        switch(request()->sortBy) {
+            case '1' :
+                $posiljke = $posiljke->orderBy('broj_posiljke', 'asc');
+            break;
+            case '2' :
+                $posiljke = $posiljke->orderBy('broj_posiljke', 'desc');
+            break;
+            case '3' :
+                $posiljke = $posiljke->orderBy('posiljka.created_at', 'asc');
+            break;
+            case '4' :
+                $posiljke = $posiljke->orderBy('posiljka.created_at', 'desc');
+            break;
+            case '5' :
+                $posiljke = $posiljke->orderBy('otkupnina', 'asc');
+            break;
+            case '6' :
+                $posiljke = $posiljke->orderBy('otkupnina', 'desc');
+            break;
+            case '7' :
+                $posiljke = $posiljke->orderBy('primalac_naziv', 'asc');
+            break;
+            case '8' :
+                $posiljke = $posiljke->orderBy('primalac_naziv', 'desc');
+            break;
+            case '9' :
+                $posiljke = $posiljke->orderBy('primalac_naselje', 'asc');
+            break;
+            case '10' :
+                $posiljke = $posiljke->orderBy('primalac_naselje', 'desc');
+            break;
+            case '11' :
+                $posiljke = $posiljke->orderBy('primalac_ulica', 'asc');
+            break;
+            case '12' :
+                $posiljke = $posiljke->orderBy('primalac_ulica', 'desc');
+            break;
+            case '13' :
+                $posiljke = $posiljke->orderBy('masa_kg', 'asc');
+            break;
+            case '14' :
+                $posiljke = $posiljke->orderBy('masa_kg', 'desc');
+            break;
+            case '15' :
+                $posiljke = $posiljke->orderBy('postarina', 'asc');
+            break;
+            case '16' :
+                $posiljke = $posiljke->orderBy('postarina', 'desc');
+            break;
+            case '17' :
+                $posiljke = $posiljke->orderBy('vrsta_usluge_naziv', 'asc');
+            break;
+            case '18' :
+                $posiljke = $posiljke->orderBy('vrsta_usluge_naziv', 'desc');
+            break;
+            case '19' :
+                $posiljke = $posiljke->orderBy('nacin_placanja_naziv', 'asc');
+            break;
+            case '20' :
+                $posiljke = $posiljke->orderBy('nacin_placanja_naziv', 'desc');
+            break;
+            case '21' :
+                $posiljke = $posiljke->orderBy('sadrzina', 'asc');
+            break;
+            case '22' :
+                $posiljke = $posiljke->orderBy('sadrzina', 'desc');
+            break;
+            case '23' :
+                $posiljke = $posiljke->orderBy('licno_preuzimanje', 'asc');
+            break;
+            case '24' :
+                $posiljke = $posiljke->orderBy('licno_preuzimanje', 'desc');
+            break;
+        }
+
+        //Sortiranje posiljki
+
+        //Kraj sortiranja
         $posiljke = $posiljke->get();
 
         $posiljke = $posiljke->map(function ($posiljka, $key) {

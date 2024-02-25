@@ -29,15 +29,15 @@
                             <div class="row">
                                 <div class="col">
                                     <h4 class="card-title">Broj</h4>
-                                    <input type="text" class="form-control" value="{!! request()->search !!}" name="search" placeholder="Pretraga po broju pošiljke">
+                                    <input type="text" class="form-control form-control-sm" value="{!! request()->search !!}" name="search" placeholder="Pretraga po broju pošiljke">
                                 </div>
                                 {{-- <div class="col">
                                     <h4 class="card-title">Pošiljalac</h4>
-                                    <input type="text" class="form-control" value="{!! request()->search_po !!}" name="search_po" placeholder="Pretraga po broju pošiljaocu">
+                                    <input type="text" class="form-control form-control-sm" value="{!! request()->search_po !!}" name="search_po" placeholder="Pretraga po broju pošiljaocu">
                                 </div> --}}
                                 <div class="col">
                                     <h4 class="card-title">Primalac</h4>
-                                    <input type="text" class="form-control" value="{!! request()->search_pr !!}" name="search_pr" placeholder="Pretraga po broju primaocu">
+                                    <input type="text" class="form-control form-control-sm" value="{!! request()->search_pr !!}" name="search_pr" placeholder="Pretraga po broju primaocu">
                                 </div>
                                 <div class="col">
                                   <h4 class="card-title">Datum od</h4>
@@ -47,6 +47,38 @@
                                   <h4 class="card-title">Datum do</h4>
                                   <input type="date" class="form-control form-control-sm" value="{!! date('Y-m-d', strtotime(request()->date_to ?? now())) !!}" name="date_to" id="date_to" placeholder="datum do">
                                 </div>
+                            </div>
+                            <div class="row mt-3">
+                              <div class="col">
+                                <h4 class="card-title">Sortiraj po</h4>
+                                <select class="form-control form-control-sm" name="sortBy">
+                                  <option value="-1">Izaberi...</option>
+                                  <option @if(request()->sortBy == 1) selected="selected" @endif value="1">Broj pošiljke RASTUĆE</option>
+                                  <option @if(request()->sortBy == 2) selected="selected" @endif value="2">Broj pošiljke OPADAJUĆE</option>
+                                  <option @if(request()->sortBy == 3) selected="selected" @endif value="3">Datum prijema RASTUĆE</option>
+                                  <option @if(request()->sortBy == 4) selected="selected" @endif value="4">Datum prijema OPADAJUĆE</option>
+                                  <option @if(request()->sortBy == 5) selected="selected" @endif value="5">Otkupnina RASTUĆE</option>
+                                  <option @if(request()->sortBy == 6) selected="selected" @endif value="6">Otkupnina OPADAJUĆE</option>
+                                  <option @if(request()->sortBy == 7) selected="selected" @endif value="7">Primalac RASTUĆE</option>
+                                  <option @if(request()->sortBy == 8) selected="selected" @endif value="8">Primalac OPADAJUĆE</option>
+                                  <option @if(request()->sortBy == 9) selected="selected" @endif value="9">Mesto RASTUĆE</option>
+                                  <option @if(request()->sortBy == 10) selected="selected" @endif value="10">Mesto OPADAJUĆE</option>
+                                  <option @if(request()->sortBy == 11) selected="selected" @endif value="11">Adresa RASTUĆE</option>
+                                  <option @if(request()->sortBy == 12) selected="selected" @endif value="12">Adresa OPADAJUĆE</option>
+                                  <option @if(request()->sortBy == 13) selected="selected" @endif value="13">Masa RASTUĆE</option>
+                                  <option @if(request()->sortBy == 14) selected="selected" @endif value="14">Masa OPADAJUĆE</option>
+                                  <option @if(request()->sortBy == 15) selected="selected" @endif value="15">Poštarina RASTUĆE</option>
+                                  <option @if(request()->sortBy == 16) selected="selected" @endif value="16">Poštarina OPADAJUĆE</option>
+                                  <option @if(request()->sortBy == 17) selected="selected" @endif value="17">Vrsta usluge RASTUĆE</option>
+                                  <option @if(request()->sortBy == 18) selected="selected" @endif value="18">Vrsta usluge OPADAJUĆE</option>
+                                  <option @if(request()->sortBy == 19) selected="selected" @endif value="19">Način plaćanja RASTUĆE</option>
+                                  <option @if(request()->sortBy == 20) selected="selected" @endif value="20">Način plaćanja OPADAJUĆE</option>
+                                  <option @if(request()->sortBy == 21) selected="selected" @endif value="21">Opis sadržine RASTUĆE</option>
+                                  <option @if(request()->sortBy == 22) selected="selected" @endif value="22">Opis sadržine OPADAJUĆE</option>
+                                  <option @if(request()->sortBy == 23) selected="selected" @endif value="23">Lično preuzimanje RASTUĆE</option>
+                                  <option @if(request()->sortBy == 24) selected="selected" @endif value="24">Lično preuzimanje OPADAJUĆE</option>
+                                </select>
+                              </div>
                             </div>
                         </div>
                         <div class="mt-3">
