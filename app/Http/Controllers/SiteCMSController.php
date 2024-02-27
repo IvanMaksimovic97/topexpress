@@ -228,6 +228,10 @@ class SiteCMSController extends Controller
             return $posiljka;
         });
 
+        if (request()->status_posiljke && request()->status_posiljke != '-2') {
+            $posiljke = $posiljke->where('status_po_spisku', request()->status_posiljke);
+        }
+
         $sum_posiljka = new Posiljka;
         $sum_posiljka->primalac = (object) [
             'naziv' => '',

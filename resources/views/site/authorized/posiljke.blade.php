@@ -116,6 +116,20 @@
                                 </select>
                               </div>
                             </div>
+                            <div class="row">
+                              <div class="col mt-3">
+                                <h4 class="card-title">Status</h4>
+                                <select class="form-control form-control-sm" name="status_posiljke" id="status_posiljke">
+                                    <option value="-2">Izaberi</option>
+                                    <option value="-1" @if(request()->status_posiljke == '-1') selected @endif>U pripremi</option>
+                                    <option value="0" @if(request()->status_posiljke == '0') selected @endif>Primljena</option>
+                                    <option value="1" @if(request()->status_posiljke == '1') selected @endif>Na dostavi</option>
+                                    <option value="2" @if(request()->status_posiljke == '2') selected @endif>Uručena</option>
+                                    <option value="3" @if(request()->status_posiljke == '3') selected @endif>Vraćena</option>
+                                    <option value="4" @if(request()->status_posiljke == '4') selected @endif>Za narednu dostavu</option>
+                                </select>
+                              </div>
+                            </div>
                         </div>
                         <div class="mt-3">
                             {{-- <a href="{{ route('posiljke-nova-site') }}?prethodna" class="btn btn-sm btn-danger"><i class="fa fa-plus" aria-hidden="true"></i> Nova prethodna pošiljka</a> --}}
