@@ -101,5 +101,29 @@
               $rb++;
             @endphp
         @endforeach
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          @if($urucene)
+          <td></td>
+          @endif
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          {{-- <td>{!! $posiljka->vrednost !!}</td> --}}
+          <td>{!! (float) $iznos !!}</td>
+          <td>{!! (float) $postarina !!}</td>
+          <td style="font-weight: bold">{!! 'Ukupno: '. ((float) $iznos + (float) $postarina) !!}</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          {{-- <td>{!! $posiljka->firma ? $posiljka->firma->naziv : '' !!}</td>
+          <td>{!! $posiljka->id !!}</td> --}}
+          <td></td>
+      </tr>
     </tbody>
 </table>

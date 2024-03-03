@@ -20,7 +20,7 @@
             <li class="nav-item"> <a class="nav-link" href="{{ route('cms.posiljka.index') }}">Lista</a></li>
             <li class="nav-item"> <a class="nav-link" href="{{ route('cms.posiljke-stornirane') }}">Lista (stornirane)</a></li>
             <li class="nav-item"> <a class="nav-link" href="{{ route('cms.posiljke-eksterne') }}">Lista (eksterne)</a></li>
-            <li class="nav-item"> <a class="nav-link" href="{{ route('cms.posiljke-urucene') }}">Lista (uručene)</a></li>
+            {{-- <li class="nav-item"> <a class="nav-link" href="{{ route('cms.posiljke-urucene') }}">Lista (uručene)</a></li> --}}
           </ul>
         </div>
       </li>

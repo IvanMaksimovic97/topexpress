@@ -118,7 +118,15 @@
               </thead>
               <tbody>
                 <tr>
-                  <th>Br. razduženih:</th>
+                  <th>Spisak uručenih pošiljki</th>
+                  <td><a href="{{ request()->fullUrlWithQuery(['exportexcel' => '1']) }}" class="btn btn-sm btn-success"><i class="mdi mdi-file-excel btn-icon-append"></i> Izvoz excel</a></td>
+                </tr>
+                <tr>
+                  <th>Br. uručenih pošiljki:</th>
+                  <td>{{ $posiljke->count() }}</td>
+                </tr>
+                <tr>
+                  <th>Br. razduženih spiskova:</th>
                   <td>{{ $brojRazduzenih }}</td>
                 </tr>
                 <tr>

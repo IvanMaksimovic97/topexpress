@@ -82,9 +82,21 @@ class DostavaController extends Controller
                     ->havingRaw('stavka_obrisana IS NULL')
                     ->get();
 
+        if (request()->exportexcel) {
+            $posiljke = $posiljke->map(function ($posiljka, $key) {
+                $status = $posiljka->statusi->first();
+                $posiljka->status_po_spisku = $status ? $status->status : '-1';
+                return $posiljka;
+            });
+            
+            return Excel::download(new PosiljkeEksportExcel($posiljke), 'posiljke.xlsx');
+        }
+
         $izvestaj = new PosiljkaTabela($posiljke, $spisak);
 
-        return view('dostava.index', compact('spisak', 'izvestaj'));
+        //dd($posiljke);
+
+        return view('dostava.index', compact('spisak', 'izvestaj', 'posiljke'));
     }
 
     /**
