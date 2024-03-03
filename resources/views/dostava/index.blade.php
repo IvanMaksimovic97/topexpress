@@ -176,7 +176,10 @@
                       @foreach ($posiljaocItem['urucene_posiljke'] as $urucena_posiljka)
                         <tr>
                           @if ($subIterations == 0)
-                            <td rowspan="{{ count($posiljaocItem['urucene_posiljke']) }}"><a href="{{ route('cms.posiljalac-izvestaj-spiskovi', [implode(',', $spisak->pluck('id')->toArray()), $p_id, date('Y-m-d', strtotime(request()->date_from ?? now())), date('Y-m-d', strtotime(request()->date_to ?? now()))]) }}" class="btn btn-sm btn-primary">Štampaj  <i class="ti-printer btn-icon-append"></i></a></td>
+                            <td rowspan="{{ count($posiljaocItem['urucene_posiljke']) }}">
+                              <a href="{{ route('cms.posiljalac-izvestaj-spiskovi', [implode(',', $spisak->pluck('id')->toArray()), $p_id, date('Y-m-d', strtotime(request()->date_from ?? now())), date('Y-m-d', strtotime(request()->date_to ?? now()))]) }}" class="btn btn-sm btn-primary mb-3">Štampaj  <i class="ti-printer btn-icon-append"></i></a>
+                              <br><a href="{{ request()->fullUrlWithQuery(['exportexcel' => '1', 'posiljalac_id' => $p_id]) }}" class="btn btn-sm btn-success">Izvoz Excel  <i class="ti-printer btn-icon-append"></i></a>
+                            </td>
                             <td rowspan="{{ count($posiljaocItem['urucene_posiljke']) }}">{{ $posiljaocItem['naziv'] }}</td>
                           @endif
                           <td>{{ $urucena_posiljka->primalac->naziv }}</td>

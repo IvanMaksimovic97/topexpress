@@ -68,8 +68,13 @@ class DostavaController extends Controller
         $posiljke = Posiljka::join('dostava_stavka', 'posiljka.id', '=', 'dostava_stavka.posiljka_id')
                     ->join('dostava', 'dostava_stavka.dostava_id', '=', 'dostava.id')
                     ->whereIn('dostava_stavka.dostava_id', $spisak->pluck('id')->toArray())
-                    ->where('dostava_stavka.status', 2)
-                    ->select(
+                    ->where('dostava_stavka.status', 2);
+        
+        if (request()->has('posiljalac_id')) {
+            $posiljke = $posiljke->where('posiljka.posiljalac_id', request()->posiljalac_id);
+        }        
+
+        $posiljke = $posiljke->select(
                         'posiljka.*', 
                         'dostava.radnik', 
                         'dostava.broj_spiska', 
@@ -83,13 +88,24 @@ class DostavaController extends Controller
                     ->get();
 
         if (request()->exportexcel) {
+            $datumOd = date('d-m-Y', strtotime(request()->date_from ?? now()));
+            $datumDo = date('d-m-Y', strtotime(request()->date_to ?? now()));
+            $posiljalac_name = '';
+
+            if (request()->has('posiljalac_id')) {
+                $posiljalac = PosiljalacPrimalac::find(request()->posiljalac_id);
+                $posiljalac_name = $posiljalac->naziv.'_';
+            }  
+
+            $fileName = $posiljalac_name.$datumOd.'_'.$datumDo.'_posiljke_urucene.xlsx';
+
             $posiljke = $posiljke->map(function ($posiljka, $key) {
                 $status = $posiljka->statusi->first();
                 $posiljka->status_po_spisku = $status ? $status->status : '-1';
                 return $posiljka;
             });
             
-            return Excel::download(new PosiljkeEksportExcel($posiljke), 'posiljke.xlsx');
+            return Excel::download(new PosiljkeEksportExcel($posiljke), $fileName);
         }
 
         $izvestaj = new PosiljkaTabela($posiljke, $spisak);
