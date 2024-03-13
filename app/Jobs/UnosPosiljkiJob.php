@@ -22,6 +22,7 @@ class UnosPosiljkiJob implements ShouldQueue
 
     public $korisnik;
     public $posiljke;
+    public $unetePosiljke = [];
 
     /**
      * Create a new job instance.
@@ -128,10 +129,16 @@ class UnosPosiljkiJob implements ShouldQueue
                 $posiljka->setBarCodeSDK();
                 $posiljka->save();
 
+                $this->unetePosiljke[] = $posiljka->id;
+
                 if ($count > 201) {
                     break;
                 }
             }
         }
+
+        $unete = session()->get('unetePosiljke');
+        $unete += count($this->unetePosiljke);
+        session()->put('unetePosiljke', $unete);
     }
 }

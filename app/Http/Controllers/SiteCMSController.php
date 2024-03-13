@@ -24,6 +24,9 @@ class SiteCMSController extends Controller
 {
     public function posiljke()
     {
+        $unete_posiljke = session()->get('unetePosiljke') ?? 'null';
+        session()->forget('unetePosiljke');
+
         $vrste_usluga = VrstaUsluge::all();
         $nacini_placanja = NacinPlacanja::all();
 
@@ -277,7 +280,7 @@ class SiteCMSController extends Controller
             return Posiljka::stampajAdresniceA4($posiljke, 'site/adresnice_a4.docx');
         }
         
-        return view('site.authorized.posiljke', compact('posiljke', 'sum_posiljka', 'vrste_usluga', 'nacini_placanja'));
+        return view('site.authorized.posiljke', compact('posiljke', 'sum_posiljka', 'vrste_usluga', 'nacini_placanja', 'unete_posiljke'));
     }
 
     public function posiljkaNova()
@@ -561,6 +564,8 @@ class SiteCMSController extends Controller
             echo "Fajl nije unet ili nije u ispravnom formatu!";
             exit;
         }
+
+        session()->put('unetePosiljke', 0);
 
         Excel::import(new PosiljkeExcelImport, request()->file('excel-file'));
 
