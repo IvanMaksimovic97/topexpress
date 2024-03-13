@@ -318,7 +318,7 @@
 @if($unete_posiljke != 'null')
 <script>
 $.toast({
-    text: "Uspešno je uvezli {{ $unete_posiljke }} pošiljki", // Text that is to be shown in the toast
+    text: "Uspešno ste uvezli {{ $unete_posiljke }} pošiljki", // Text that is to be shown in the toast
     heading: 'Obaveštenje', // Optional heading to be shown on the toast
     icon: 'success', // Type of toast icon
     showHideTransition: 'fade', // fade, slide or plain
