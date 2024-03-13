@@ -319,7 +319,7 @@
 <script>
 $.toast({
     text: "Uspešno je uvezli {{ $unete_posiljke }} pošiljki", // Text that is to be shown in the toast
-    heading: 'Note', // Optional heading to be shown on the toast
+    heading: 'Obaveštenje', // Optional heading to be shown on the toast
     icon: 'success', // Type of toast icon
     showHideTransition: 'fade', // fade, slide or plain
     allowToastClose: true, // Boolean value true or false
